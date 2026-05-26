@@ -2,31 +2,17 @@
   <div class="column">
     <div class="header">
       <div class="left-side">
-        <span class="title">{{ props.title }}</span>
-        <span class="items-count">{{ taskIds.length }}</span>
+        <span class="title">{{ props.column.title }}</span>
+        <span class="items-count">{{ columnTasks.length }}</span>
       </div>
       <div class="right-side">
         <div class="actions">
-          <button
-            class="add-button"
-            @click="
-              addTask(props.id, {
-                id: '3',
-                title: 'This is a new task',
-                description: 'Lorem Ipsumidis',
-                assigneeFullName: 'Penelope Kyratsou',
-                dueDate: '2026-05-24T17:28:25+00:00',
-                labelIds: ['bug'],
-              })
-            "
-          >
-            +
-          </button>
+          <button class="add-button" @click="onAdd">+</button>
         </div>
       </div>
     </div>
     <div class="content">
-      <Card v-for="task in columnTasks" :key="task.id" v-bind="task" />
+      <Card v-for="task in columnTasks" :key="task.id" :task="task" />
     </div>
   </div>
 </template>
@@ -37,8 +23,11 @@ import Card from './Card.vue'
 import { useBoardStore } from '@/stores/board'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
+import { isDefined } from '@/lib/utils.ts'
 
-interface Props extends Column {}
+interface Props {
+  column: Column
+}
 
 const props = defineProps<Props>()
 
@@ -47,8 +36,19 @@ const { tasks } = storeToRefs(boardStore)
 const { addTask } = boardStore
 
 const columnTasks = computed(() =>
-  props.taskIds.map((id) => tasks.value[id]).filter((task) => task !== undefined),
+  props.column.taskIds.map((id) => tasks.value[id]).filter(isDefined),
 )
+
+const onAdd = () => {
+  addTask(props.column.id, {
+    id: crypto.randomUUID(),
+    title: 'This is a new task',
+    description: 'Lorem Ipsumidis',
+    assigneeFullName: 'Penelope Kyratsou',
+    dueDate: '2026-05-24T17:28:25+00:00',
+    labelIds: ['bug'],
+  })
+}
 </script>
 
 <style scoped>
@@ -63,9 +63,6 @@ const columnTasks = computed(() =>
   display: flex;
   gap: 4px;
   align-items: center;
-}
-
-.right-side {
 }
 
 .content {

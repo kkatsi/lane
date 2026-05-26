@@ -48,16 +48,41 @@ export const useBoardStore = defineStore("board", () => {
   const columnOrder = ref<Board["columnOrder"]>(["to-do", "bugs"]);
 
   const addTask = (columnId: Column["id"], task: Task) => {
-    columns.value[columnId]?.taskIds.push(task.id);
+    const column = columns.value[columnId];
+    if (!column) return;
+    column.taskIds.push(task.id);
     tasks.value[task.id] = task;
   };
 
-  const removeTask = (columnId: Column["id"], taskId: Task["id"]) => {
-    const col = columns.value[columnId];
-    if (!col) return;
-    col.taskIds = col.taskIds.filter((id) => id !== taskId);
+  const removeTask = (taskId: Task["id"]) => {
+    for (const col of Object.values(columns.value)) {
+      const idx = col.taskIds.indexOf(taskId);
+      if (idx !== -1) {
+        col.taskIds.splice(idx, 1);
+        break;
+      }
+    }
     delete tasks.value[taskId];
   };
 
-  return { columns, columnOrder, tasks, labels, addTask, removeTask };
+  const updateTask = (taskId: Task["id"], patch: Partial<Omit<Task, "id">>) => {
+    const task = tasks.value[taskId];
+    if (!task) return;
+    Object.assign(task, patch);
+  };
+
+  const moveTask = (taskId: Task["id"], toColumnId: Column["id"], toIndex: number) => {
+    const destinationColumn = columns.value[toColumnId];
+    if (!destinationColumn) return;
+    for (const column of Object.values(columns.value)) {
+      const idx = column.taskIds.indexOf(taskId);
+      if (idx !== -1) {
+        column.taskIds.splice(idx, 1);
+        break;
+      }
+    }
+    destinationColumn.taskIds.splice(toIndex, 0, taskId);
+  };
+
+  return { columns, columnOrder, tasks, labels, addTask, removeTask, updateTask, moveTask };
 });
