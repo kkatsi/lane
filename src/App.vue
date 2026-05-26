@@ -1,39 +1,12 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia'
 import Board from './components/Board.vue'
-import type { Category, Task } from './types'
+import ModeToggle from './components/ModeToggle.vue'
+import { useBoardStore } from './stores/board'
+import type { Column, Task } from './types'
 
-const categories = [
-  {
-    id: 'to-do',
-    title: 'To-Do',
-    tasks: [
-      {
-        id: '1',
-        title: 'This is a title of the ticket',
-        description: 'Lorem Ipsum',
-        assigneeFullName: 'Penelope Kyratsou',
-        dueDate: '2026-05-24T17:28:25+00:00',
-        done: false,
-        labels: ['bug', 'test', 'urgent'],
-      },
-    ],
-  },
-  {
-    id: 'bugs',
-    title: 'Bugs',
-    tasks: [
-      {
-        id: '2',
-        title: 'This is a title of the ticket',
-        description: 'Lorem Ipsum',
-        assigneeFullName: 'Penelope Kyratsou',
-        dueDate: '2026-05-24T17:28:25+00:00',
-        done: false,
-        labels: ['bug', 'test', 'urgent'],
-      },
-    ],
-  },
-] satisfies Category[]
+const boardStore = useBoardStore()
+const { columns, columnOrder, tasks, labels } = storeToRefs(boardStore)
 </script>
 
 <template>
@@ -52,7 +25,18 @@ const categories = [
 
   <RouterView /> -->
 
-  <Board :categories="categories" />
+  <header>
+    <ModeToggle />
+  </header>
+
+  <Board :columns="columns" :column-order="columnOrder" :tasks="tasks" :labels="labels" />
 </template>
 
-<style scoped></style>
+<style scoped>
+header {
+  width: 100%;
+  padding: var(--spacing);
+  display: flex;
+  align-items: center;
+}
+</style>

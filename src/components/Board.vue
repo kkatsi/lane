@@ -1,16 +1,14 @@
 <template>
   <div class="board">
-    <Column v-for="category in props.categories" :key="category.title" v-bind="category" />
+    <Column v-for="column in props.columns" :key="column.title" v-bind="column" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Category } from '@/types'
+import type { Board } from '@/types'
 import Column from './Column.vue'
 
-interface Props {
-  categories: Category[]
-}
+interface Props extends Board {}
 
 const props = defineProps<Props>()
 </script>
