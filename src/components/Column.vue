@@ -11,19 +11,28 @@
         </div>
       </div>
     </div>
-    <div class="content">
+
+    <VueDraggable
+      :data-column-id="props.column.id"
+      class="content"
+      :model-value="columnTasks"
+      ghostClass="ghost"
+      group="board"
+      @end="onDragEnd"
+    >
       <Card v-for="task in columnTasks" :key="task.id" :task="task" />
-    </div>
+    </VueDraggable>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Column } from '@/types'
+import type { Column, Task } from '@/types'
 import Card from './Card.vue'
 import { useBoardStore } from '@/stores/board'
 import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { isDefined } from '@/lib/utils.ts'
+import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
 
 interface Props {
   column: Column
@@ -33,7 +42,7 @@ const props = defineProps<Props>()
 
 const boardStore = useBoardStore()
 const { tasks } = storeToRefs(boardStore)
-const { addTask } = boardStore
+const { addTask, moveTask } = boardStore
 
 const columnTasks = computed(() =>
   props.column.taskIds.map((id) => tasks.value[id]).filter(isDefined),
@@ -48,6 +57,16 @@ const onAdd = () => {
     dueDate: '2026-05-24T17:28:25+00:00',
     labelIds: ['bug'],
   })
+}
+
+const onDragEnd = (e: DraggableEvent<Task>) => {
+  const taskId = e.data.id
+  const toIndex = e.newIndex
+  const toColumnId = e.to.dataset['columnId']
+
+  if (!taskId || !isDefined(toIndex) || !toColumnId) return
+
+  moveTask(taskId, toColumnId, toIndex)
 }
 </script>
 

@@ -5,11 +5,11 @@
 </template>
 
 <script setup lang="ts">
+import { isDefined } from '@/lib/utils.ts'
 import { useBoardStore } from '@/stores/board.ts'
 import { storeToRefs } from 'pinia'
-import Column from './Column.vue'
 import { computed } from 'vue'
-import { isDefined } from '@/lib/utils.ts'
+import Column from './Column.vue'
 
 const boardStore = useBoardStore()
 const { columnOrder, columns } = storeToRefs(boardStore)
