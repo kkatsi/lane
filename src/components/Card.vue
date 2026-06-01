@@ -34,13 +34,15 @@ interface Props {
 const props = defineProps<Props>()
 
 const boardStore = useBoardStore()
-const { labels } = storeToRefs(boardStore)
+const { labels, assignees } = storeToRefs(boardStore)
 const { removeTask } = boardStore
 
 const initials = computed(() => {
-  if (!props.task.assigneeFullName) return ''
-  const [first, last] = props.task.assigneeFullName.split(' ')
-  return `${first?.[0] ?? ''}${last?.[0] ?? ''}`
+  if (!props.task.assigneeId) return 'unassigned'
+  const assignee = assignees.value[props.task.assigneeId]
+  if (!assignee) return 'unassigned'
+  const [first, last] = assignee.name.split(' ')
+  return `${first?.[0]?.toUpperCase() ?? ''}${last?.[0]?.toUpperCase() ?? ''}`
 })
 const displayDate = computed(() =>
   props.task.dueDate

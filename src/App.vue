@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Board from './components/Board.vue'
+import BoardActions from './components/BoardActions.vue'
 import ModeToggle from './components/ModeToggle.vue'
 </script>
 
@@ -7,10 +8,11 @@ import ModeToggle from './components/ModeToggle.vue'
   <header>
     <ModeToggle />
   </header>
-
-  <Board />
+  <main>
+    <BoardActions />
+    <Board />
+  </main>
 </template>
-
 <style scoped>
 header {
   width: 100%;

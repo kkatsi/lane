@@ -18,19 +18,37 @@ export const useBoardStore = defineStore("board", () => {
   const tasks = ref<Board["tasks"]>({
     "1": {
       id: "1",
-      title: "This is a title of the ticket",
-      description: "Lorem Ipsum",
-      assigneeFullName: "Penelope Kyratsou",
+      title: "No title",
+      description: "Lorem",
+      assigneeId: "maria",
       dueDate: "2026-05-24T17:28:25+00:00",
-      labelIds: ["bug", "urgent"],
+      labelIds: ["bug"],
     },
     "2": {
       id: "2",
-      title: "This is a title of the ticket",
-      description: "Lorem Ipsum",
-      assigneeFullName: "Penelope Kyratsou",
+      title: "This is a title of the ticket 2",
+      description: "Ipsum",
+      assigneeId: "nikos",
+      dueDate: "2026-05-24T17:28:25+00:00",
+      labelIds: ["urgent"],
+    },
+    "3": {
+      id: "3",
+      title: "This is a title of the ticket 3",
+      description: "Ipsumidis",
+      assigneeId: "maria",
       dueDate: "2026-05-24T17:28:25+00:00",
       labelIds: ["bug", "urgent"],
+    },
+  });
+  const assignees = ref<Board["assignees"]>({
+    maria: {
+      id: "maria",
+      name: "Maria",
+    },
+    nikos: {
+      id: "nikos",
+      name: "Nikos",
     },
   });
   const columns = ref<Board["columns"]>({
@@ -42,7 +60,7 @@ export const useBoardStore = defineStore("board", () => {
     bugs: {
       id: "bugs",
       title: "Bugs",
-      taskIds: ["2"],
+      taskIds: ["2", "3"],
     },
   });
   const columnOrder = ref<Board["columnOrder"]>(["to-do", "bugs"]);
@@ -84,5 +102,15 @@ export const useBoardStore = defineStore("board", () => {
     destinationColumn.taskIds.splice(toIndex, 0, taskId);
   };
 
-  return { columns, columnOrder, tasks, labels, addTask, removeTask, updateTask, moveTask };
+  return {
+    columns,
+    columnOrder,
+    tasks,
+    labels,
+    assignees,
+    addTask,
+    removeTask,
+    updateTask,
+    moveTask,
+  };
 });

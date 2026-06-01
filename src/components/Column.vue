@@ -33,6 +33,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import { isDefined } from '@/lib/utils.ts'
 import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
+import { useFilteredTaskIds } from '@/composables/useFilteredTaskIds.ts'
 
 interface Props {
   column: Column
@@ -41,19 +42,22 @@ interface Props {
 const props = defineProps<Props>()
 
 const boardStore = useBoardStore()
+const filteredTaskIds = useFilteredTaskIds()
 const { tasks } = storeToRefs(boardStore)
 const { addTask, moveTask } = boardStore
 
-const columnTasks = computed(() =>
-  props.column.taskIds.map((id) => tasks.value[id]).filter(isDefined),
-)
+const columnTasks = computed(() => {
+  const columnTaskIds = filteredTaskIds.value[props.column.id]
+  if (!columnTaskIds) return []
+  return columnTaskIds.map((id) => tasks.value[id]).filter(isDefined)
+})
 
 const onAdd = () => {
   addTask(props.column.id, {
     id: crypto.randomUUID(),
     title: 'This is a new task',
     description: 'Lorem Ipsumidis',
-    assigneeFullName: 'Penelope Kyratsou',
+    assigneeId: 'Penelope Kyratsou',
     dueDate: '2026-05-24T17:28:25+00:00',
     labelIds: ['bug'],
   })

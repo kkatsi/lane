@@ -7,3 +7,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const isDefined = <T>(v: T | undefined | null): v is T => v !== undefined && v !== null;
+
+export const isArray = <T>(v: unknown): v is T[] => Array.isArray(v);
