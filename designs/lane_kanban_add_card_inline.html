@@ -1,0 +1,99 @@
+<h2 class="sr-only">Inline new card form appearing at the bottom of the In Progress column, with a focused title input and a row of optional metadata buttons.</h2>
+
+<div style="background: var(--color-background-tertiary); padding: 14px; border-radius: var(--border-radius-lg); min-height: 520px;">
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+
+<div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 4px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<i class="ti ti-circle-dashed" style="font-size: 14px; color: var(--color-text-secondary);" aria-hidden="true"></i>
+<span style="font-weight: 500; font-size: 13px;">To do</span>
+<span style="background: var(--color-background-primary); color: var(--color-text-secondary); font-size: 11px; padding: 1px 6px; border-radius: 10px;">3</span>
+</div>
+<button style="padding: 2px; min-height: 0; height: 22px; width: 22px; font-size: 13px;" aria-label="Add card"><i class="ti ti-plus" style="font-size: 14px;" aria-hidden="true"></i></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+
+<div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px;">
+<div style="display: flex; gap: 4px; margin-bottom: 6px;">
+<span style="background: #EEEDFE; color: #3C3489; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500;">design</span>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.4;">Audit empty states across onboarding</p>
+</div>
+
+<div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px;">
+<div style="display: flex; gap: 4px; margin-bottom: 6px;">
+<span style="background: #E1F5EE; color: #085041; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500;">backend</span>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.4;">Rate-limit the public API endpoints</p>
+</div>
+
+</div>
+</div>
+
+<div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 4px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<i class="ti ti-progress" style="font-size: 14px; color: var(--color-text-info);" aria-hidden="true"></i>
+<span style="font-weight: 500; font-size: 13px;">In progress</span>
+<span style="background: var(--color-background-primary); color: var(--color-text-secondary); font-size: 11px; padding: 1px 6px; border-radius: 10px;">2</span>
+</div>
+<button style="padding: 2px; min-height: 0; height: 22px; width: 22px; font-size: 13px; background: var(--color-background-info); color: var(--color-text-info); border-color: var(--color-text-info);" aria-label="Add card"><i class="ti ti-plus" style="font-size: 14px;" aria-hidden="true"></i></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+
+<div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px;">
+<div style="display: flex; gap: 4px; margin-bottom: 6px;">
+<span style="background: #E6F1FB; color: #0C447C; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 500;">frontend</span>
+</div>
+<p style="margin: 0; font-size: 13px; line-height: 1.4;">Build the new settings page</p>
+</div>
+
+<div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px;">
+<p style="margin: 0; font-size: 13px; line-height: 1.4;">Add Stripe webhooks for refunds</p>
+</div>
+
+<div style="background: var(--color-background-primary); border: 1.5px solid var(--color-text-info); border-radius: var(--border-radius-md); padding: 10px 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);">
+<textarea placeholder="What needs to be done?" autofocus rows="2" style="width: 100%; padding: 0; min-height: 0; height: auto; font-size: 13px; line-height: 1.4; border: none; background: transparent; resize: none; font-family: inherit; outline: none;">Migrate /users endpoint to new auth flow</textarea>
+<div style="display: flex; align-items: center; gap: 4px; margin-top: 8px; padding-top: 8px; border-top: 0.5px dashed var(--color-border-tertiary);">
+<button style="padding: 2px 6px; min-height: 0; height: 22px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; color: var(--color-text-tertiary); background: transparent; border: none;"><i class="ti ti-tag" style="font-size: 12px;" aria-hidden="true"></i>Label</button>
+<button style="padding: 2px 6px; min-height: 0; height: 22px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; color: var(--color-text-tertiary); background: transparent; border: none;"><i class="ti ti-user" style="font-size: 12px;" aria-hidden="true"></i>Assignee</button>
+<button style="padding: 2px 6px; min-height: 0; height: 22px; font-size: 11px; display: inline-flex; align-items: center; gap: 4px; color: var(--color-text-tertiary); background: transparent; border: none;"><i class="ti ti-calendar" style="font-size: 12px;" aria-hidden="true"></i>Due date</button>
+</div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 8px;">
+<span style="font-size: 10px; color: var(--color-text-tertiary); font-family: var(--font-mono);"><kbd style="background: var(--color-background-secondary); padding: 1px 4px; border-radius: 3px; border: 0.5px solid var(--color-border-tertiary);">↵</kbd> Add  <kbd style="background: var(--color-background-secondary); padding: 1px 4px; border-radius: 3px; border: 0.5px solid var(--color-border-tertiary);">Esc</kbd> Cancel</span>
+<div style="display: flex; gap: 6px;">
+<button style="padding: 3px 10px; min-height: 0; height: 24px; font-size: 11px; color: var(--color-text-secondary); background: transparent; border: none;">Cancel</button>
+<button style="padding: 3px 10px; min-height: 0; height: 24px; font-size: 11px; background: var(--color-text-info); color: white; border: none; font-weight: 500;">Add card</button>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; padding: 0 4px;">
+<div style="display: flex; align-items: center; gap: 8px;">
+<i class="ti ti-circle-check" style="font-size: 14px; color: var(--color-text-success);" aria-hidden="true"></i>
+<span style="font-weight: 500; font-size: 13px;">Done</span>
+<span style="background: var(--color-background-primary); color: var(--color-text-secondary); font-size: 11px; padding: 1px 6px; border-radius: 10px;">1</span>
+</div>
+<button style="padding: 2px; min-height: 0; height: 22px; width: 22px; font-size: 13px;" aria-label="Add card"><i class="ti ti-plus" style="font-size: 14px;" aria-hidden="true"></i></button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px;">
+
+<div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; opacity: 0.65;">
+<p style="margin: 0; font-size: 13px; line-height: 1.4; text-decoration: line-through;">Set up the deploy pipeline</p>
+</div>
+
+</div>
+</div>
+
+</div>
+
+</div>
