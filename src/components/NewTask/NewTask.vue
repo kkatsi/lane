@@ -5,7 +5,7 @@
     </textarea>
     <LabelsPicker v-model="selectedLabelIds" />
     <AssigneePicker v-model="selectedAssigneeId" />
-    <DueDatePicker />
+    <DueDatePicker v-model="selectedDueDate" />
     <button type="submit">Submit</button>
   </form>
 </template>
@@ -15,7 +15,7 @@ import { useBoardStore } from '@/stores/board'
 import { useTextareaAutosize } from '@vueuse/core'
 import { newTaskSchema } from '@/lib/taskValidationSchema'
 import LabelsPicker from './LabelsPicker.vue'
-import type { Assignee, Label } from '@/types.ts'
+import type { Assignee, Label, Task } from '@/types.ts'
 import { ref } from 'vue'
 import AssigneePicker from './AssigneePicker.vue'
 import DueDatePicker from './DueDatePicker.vue'
@@ -27,7 +27,7 @@ const { textarea, input } = useTextareaAutosize({ styleProp: 'minHeight' })
 
 const selectedLabelIds = ref<Label['id'][]>([])
 const selectedAssigneeId = ref<Assignee['id'] | null>(null)
-
+const selectedDueDate = ref<Date | null>(null);
 const onSubmit = (e: SubmitEvent) => {
   e.preventDefault()
 
@@ -38,8 +38,8 @@ const onSubmit = (e: SubmitEvent) => {
     title: formData.get('title'),
     description: formData.get('description'),
     labelIds: selectedLabelIds.value,
-    assigneeId: selectedAssigneeId,
-    dueDate: formData.get('dueDate') || null,
+    assigneeId: selectedAssigneeId.value,
+    dueDate: selectedDueDate.value?.toISOString() || null,
   })
 
   if (!result.success) {
