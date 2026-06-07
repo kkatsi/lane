@@ -20,20 +20,22 @@
       group="board"
       @end="onDragEnd"
     >
-      <Card v-for="task in columnTasks" :key="task.id" :task="task" />
+      <Task v-for="task in columnTasks" :key="task.id" :task="task" />
     </VueDraggable>
+    <NewTask v-if="isAddingNewTask" :column-id="props.column.id" :onNewTaskAdded="onNewTaskAdded" />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { Column, Task } from '@/types'
-import Card from './Card.vue'
+import type { Column, Task as TaskType } from '@/types'
+import Task from './Task.vue'
 import { useBoardStore } from '@/stores/board'
 import { storeToRefs } from 'pinia'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { isDefined } from '@/lib/utils.ts'
 import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
 import { useFilteredTaskIds } from '@/composables/useFilteredTaskIds.ts'
+import NewTask from './NewTask/NewTask.vue'
 
 interface Props {
   column: Column
@@ -52,18 +54,15 @@ const columnTasks = computed(() => {
   return columnTaskIds.map((id) => tasks.value[id]).filter(isDefined)
 })
 
+const isAddingNewTask = ref<boolean>(false)
+
 const onAdd = () => {
-  addTask(props.column.id, {
-    id: crypto.randomUUID(),
-    title: 'This is a new task',
-    description: 'Lorem Ipsumidis',
-    assigneeId: 'Penelope Kyratsou',
-    dueDate: '2026-05-24T17:28:25+00:00',
-    labelIds: ['bug'],
-  })
+  isAddingNewTask.value = true
 }
 
-const onDragEnd = (e: DraggableEvent<Task>) => {
+const onNewTaskAdded = () => (isAddingNewTask.value = false)
+
+const onDragEnd = (e: DraggableEvent<TaskType>) => {
   const taskId = e.data.id
   const toIndex = e.newIndex
   const toColumnId = e.to.dataset['columnId']

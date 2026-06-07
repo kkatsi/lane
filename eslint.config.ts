@@ -22,5 +22,13 @@ export default defineConfigWithVueTs(
 
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
+  {
+    name: 'app/vue-rules',
+    files: ['**/*.vue'],
+    rules: {
+      'vue/no-undef-components': 'error',
+    },
+  },
+
   skipFormatting,
 )

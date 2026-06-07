@@ -10,7 +10,14 @@
         <button class="delete-button" @click="removeTask(props.task.id)">x</button>
       </div>
     </div>
-    <div class="content">{{ props.task.title }}</div>
+    <div class="content">
+      <div class="title">
+        {{ props.task.title }}
+      </div>
+      <div class="description">
+        {{ props.task.description }}
+      </div>
+    </div>
     <div class="footer">
       <div class="details">{{ displayDate }}</div>
       <div class="assignee">

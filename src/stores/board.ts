@@ -1,16 +1,16 @@
-import type { Board, Column, Task } from "@/types";
+import type { Board, Column, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useBoardStore = defineStore("board", () => {
   const labels = ref<Board["labels"]>({
     bug: {
-      id: "bug",
+      id: "1234",
       name: "Bug",
       color: "red",
     },
     urgent: {
-      id: "urgent",
+      id: "12345",
       name: "urgent",
       color: "orange",
     },
@@ -102,6 +102,10 @@ export const useBoardStore = defineStore("board", () => {
     destinationColumn.taskIds.splice(toIndex, 0, taskId);
   };
 
+  const addLabel = (label: Label) => {
+    labels.value[label.id] = label;
+  };
+
   return {
     columns,
     columnOrder,
@@ -112,5 +116,6 @@ export const useBoardStore = defineStore("board", () => {
     removeTask,
     updateTask,
     moveTask,
+    addLabel,
   };
 });

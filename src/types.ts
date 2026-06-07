@@ -16,7 +16,7 @@ export interface Column {
 export interface Label {
   id: string;
   name: string;
-  color: string;
+  color?: string;
 }
 
 export interface Assignee {
