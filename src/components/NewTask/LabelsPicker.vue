@@ -11,27 +11,28 @@
         <CommandList>
           <CommandEmpty>No labels found.</CommandEmpty>
           <CommandGroup>
-            <CommandItem
-              v-for="label in labels"
-              :value="label.id"
-              :key="label.id"
-              @select="onLabelSelect"
-            >
-              <Checkbox
-                :model-value="selectedLabelIds.includes(label.id)"
-                tabindex="-1"
-                id="name"
-              />
+            <CommandItem v-for="label in labels" :value="label.id" :key="label.id" @select="onLabelSelect">
+              <Checkbox :model-value="selectedLabelIds.includes(label.id)" tabindex="-1" id="name" />
               {{ label.name }}
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
         </CommandList>
       </Command>
-      <div class="p-2 pt-0">
-        <Input v-model="newLabelName" />
-        <input type="color" v-model="newLabelColor" />
-        <button @click="onAddNewLabel">+</button>
+      <div class="pb-2">
+        <InputGroup
+          class="border-0 bg-transparent dark:bg-transparent has-[[data-slot=input-group-control]:focus-visible]:border-transparent has-[[data-slot=input-group-control]:focus-visible]:ring-0">
+          <InputGroupAddon>
+            <input type="color" v-model="newLabelColor" class="w-6" />
+          </InputGroupAddon>
+          <InputGroupInput v-model="newLabelName" placeholder="Create new label..."
+            @keydown.enter.prevent="onAddNewLabel" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton @click="onAddNewLabel" size="icon-sm">
+              <Plus />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
       </div>
     </PopoverContent>
   </Popover>
@@ -46,17 +47,21 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import Input from '../ui/input/Input.vue'
+import { useBoardStore } from '@/stores/board.ts'
+import type { Label } from '@/types.ts'
+import { Plus } from '@lucide/vue'
+import { storeToRefs } from 'pinia'
+import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
+import { ref } from 'vue'
+import Checkbox from '../ui/checkbox/Checkbox.vue'
+import CommandGroup from '../ui/command/CommandGroup.vue'
+import InputGroup from '../ui/input-group/InputGroup.vue'
+import InputGroupAddon from '../ui/input-group/InputGroupAddon.vue'
+import InputGroupButton from '../ui/input-group/InputGroupButton.vue'
+import InputGroupInput from '../ui/input-group/InputGroupInput.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
-import CommandGroup from '../ui/command/CommandGroup.vue'
-import { useBoardStore } from '@/stores/board.ts'
-import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
-import type { Label } from '@/types.ts'
-import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
-import Checkbox from '../ui/checkbox/Checkbox.vue'
 
 const selectedLabelIds = defineModel<Label['id'][]>({ default: () => [] })
 
