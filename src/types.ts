@@ -19,9 +19,16 @@ export interface Label {
   color?: string;
 }
 
+export interface Color {
+  id: string;
+  background: `#${string}`;
+  text: `#${string}`;
+}
+
 export interface Assignee {
   id: string;
   name: string;
+  colorId: Color["id"];
 }
 
 export interface Board {

@@ -45,10 +45,12 @@ export const useBoardStore = defineStore("board", () => {
     maria: {
       id: "maria",
       name: "Maria",
+      colorId: "red",
     },
     nikos: {
       id: "nikos",
       name: "Nikos",
+      colorId: "green",
     },
   });
   const columns = ref<Board["columns"]>({

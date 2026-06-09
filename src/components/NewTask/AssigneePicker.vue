@@ -12,12 +12,9 @@
         <CommandList>
           <CommandEmpty>No assignees found.</CommandEmpty>
           <CommandGroup>
-            <CommandItem
-              v-for="assignee in assignees"
-              :value="assignee.id"
-              :key="assignee.id"
-              @select="onAssigneeSelect"
-            >
+            <CommandItem v-for="assignee in assignees" :value="assignee.id" :key="assignee.id"
+              @select="onAssigneeSelect">
+              <Initials :full-name="assignee.name" :color-id="assignee.colorId" />
               {{ assignee.name }}
               <span v-if="selectedAssigneeId === assignee.id">✓</span>
             </CommandItem>
@@ -49,6 +46,7 @@ import CommandGroup from '../ui/command/CommandGroup.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
+import Initials from '../Initials.vue'
 
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('')
 
