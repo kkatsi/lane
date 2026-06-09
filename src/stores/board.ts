@@ -7,12 +7,12 @@ export const useBoardStore = defineStore("board", () => {
     bug: {
       id: "1234",
       name: "Bug",
-      color: "red",
+      colorId: "red",
     },
     urgent: {
       id: "12345",
       name: "urgent",
-      color: "orange",
+      colorId: "orange",
     },
   });
   const tasks = ref<Board["tasks"]>({

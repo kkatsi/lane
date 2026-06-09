@@ -16,7 +16,7 @@ export interface Column {
 export interface Label {
   id: string;
   name: string;
-  color?: string;
+  colorId: Color["id"];
 }
 
 export interface Color {
