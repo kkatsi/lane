@@ -11,7 +11,7 @@
         <CommandInput placeholder="Search assignees..." class="command-input" />
         <CommandList>
           <CommandEmpty>No assignees found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup class="max-h-52 overflow-auto">
             <CommandItem v-for="assignee in assignees" :value="assignee.id" :key="assignee.id"
               @select="onAssigneeSelect">
               <Initials :full-name="assignee.name" :color-id="assignee.colorId" />
@@ -21,7 +21,10 @@
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup>
-            <CommandItem :value="null" @select="onAssigneeSelect"> Unassigned </CommandItem>
+            <CommandItem :value="null" @select="onAssigneeSelect">
+              <Initials />
+              Unassigned
+            </CommandItem>
           </CommandGroup>
         </CommandList>
       </Command>
@@ -47,6 +50,7 @@ import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
 import Initials from '../Initials.vue'
+import { UserX } from '@lucide/vue'
 
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('')
 
