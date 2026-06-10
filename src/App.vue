@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import Board from './components/Board.vue'
-import BoardActions from './components/BoardActions.vue'
-import ModeToggle from './components/ModeToggle.vue'
+import Board from './components/Board.vue';
+import BoardActions from './components/BoardActions.vue';
+import Navbar from './components/Navbar.vue';
 </script>
 
 <template>
   <header>
-    <ModeToggle />
+    <Navbar />
   </header>
   <main>
     <BoardActions />
