@@ -109,6 +109,8 @@ export const useBoardStore = defineStore("board", () => {
   };
 
   return {
+    id: "123",
+    name: "My new board",
     columns,
     columnOrder,
     tasks,

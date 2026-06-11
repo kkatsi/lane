@@ -1,7 +1,25 @@
 <template>
-  <nav class="flex items-center gap-2 px-4 py-3 w-full">
-    <Logo class="h-8 w-8" />
-    <span class="text-lg font-semibold">Lane</span>
+  <nav class="flex items-center w-full">
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem v-for="(routeMatch, index) in matches" :key="routeMatch.label">
+          <BreadcrumbLink as-child class="text-base flex items-center gap-2 mr-2">
+            <RouterLink :to="routeMatch.to">
+              <template v-if="index === 0">
+                <Logo class="h-8 w-8" />
+                <span class="text-lg font-semibold">Lane</span>
+              </template>
+              <template v-else>
+                {{ routeMatch.label }}
+              </template>
+            </RouterLink>
+          </BreadcrumbLink>
+          <BreadcrumbSeparator v-if="index !== matches.length - 1" class="mr-2">
+            /
+          </BreadcrumbSeparator>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
     <div class="ml-auto">
       <ModeToggle />
     </div>
@@ -9,6 +27,45 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '@/assets/logo.svg?component'
+import Logo from '@/assets/logo.svg?component';
+import { computed } from 'vue';
+import { RouterLink, useRoute, useRouter, type RouteRecordName, type RouterLinkProps } from 'vue-router';
 import ModeToggle from './ModeToggle.vue';
+import Breadcrumb from './ui/breadcrumb/Breadcrumb.vue';
+import BreadcrumbItem from './ui/breadcrumb/BreadcrumbItem.vue';
+import BreadcrumbLink from './ui/breadcrumb/BreadcrumbLink.vue';
+import BreadcrumbList from './ui/breadcrumb/BreadcrumbList.vue';
+import BreadcrumbSeparator from './ui/breadcrumb/BreadcrumbSeparator.vue';
+
+interface BreadcrumbMatch {
+  label: string;
+  to: RouterLinkProps['to'];
+}
+
+const route = useRoute();
+const router = useRouter();
+
+const buildCrumbLabel = (name: RouteRecordName | null) => {
+  switch (name) {
+    case 'board':
+      return 'Board'
+    case 'boards':
+      return 'Boards'
+    default:
+      return ''
+  }
+}
+const matches = computed(() => {
+  const segments = route.path.split('/').filter(Boolean)
+  const results: BreadcrumbMatch[] = [{ label: '', to: '/' }];
+  for (const [index] of segments.entries()) {
+    const resolved = router.resolve('/' + segments.slice(0, index + 1).join('/'))
+    if (!resolved.name) continue;
+    results.push({
+      to: { name: resolved.name, params: resolved.params },
+      label: buildCrumbLabel(resolved.name),
+    })
+  }
+  return results
+})
 </script>
