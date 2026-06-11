@@ -15,7 +15,7 @@ const router = createRouter({
     {
       path: "/boards/:boardId",
       name: "board",
-      component: () => import("../components/Board.vue"),
+      component: () => import("../views/Board.vue"),
     },
   ],
 });

@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import Board from './components/Board.vue';
-import BoardActions from './components/BoardActions.vue';
+import { RouterView } from 'vue-router';
 import Navbar from './components/Navbar.vue';
 </script>
 
@@ -8,16 +7,8 @@ import Navbar from './components/Navbar.vue';
   <header>
     <Navbar />
   </header>
-  <main>
-    <BoardActions />
-    <Board />
+  <main class="p-4">
+    <RouterView />
   </main>
 </template>
-<style scoped>
-header {
-  width: 100%;
-  padding: var(--spacing);
-  display: flex;
-  align-items: center;
-}
-</style>
+<style scoped></style>

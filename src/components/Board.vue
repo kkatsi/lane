@@ -1,5 +1,5 @@
 <template>
-  <div class="board">
+  <div class="flex items-center gap-4">
     <Column v-for="column in orderedColumns" :key="column.id" :column="column" />
   </div>
 </template>
@@ -18,11 +18,3 @@ const orderedColumns = computed(() =>
   columnOrder.value.map((id) => columns.value[id]).filter(isDefined),
 )
 </script>
-
-<style scoped>
-.board {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-</style>

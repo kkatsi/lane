@@ -1,71 +1,31 @@
 import type { Board, Column, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { ref } from "vue";
+import { BOARDS_KEY } from "@/mocks/seed";
 
 export const useBoardStore = defineStore("board", () => {
-  const labels = ref<Board["labels"]>({
-    bug: {
-      id: "1234",
-      name: "Bug",
-      colorId: "red",
-    },
-    urgent: {
-      id: "12345",
-      name: "urgent",
-      colorId: "orange",
-    },
-  });
-  const tasks = ref<Board["tasks"]>({
-    "1": {
-      id: "1",
-      title: "No title",
-      description: "Lorem",
-      assigneeId: "maria",
-      dueDate: "2026-05-24T17:28:25+00:00",
-      labelIds: ["bug"],
-    },
-    "2": {
-      id: "2",
-      title: "This is a title of the ticket 2",
-      description: "Ipsum",
-      assigneeId: "nikos",
-      dueDate: "2026-05-24T17:28:25+00:00",
-      labelIds: ["urgent"],
-    },
-    "3": {
-      id: "3",
-      title: "This is a title of the ticket 3",
-      description: "Ipsumidis",
-      assigneeId: "maria",
-      dueDate: "2026-05-24T17:28:25+00:00",
-      labelIds: ["bug", "urgent"],
-    },
-  });
-  const assignees = ref<Board["assignees"]>({
-    maria: {
-      id: "maria",
-      name: "Maria",
-      colorId: "red",
-    },
-    nikos: {
-      id: "nikos",
-      name: "Nikos",
-      colorId: "green",
-    },
-  });
-  const columns = ref<Board["columns"]>({
-    "to-do": {
-      id: "to-do",
-      title: "To-Do",
-      taskIds: ["1"],
-    },
-    bugs: {
-      id: "bugs",
-      title: "Bugs",
-      taskIds: ["2", "3"],
-    },
-  });
-  const columnOrder = ref<Board["columnOrder"]>(["to-do", "bugs"]);
+  const id = ref<Board["id"]>("");
+  const name = ref<Board["name"]>("");
+  const columns = ref<Board["columns"]>({});
+  const columnOrder = ref<Board["columnOrder"]>([]);
+  const tasks = ref<Board["tasks"]>({});
+  const labels = ref<Board["labels"]>({});
+  const assignees = ref<Board["assignees"]>({});
+
+  const loadBoard = (boardId: Board["id"]) => {
+    const raw = localStorage.getItem(BOARDS_KEY);
+    if (!raw) return;
+    const boards: Record<Board["id"], Board> = JSON.parse(raw);
+    const board = boards[boardId];
+    if (!board) return;
+    id.value = board.id;
+    name.value = board.name;
+    columns.value = board.columns;
+    columnOrder.value = board.columnOrder;
+    tasks.value = board.tasks;
+    labels.value = board.labels;
+    assignees.value = board.assignees;
+  };
 
   const addTask = (columnId: Column["id"], task: Task) => {
     const column = columns.value[columnId];
@@ -109,13 +69,14 @@ export const useBoardStore = defineStore("board", () => {
   };
 
   return {
-    id: "123",
-    name: "My new board",
+    id,
+    name,
     columns,
     columnOrder,
     tasks,
     labels,
     assignees,
+    loadBoard,
     addTask,
     removeTask,
     updateTask,

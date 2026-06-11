@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex items-center w-full">
+  <nav class="flex items-center w-full border-b border-muted p-4">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem v-for="(routeMatch, index) in matches" :key="routeMatch.label">
@@ -7,7 +7,7 @@
             <RouterLink :to="routeMatch.to">
               <template v-if="index === 0">
                 <Logo class="h-8 w-8" />
-                <span class="text-lg font-semibold">Lane</span>
+                <span class="text-lg font-semibold text-foreground">Lane</span>
               </template>
               <template v-else>
                 {{ routeMatch.label }}
@@ -36,19 +36,23 @@ import BreadcrumbItem from './ui/breadcrumb/BreadcrumbItem.vue';
 import BreadcrumbLink from './ui/breadcrumb/BreadcrumbLink.vue';
 import BreadcrumbList from './ui/breadcrumb/BreadcrumbList.vue';
 import BreadcrumbSeparator from './ui/breadcrumb/BreadcrumbSeparator.vue';
+import { useBoardStore } from '@/stores/board.ts';
+import { storeToRefs } from 'pinia';
 
 interface BreadcrumbMatch {
   label: string;
   to: RouterLinkProps['to'];
 }
 
+const boardStore = useBoardStore();
 const route = useRoute();
 const router = useRouter();
+
 
 const buildCrumbLabel = (name: RouteRecordName | null) => {
   switch (name) {
     case 'board':
-      return 'Board'
+      return boardStore.name;
     case 'boards':
       return 'Boards'
     default:

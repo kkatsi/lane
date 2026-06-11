@@ -41,6 +41,15 @@ export interface Board {
   assignees: Record<Assignee["id"], Assignee>;
 }
 
+export interface BoardOverview {
+  id: string;
+  name: string;
+  tasksCount: string;
+  restAssigneesCount: number;
+  firstTwoAssignees: [Assignee, Assignee];
+  updatedAt: string; //timestamp UTC
+}
+
 export type FilterableKey = Exclude<keyof Task, "id" | "title" | "description">;
 
 export type FilterOption = { id: string; label: string };
