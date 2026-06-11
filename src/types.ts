@@ -34,6 +34,7 @@ export interface Assignee {
 export interface Board {
   id: string;
   name: string;
+  starred: boolean;
   columns: Record<Column["id"], Column>;
   columnOrder: Column["id"][]; // ordered list of column ids
   tasks: Record<Task["id"], Task>;
@@ -44,9 +45,11 @@ export interface Board {
 export interface BoardOverview {
   id: string;
   name: string;
+  description: string;
   tasksCount: string;
   restAssigneesCount: number;
   firstTwoAssignees: [Assignee, Assignee];
+  starred: boolean;
   updatedAt: string; //timestamp UTC
 }
 

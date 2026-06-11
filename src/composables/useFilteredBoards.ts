@@ -9,7 +9,7 @@ export const useFilteredBoards = () => {
 
   const filteredBoards = computed(() => {
     const result: BoardOverview[] = [];
-    for (const boardOverview of Object.values(boardsStore.boardOverviews)) {
+    for (const boardOverview of Object.values(boardsStore.allBoardOverviews)) {
       const match = boardOverview.name.toLowerCase().includes(uiStore.searchQuery.toLowerCase());
       if (match) result.push(boardOverview);
     }
