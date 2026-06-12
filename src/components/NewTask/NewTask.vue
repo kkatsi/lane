@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useBoardStore } from '@/stores/board'
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { useTextareaAutosize } from '@vueuse/core'
 import { newTaskSchema } from '@/lib/taskValidationSchema'
 import LabelsPicker from './LabelsPicker.vue'
@@ -22,7 +22,7 @@ import DueDatePicker from './DueDatePicker.vue'
 
 const props = defineProps<{ columnId: string; onNewTaskAdded: () => void }>()
 
-const { addTask } = useBoardStore()
+const { addTask } = useCurrentBoard()
 const { textarea, input } = useTextareaAutosize({ styleProp: 'minHeight' })
 
 const selectedLabelIds = ref<Label['id'][]>([])

@@ -41,9 +41,8 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { useBoardStore } from '@/stores/board.ts'
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import type { Assignee } from '@/types.ts'
-import { storeToRefs } from 'pinia'
 import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import Popover from '../ui/popover/Popover.vue'
@@ -54,9 +53,7 @@ import { UserX } from '@lucide/vue'
 
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('')
 
-const boardStore = useBoardStore()
-
-const { assignees } = storeToRefs(boardStore)
+const { assignees } = useCurrentBoard()
 
 const onAssigneeSelect = (event: SelectItemSelectEvent<AcceptableValue>) => {
   const assigneeId = event.detail.value as Assignee['id'] | null

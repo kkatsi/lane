@@ -28,10 +28,9 @@
 </template>
 
 <script setup lang="ts">
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { isDefined } from '@/lib/utils'
-import { useBoardStore } from '@/stores/board'
 import type { Task } from '@/types'
-import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 interface Props {
@@ -40,9 +39,7 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const boardStore = useBoardStore()
-const { labels, assignees } = storeToRefs(boardStore)
-const { removeTask } = boardStore
+const { labels, assignees, removeTask } = useCurrentBoard()
 
 const initials = computed(() => {
   if (!props.task.assigneeId) return 'unassigned'

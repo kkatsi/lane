@@ -10,19 +10,19 @@ export const useFilteredBoards = () => {
   const filteredBoards = computed(() => {
     const allBoardOverviews: Record<BoardOverview["id"], BoardOverview> = {};
     const starredBoardOverviews: Record<BoardOverview["id"], BoardOverview> = {};
+    const query = uiStore.searchQuery.toLowerCase();
 
-    for (const boardOverview of Object.values(boardsStore.allBoardOverviews)) {
-      const match = boardOverview.name.toLowerCase().includes(uiStore.searchQuery.toLowerCase());
-      if (match) {
-        if (boardOverview.starred) starredBoardOverviews[boardOverview.id] = boardOverview;
-        allBoardOverviews[boardOverview.id] = boardOverview;
-      }
+    for (const overview of Object.values(boardsStore.boardOverviews)) {
+      const match = overview.name.toLowerCase().includes(query);
+      if (!match) continue;
+      allBoardOverviews[overview.id] = overview;
+      if (overview.starred) starredBoardOverviews[overview.id] = overview;
     }
+
     return {
       allBoardOverviews,
       starredBoardOverviews,
-      resultsCount:
-        Object.values(allBoardOverviews).length + Object.values(starredBoardOverviews).length,
+      resultsCount: Object.values(allBoardOverviews).length,
     };
   });
 

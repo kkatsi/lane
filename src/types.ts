@@ -34,7 +34,9 @@ export interface Assignee {
 export interface Board {
   id: string;
   name: string;
+  description: string;
   starred: boolean;
+  updatedAt: string; // timestamp UTC
   columns: Record<Column["id"], Column>;
   columnOrder: Column["id"][]; // ordered list of column ids
   tasks: Record<Task["id"], Task>;
@@ -42,15 +44,11 @@ export interface Board {
   assignees: Record<Assignee["id"], Assignee>;
 }
 
-export interface BoardOverview {
-  id: string;
-  name: string;
-  description: string;
+export interface BoardOverview
+  extends Pick<Board, "id" | "name" | "description" | "starred" | "updatedAt"> {
   tasksCount: number;
   restAssigneesCount: number;
-  firstTwoAssignees: [Assignee, Assignee];
-  starred: boolean;
-  updatedAt: string; //timestamp UTC
+  firstTwoAssignees: Assignee[];
 }
 
 export type FilterableKey = Exclude<keyof Task, "id" | "title" | "description">;

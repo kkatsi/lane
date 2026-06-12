@@ -1,10 +1,10 @@
-import { useBoardStore } from "@/stores/board";
+import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useUIStore } from "@/stores/ui";
 import type { Column, Filter, FilterableKey, Task } from "@/types";
 import { computed } from "vue";
 
 export const useFilteredTaskIds = () => {
-  const boardStore = useBoardStore();
+  const { columns, tasks } = useCurrentBoard();
   const uiStore = useUIStore();
 
   const matchesQuery = (task: Task, query: string) => {
@@ -27,20 +27,16 @@ export const useFilteredTaskIds = () => {
     const assigneeOk =
       assigneeSel.length === 0 || assigneeSel.includes(task.assigneeId ?? "unassigned");
 
-    // dueDate similarly
-
     return labelOk && assigneeOk;
   };
 
   const filteredTaskIds = computed(() => {
     const result: Record<Column["id"], Task["id"][]> = {};
-    for (const col of Object.values(boardStore.columns)) {
+    for (const col of Object.values(columns.value)) {
       result[col.id] = col.taskIds.filter((id) => {
-        const task = boardStore.tasks[id];
+        const task = tasks.value[id];
         if (!task) return false;
-        const queryMatches = matchesQuery(task, uiStore.searchQuery);
-        const filtersMatches = matchesFilters(task, uiStore.filters);
-        return queryMatches && filtersMatches;
+        return matchesQuery(task, uiStore.searchQuery) && matchesFilters(task, uiStore.filters);
       });
     }
     return result;

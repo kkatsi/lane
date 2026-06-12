@@ -67,10 +67,9 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command'
-import { useBoardStore } from '@/stores/board.ts'
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import type { Label } from '@/types.ts'
 import { Plus } from '@lucide/vue'
-import { storeToRefs } from 'pinia'
 import type { AcceptableValue, PopoverArrow, SelectItemSelectEvent } from 'reka-ui'
 import { ref } from 'vue'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
@@ -88,10 +87,7 @@ import Badge from '../ui/badge/Badge.vue'
 
 const selectedLabelIds = defineModel<Label['id'][]>({ default: () => [] })
 
-const boardStore = useBoardStore()
-
-const { labels } = storeToRefs(boardStore)
-const { addLabel } = boardStore
+const { labels, addLabel } = useCurrentBoard()
 
 const newLabelName = ref<Label['name']>('')
 const newLabelColor = ref<Label['colorId']>(COLORS.at(-1)?.id ?? '')

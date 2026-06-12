@@ -29,8 +29,7 @@
 <script setup lang="ts">
 import type { Column, Task as TaskType } from '@/types'
 import Task from './Task.vue'
-import { useBoardStore } from '@/stores/board'
-import { storeToRefs } from 'pinia'
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { computed, ref } from 'vue'
 import { isDefined } from '@/lib/utils.ts'
 import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
@@ -43,10 +42,8 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const boardStore = useBoardStore()
+const { tasks, moveTask } = useCurrentBoard()
 const filteredTaskIds = useFilteredTaskIds()
-const { tasks } = storeToRefs(boardStore)
-const { addTask, moveTask } = boardStore
 
 const columnTasks = computed(() => {
   const columnTaskIds = filteredTaskIds.value[props.column.id]

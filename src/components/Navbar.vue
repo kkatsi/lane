@@ -36,23 +36,21 @@ import BreadcrumbItem from './ui/breadcrumb/BreadcrumbItem.vue';
 import BreadcrumbLink from './ui/breadcrumb/BreadcrumbLink.vue';
 import BreadcrumbList from './ui/breadcrumb/BreadcrumbList.vue';
 import BreadcrumbSeparator from './ui/breadcrumb/BreadcrumbSeparator.vue';
-import { useBoardStore } from '@/stores/board.ts';
-import { storeToRefs } from 'pinia';
+import { useCurrentBoard } from '@/composables/useCurrentBoard';
 
 interface BreadcrumbMatch {
   label: string;
   to: RouterLinkProps['to'];
 }
 
-const boardStore = useBoardStore();
+const { name: boardName } = useCurrentBoard();
 const route = useRoute();
 const router = useRouter();
-
 
 const buildCrumbLabel = (name: RouteRecordName | null) => {
   switch (name) {
     case 'board':
-      return boardStore.name;
+      return boardName.value;
     case 'boards':
       return 'Boards'
     default:

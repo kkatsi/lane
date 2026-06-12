@@ -5,14 +5,12 @@
 </template>
 
 <script setup lang="ts">
+import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { isDefined } from '@/lib/utils.ts'
-import { useBoardStore } from '@/stores/board.ts'
-import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 import Column from './Column.vue'
 
-const boardStore = useBoardStore()
-const { columnOrder, columns } = storeToRefs(boardStore)
+const { columnOrder, columns } = useCurrentBoard()
 
 const orderedColumns = computed(() =>
   columnOrder.value.map((id) => columns.value[id]).filter(isDefined),

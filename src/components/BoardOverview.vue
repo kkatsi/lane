@@ -19,7 +19,7 @@
               {{ props.tasksCount }} {{ props.tasksCount > 1 ? 'tasks' : 'task' }}
             </div>
             <div class="ml-auto flex items-center">
-              <Initials class="-ml-1" v-for="assignee in firstTwoAssignees" :key="assignee.id" size="sm"
+              <Initials class="-ml-1" v-for="assignee in props.firstTwoAssignees" :key="assignee.id" size="sm"
                 :full-name="assignee.name" :color-id="assignee.colorId" />
               <span v-if="props.restAssigneesCount > 0" class="text-muted-foreground text-sm ml-1">+{{
                 props.restAssigneesCount }}</span>
@@ -54,12 +54,12 @@ interface Props extends BoardOverview {
 }
 const props = defineProps<Props>();
 
-const { toggleStarredBoard } = useBoardsStore();
+const { toggleStarred } = useBoardsStore();
 
 const randomColor = COLORS[getRandomInt(COLORS.length - 1)]
 
 const toggleStar = () => {
-  toggleStarredBoard(props.id)
+  toggleStarred(props.id)
 }
 
 const timeAgo = useTimeAgo(() => props.updatedAt);

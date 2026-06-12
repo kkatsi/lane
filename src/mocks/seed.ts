@@ -1,68 +1,13 @@
-import type { Board, BoardOverview } from "@/types";
-
-export const BOARD_OVERVIEWS_KEY = "lane:boardOverviews";
-export const BOARDS_KEY = "lane:boards";
-
-const boardOverviewsSeed: Record<BoardOverview["id"], BoardOverview> = {
-  board1: {
-    id: "board1",
-    name: "Product Roadmap",
-    description: "Quarterly initiatives and feature bets across the product surface.",
-    tasksCount: 3,
-    restAssigneesCount: 0,
-    firstTwoAssignees: [
-      { id: "maria", name: "Maria Papadopoulou", colorId: "red" },
-      { id: "nikos", name: "Nikos Georgiou", colorId: "green" },
-    ],
-    starred: true,
-    updatedAt: "2026-06-10T14:32:00+00:00",
-  },
-  board2: {
-    id: "board2",
-    name: "Bug Triage",
-    description: "Incoming defects sorted by severity and assigned to the on-call rotation.",
-    tasksCount: 2,
-    restAssigneesCount: 0,
-    firstTwoAssignees: [
-      { id: "elena", name: "Elena Vassiliou", colorId: "violet" },
-      { id: "yannis", name: "Yannis Antoniou", colorId: "blue" },
-    ],
-    starred: false,
-    updatedAt: "2026-06-09T09:15:00+00:00",
-  },
-  board3: {
-    id: "board3",
-    name: "Design System",
-    description: "Component primitives, tokens, and ongoing refactors of the shared UI kit.",
-    tasksCount: 2,
-    restAssigneesCount: 4,
-    firstTwoAssignees: [
-      { id: "sofia", name: "Sofia Markou", colorId: "orange" },
-      { id: "petros", name: "Petros Stefanidis", colorId: "blue" },
-    ],
-    starred: true,
-    updatedAt: "2026-06-11T08:02:00+00:00",
-  },
-  board4: {
-    id: "board4",
-    name: "Q3 Marketing",
-    description: "Campaigns, content, and launch comms scheduled for the third quarter.",
-    tasksCount: 3,
-    restAssigneesCount: 1,
-    firstTwoAssignees: [
-      { id: "anna", name: "Anna Christou", colorId: "green" },
-      { id: "dimitris", name: "Dimitris Pappas", colorId: "red" },
-    ],
-    starred: false,
-    updatedAt: "2026-05-30T17:45:00+00:00",
-  },
-};
+import type { Board } from "@/types";
+import { BOARDS_KEY } from "@/repo/boards";
 
 const boardsSeed: Record<Board["id"], Board> = {
   board1: {
     id: "board1",
     name: "Product Roadmap",
+    description: "Quarterly initiatives and feature bets across the product surface.",
     starred: true,
+    updatedAt: "2026-06-10T14:32:00+00:00",
     columnOrder: ["to-do", "bugs"],
     columns: {
       "to-do": { id: "to-do", title: "To-Do", taskIds: ["1"] },
@@ -106,7 +51,9 @@ const boardsSeed: Record<Board["id"], Board> = {
   board2: {
     id: "board2",
     name: "Bug Triage",
+    description: "Incoming defects sorted by severity and assigned to the on-call rotation.",
     starred: false,
+    updatedAt: "2026-06-09T09:15:00+00:00",
     columnOrder: ["open", "in-review"],
     columns: {
       open: { id: "open", title: "Open", taskIds: ["10"] },
@@ -142,7 +89,9 @@ const boardsSeed: Record<Board["id"], Board> = {
   board3: {
     id: "board3",
     name: "Design System",
+    description: "Component primitives, tokens, and ongoing refactors of the shared UI kit.",
     starred: true,
+    updatedAt: "2026-06-11T08:02:00+00:00",
     columnOrder: ["backlog", "doing"],
     columns: {
       backlog: { id: "backlog", title: "Backlog", taskIds: ["20"] },
@@ -178,7 +127,9 @@ const boardsSeed: Record<Board["id"], Board> = {
   board4: {
     id: "board4",
     name: "Q3 Marketing",
+    description: "Campaigns, content, and launch comms scheduled for the third quarter.",
     starred: false,
+    updatedAt: "2026-05-30T17:45:00+00:00",
     columnOrder: ["ideas", "scheduled", "live"],
     columns: {
       ideas: { id: "ideas", title: "Ideas", taskIds: ["30"] },
@@ -224,9 +175,6 @@ const boardsSeed: Record<Board["id"], Board> = {
 };
 
 export const seedLocalStorage = () => {
-  if (!localStorage.getItem(BOARD_OVERVIEWS_KEY)) {
-    localStorage.setItem(BOARD_OVERVIEWS_KEY, JSON.stringify(boardOverviewsSeed));
-  }
   if (!localStorage.getItem(BOARDS_KEY)) {
     localStorage.setItem(BOARDS_KEY, JSON.stringify(boardsSeed));
   }
