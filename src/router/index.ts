@@ -11,6 +11,13 @@ const router = createRouter({
       path: "/boards",
       name: "boards",
       component: () => import("../views/Boards.vue"),
+      children: [
+        {
+          path: "new",
+          name: "new-board",
+          component: () => import("../views/NewBoard.vue"),
+        },
+      ],
     },
     {
       path: "/boards/:boardId",

@@ -3,10 +3,12 @@
     <h1 class="text-2xl">Boards</h1>
     <div class="ml-auto flex items-center gap-2">
       <Search v-model:model-value="search" :results-count="resultsCount" />
-      <Button>
-        <Plus />
-        New Board
-      </Button>
+      <RouterLink :to="{ name: 'new-board' }" as-child>
+        <Button>
+          <Plus />
+          New Board
+        </Button>
+      </RouterLink>
     </div>
   </div>
 </template>

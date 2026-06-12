@@ -2,8 +2,9 @@
   <div>
     <BoardsOverviewHeader />
     <BoardsGrid title="Starred" :boards="boards.starredBoardOverviews" />
-    <BoardsGrid title="All Boards" :boards="boards.allBoardOverviews" />
+    <BoardsGrid title="All Boards" :boards="boards.allBoardOverviews" :can-create-new-board="true" />
   </div>
+  <router-view />
 </template>
 
 <script setup lang="ts">

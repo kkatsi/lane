@@ -27,7 +27,7 @@
           </div>
         </CardDescription>
       </CardContent>
-      <CardFooter class="bg-card text-xs text-muted-foreground">
+      <CardFooter class="bg-card text-xs text-muted-foreground py-2">
         Updated {{ timeAgo }}
       </CardFooter>
     </RouterLink>

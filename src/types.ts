@@ -44,8 +44,10 @@ export interface Board {
   assignees: Record<Assignee["id"], Assignee>;
 }
 
-export interface BoardOverview
-  extends Pick<Board, "id" | "name" | "description" | "starred" | "updatedAt"> {
+export interface BoardOverview extends Pick<
+  Board,
+  "id" | "name" | "description" | "starred" | "updatedAt"
+> {
   tasksCount: number;
   restAssigneesCount: number;
   firstTwoAssignees: Assignee[];
@@ -61,4 +63,10 @@ export interface Filter<T extends FilterableKey = FilterableKey> {
   selection: "single" | "multiple";
   options: FilterOption[];
   selected: FilterOption["id"][];
+}
+
+export interface BoardTemplate {
+  id: string;
+  name: string;
+  description: string;
 }
