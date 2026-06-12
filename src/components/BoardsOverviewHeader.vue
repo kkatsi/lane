@@ -28,7 +28,7 @@ watchDebounced(search, () => {
 }, { debounce: 300 })
 
 const filteredBoards = useFilteredBoards();
-const resultsCount = computed(() => uiStore.searchQuery ? filteredBoards.value.length : null)
+const resultsCount = computed(() => uiStore.searchQuery ? filteredBoards.value.resultsCount : null)
 
 </script>
 

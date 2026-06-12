@@ -1,5 +1,6 @@
 <template>
-  <div v-if="!!initials" :class="cn(sizeClasses[props.size], 'rounded-full uppercase flex justify-center items-center')"
+  <div v-if="!!initials"
+    :class="cn(sizeClasses[props.size], 'rounded-full uppercase flex justify-center items-center border border-muted-foreground')"
     :style="{ backgroundColor: color?.background, color: color?.text }">
     {{ initials }}
   </div>

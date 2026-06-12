@@ -1,20 +1,17 @@
 <template>
   <div>
     <BoardsOverviewHeader />
-    <BoardsGrid title="Starred" :boards="starredBoardOverviews" />
-    <BoardsGrid title="All Boards" :boards="allBoardOverviews" />
+    <BoardsGrid title="Starred" :boards="boards.starredBoardOverviews" />
+    <BoardsGrid title="All Boards" :boards="boards.allBoardOverviews" />
   </div>
 </template>
 
 <script setup lang="ts">
 import BoardsGrid from '@/components/BoardsGrid.vue';
 import BoardsOverviewHeader from '@/components/BoardsOverviewHeader.vue';
-import { useBoardsStore } from '@/stores/boards';
-import { storeToRefs } from 'pinia';
+import { useFilteredBoards } from '@/composables/useFilteredBoards';
 
-const boardsStore = useBoardsStore();
-const { allBoardOverviews, starredBoardOverviews } = storeToRefs(boardsStore);
-
+const boards = useFilteredBoards();
 </script>
 
 <style scoped></style>

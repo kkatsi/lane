@@ -8,11 +8,11 @@ const boardOverviewsSeed: Record<BoardOverview["id"], BoardOverview> = {
     id: "board1",
     name: "Product Roadmap",
     description: "Quarterly initiatives and feature bets across the product surface.",
-    tasksCount: "3",
+    tasksCount: 3,
     restAssigneesCount: 0,
     firstTwoAssignees: [
-      { id: "maria", name: "Maria", colorId: "red" },
-      { id: "nikos", name: "Nikos", colorId: "green" },
+      { id: "maria", name: "Maria Papadopoulou", colorId: "red" },
+      { id: "nikos", name: "Nikos Georgiou", colorId: "green" },
     ],
     starred: true,
     updatedAt: "2026-06-10T14:32:00+00:00",
@@ -21,11 +21,11 @@ const boardOverviewsSeed: Record<BoardOverview["id"], BoardOverview> = {
     id: "board2",
     name: "Bug Triage",
     description: "Incoming defects sorted by severity and assigned to the on-call rotation.",
-    tasksCount: "2",
+    tasksCount: 2,
     restAssigneesCount: 0,
     firstTwoAssignees: [
-      { id: "elena", name: "Elena", colorId: "violet" },
-      { id: "yannis", name: "Yannis", colorId: "blue" },
+      { id: "elena", name: "Elena Vassiliou", colorId: "violet" },
+      { id: "yannis", name: "Yannis Antoniou", colorId: "blue" },
     ],
     starred: false,
     updatedAt: "2026-06-09T09:15:00+00:00",
@@ -34,11 +34,11 @@ const boardOverviewsSeed: Record<BoardOverview["id"], BoardOverview> = {
     id: "board3",
     name: "Design System",
     description: "Component primitives, tokens, and ongoing refactors of the shared UI kit.",
-    tasksCount: "2",
+    tasksCount: 2,
     restAssigneesCount: 4,
     firstTwoAssignees: [
-      { id: "sofia", name: "Sofia", colorId: "orange" },
-      { id: "petros", name: "Petros", colorId: "blue" },
+      { id: "sofia", name: "Sofia Markou", colorId: "orange" },
+      { id: "petros", name: "Petros Stefanidis", colorId: "blue" },
     ],
     starred: true,
     updatedAt: "2026-06-11T08:02:00+00:00",
@@ -47,11 +47,11 @@ const boardOverviewsSeed: Record<BoardOverview["id"], BoardOverview> = {
     id: "board4",
     name: "Q3 Marketing",
     description: "Campaigns, content, and launch comms scheduled for the third quarter.",
-    tasksCount: "3",
+    tasksCount: 3,
     restAssigneesCount: 1,
     firstTwoAssignees: [
-      { id: "anna", name: "Anna", colorId: "green" },
-      { id: "dimitris", name: "Dimitris", colorId: "red" },
+      { id: "anna", name: "Anna Christou", colorId: "green" },
+      { id: "dimitris", name: "Dimitris Pappas", colorId: "red" },
     ],
     starred: false,
     updatedAt: "2026-05-30T17:45:00+00:00",
@@ -99,8 +99,8 @@ const boardsSeed: Record<Board["id"], Board> = {
       urgent: { id: "urgent", name: "urgent", colorId: "orange" },
     },
     assignees: {
-      maria: { id: "maria", name: "Maria", colorId: "red" },
-      nikos: { id: "nikos", name: "Nikos", colorId: "green" },
+      maria: { id: "maria", name: "Maria Papadopoulou", colorId: "red" },
+      nikos: { id: "nikos", name: "Nikos Georgiou", colorId: "green" },
     },
   },
   board2: {
@@ -135,8 +135,8 @@ const boardsSeed: Record<Board["id"], Board> = {
       urgent: { id: "urgent", name: "urgent", colorId: "orange" },
     },
     assignees: {
-      elena: { id: "elena", name: "Elena", colorId: "violet" },
-      yannis: { id: "yannis", name: "Yannis", colorId: "blue" },
+      elena: { id: "elena", name: "Elena Vassiliou", colorId: "violet" },
+      yannis: { id: "yannis", name: "Yannis Antoniou", colorId: "blue" },
     },
   },
   board3: {
@@ -171,8 +171,8 @@ const boardsSeed: Record<Board["id"], Board> = {
       refactor: { id: "refactor", name: "Refactor", colorId: "blue" },
     },
     assignees: {
-      sofia: { id: "sofia", name: "Sofia", colorId: "orange" },
-      petros: { id: "petros", name: "Petros", colorId: "blue" },
+      sofia: { id: "sofia", name: "Sofia Markou", colorId: "orange" },
+      petros: { id: "petros", name: "Petros Stefanidis", colorId: "blue" },
     },
   },
   board4: {
@@ -217,8 +217,8 @@ const boardsSeed: Record<Board["id"], Board> = {
       urgent: { id: "urgent", name: "Urgent", colorId: "orange" },
     },
     assignees: {
-      anna: { id: "anna", name: "Anna", colorId: "green" },
-      dimitris: { id: "dimitris", name: "Dimitris", colorId: "red" },
+      anna: { id: "anna", name: "Anna Christou", colorId: "green" },
+      dimitris: { id: "dimitris", name: "Dimitris Pappas", colorId: "red" },
     },
   },
 };

@@ -46,7 +46,7 @@ export interface BoardOverview {
   id: string;
   name: string;
   description: string;
-  tasksCount: string;
+  tasksCount: number;
   restAssigneesCount: number;
   firstTwoAssignees: [Assignee, Assignee];
   starred: boolean;

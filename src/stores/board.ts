@@ -11,6 +11,7 @@ export const useBoardStore = defineStore("board", () => {
   const tasks = ref<Board["tasks"]>({});
   const labels = ref<Board["labels"]>({});
   const assignees = ref<Board["assignees"]>({});
+  const starred = ref<Board["starred"]>(false);
 
   const loadBoard = (boardId: Board["id"]) => {
     const raw = localStorage.getItem(BOARDS_KEY);
@@ -25,6 +26,7 @@ export const useBoardStore = defineStore("board", () => {
     tasks.value = board.tasks;
     labels.value = board.labels;
     assignees.value = board.assignees;
+    starred.value = board.starred;
   };
 
   const addTask = (columnId: Column["id"], task: Task) => {
@@ -68,6 +70,10 @@ export const useBoardStore = defineStore("board", () => {
     labels.value[label.id] = label;
   };
 
+  const toggleStarred = () => {
+    starred.value = !starred.value;
+  };
+
   return {
     id,
     name,
@@ -82,5 +88,6 @@ export const useBoardStore = defineStore("board", () => {
     updateTask,
     moveTask,
     addLabel,
+    toggleStarred,
   };
 });
