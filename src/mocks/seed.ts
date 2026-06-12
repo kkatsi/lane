@@ -1,5 +1,5 @@
 import type { Board } from "@/types";
-import { BOARDS_KEY } from "@/repo/boards";
+import { BOARDS_KEY } from "@/repositories/boards";
 
 const boardsSeed: Record<Board["id"], Board> = {
   board1: {

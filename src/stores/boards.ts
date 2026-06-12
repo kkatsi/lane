@@ -1,4 +1,4 @@
-import { boardsRepo } from "@/repo/boards";
+import { boardsRepo } from "@/repositories/boards";
 import type { Board, BoardOverview, Column, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
