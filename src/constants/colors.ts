@@ -10,3 +10,5 @@ export const COLORS = [
   { id: "pink", background: "#9D174D", text: "#FCE7F3" },
   { id: "gray", background: "#374151", text: "#E5E7EB" },
 ] as const satisfies Color[];
+
+export const DEFAULT_COLOR_ID: (typeof COLORS)[number]["id"] = "gray";

@@ -34,7 +34,8 @@ export interface Assignee {
 export interface Board {
   id: string;
   name: string;
-  description: string;
+  description?: string;
+  colorId: Color["id"];
   starred: boolean;
   updatedAt: string; // timestamp UTC
   columns: Record<Column["id"], Column>;
@@ -46,7 +47,7 @@ export interface Board {
 
 export interface BoardOverview extends Pick<
   Board,
-  "id" | "name" | "description" | "starred" | "updatedAt"
+  "id" | "name" | "description" | "colorId" | "starred" | "updatedAt"
 > {
   tasksCount: number;
   restAssigneesCount: number;

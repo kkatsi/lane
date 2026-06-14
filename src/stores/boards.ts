@@ -1,4 +1,9 @@
+import {
+  buildKanbanColumnRelatedBoardProps,
+  buildSprintColumnRelatedBoardProps,
+} from "@/lib/builders";
 import { boardsRepo } from "@/repositories/boards";
+import type { NewBoardValues } from "@/schemas/boardValidationSchema";
 import type { Board, BoardOverview, Column, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -9,6 +14,7 @@ const toOverview = (board: Board): BoardOverview => {
     id: board.id,
     name: board.name,
     description: board.description,
+    colorId: board.colorId,
     starred: board.starred,
     updatedAt: board.updatedAt,
     tasksCount: Object.keys(board.tasks).length,
@@ -50,6 +56,39 @@ export const useBoardsStore = defineStore("boards", () => {
     board.starred = !board.starred;
     touch(boardId);
     persist(boardId);
+  };
+
+  const addBoard = (boardValues: NewBoardValues) => {
+    let columnRelatedProps: Pick<Board, "columnOrder" | "columns">;
+    switch (boardValues.templateId) {
+      case "kanban_basics":
+        columnRelatedProps = buildKanbanColumnRelatedBoardProps();
+        break;
+      case "sprint_workflow":
+        columnRelatedProps = buildSprintColumnRelatedBoardProps();
+        break;
+      case "blank":
+        columnRelatedProps = { columnOrder: [], columns: {} };
+        break;
+    }
+
+    const newBoard = {
+      id: crypto.randomUUID(),
+      colorId: boardValues.colorId,
+      description: boardValues.description,
+      name: boardValues.name,
+      tasks: {},
+      starred: false,
+      assignees: {},
+      labels: {},
+      updatedAt: new Date().toISOString(),
+      ...columnRelatedProps,
+    } satisfies Board;
+
+    boards.value[newBoard.id] = newBoard;
+    boardsRepo.save(newBoard);
+
+    return newBoard.id;
   };
 
   const addTask = (boardId: Board["id"], columnId: Column["id"], task: Task) => {
@@ -123,6 +162,7 @@ export const useBoardsStore = defineStore("boards", () => {
     boardOverviews,
     starredBoardOverviews,
     toggleStarred,
+    addBoard,
     addTask,
     removeTask,
     updateTask,

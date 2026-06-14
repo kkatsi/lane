@@ -1,7 +1,7 @@
 <template>
   <Card class="rounded-lg overflow-hidden p-0" as-child>
     <RouterLink :to="{ name: 'board', params: { boardId: props.id } }">
-      <div class="h-1 w-full mb-3" :style="{ backgroundColor: randomColor?.background }" />
+      <div class="h-1 w-full mb-3" :style="{ backgroundColor: COLORS.find(c => c.id === props.colorId)?.background }" />
       <CardHeader>
         <CardTitle>
           {{ props.name }}
@@ -55,8 +55,6 @@ interface Props extends BoardOverview {
 const props = defineProps<Props>();
 
 const { toggleStarred } = useBoardsStore();
-
-const randomColor = COLORS[getRandomInt(COLORS.length - 1)]
 
 const toggleStar = () => {
   toggleStarred(props.id)

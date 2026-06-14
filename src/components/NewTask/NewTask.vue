@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { useTextareaAutosize } from '@vueuse/core'
-import { newTaskSchema } from '@/lib/taskValidationSchema'
+import { newTaskSchema } from '@/schemas/taskValidationSchema.ts'
 import LabelsPicker from './LabelsPicker.vue'
 import type { Assignee, Label, Task } from '@/types.ts'
 import { ref } from 'vue'

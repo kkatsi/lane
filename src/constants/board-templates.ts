@@ -17,3 +17,5 @@ export const BOARD_TEMPLATES = [
     description: "Start with no columns",
   },
 ] as const satisfies BoardTemplate[];
+
+export const DEFAULT_BOARD_TEMPLATE_ID: (typeof BOARD_TEMPLATES)[number]["id"] = "kanban_basics";
