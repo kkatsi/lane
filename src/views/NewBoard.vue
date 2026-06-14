@@ -91,6 +91,11 @@
       </form>
     </CardContent>
     <CardFooter class="flex justify-end gap-2">
+      <span class="flex items-center gap-1 text-muted-foreground text-xs mr-auto">
+        <Command :size="10" />
+        <CornerDownLeft :size="10" />
+        Enter to create
+      </span>
       <RouterLink :to="{ name: 'boards' }" as-child>
         <Button type="button" variant="ghost" class="cursor-pointer" :disabled="isSubmitting">
           Close
@@ -134,6 +139,7 @@ import { notifyError } from '@/lib/notifyError';
 import { cn } from '@/lib/utils';
 import { newBoardValidationSchema } from '@/schemas/boardValidationSchema';
 import { useBoardsStore } from '@/stores/boards';
+import { Command, CornerDownLeft } from '@lucide/vue';
 import { useForm } from '@tanstack/vue-form';
 import { useRouter } from 'vue-router';
 

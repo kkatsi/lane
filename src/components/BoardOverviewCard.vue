@@ -1,6 +1,6 @@
 <template>
   <Card class="rounded-lg overflow-hidden p-0" as-child>
-    <RouterLink :to="{ name: 'board', params: { boardId: props.id } }">
+    <RouterLink :to="{ name: 'board', params: { boardId: props.id } }" class="h-full flex flex-col">
       <div class="h-1 w-full mb-3" :style="{ backgroundColor: COLORS.find(c => c.id === props.colorId)?.background }" />
       <CardHeader>
         <CardTitle>
@@ -10,13 +10,13 @@
           <Star :size="16" :class="props.starred ? 'fill-yellow-400 text-yellow-400' : 'fill-none'" />
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <CardDescription>
-          {{ props.description }}
+      <CardContent class="h-full">
+        <CardDescription class="h-full flex flex-col justify-between">
+          {{ props.description || '-' }}
           <div class="flex items-center justify-between my-3">
-            <div class="flex items-center gap-1" v-if="props.tasksCount > 0">
+            <div class="flex items-center gap-1">
               <LayoutList :size="14" />
-              {{ props.tasksCount }} {{ props.tasksCount > 1 ? 'tasks' : 'task' }}
+              {{ props.tasksCount }} {{ props.tasksCount !== 1 ? 'tasks' : 'task' }}
             </div>
             <div class="ml-auto flex items-center">
               <Initials class="-ml-1" v-for="assignee in props.firstTwoAssignees" :key="assignee.id" size="sm"
