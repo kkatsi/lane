@@ -97,12 +97,12 @@
         </Button>
       </RouterLink>
       <Button class="cursor-pointer" type="submit" form="new-board-form" :disabled="isSubmitting">
-        <span v-if="isSubmitting">
+        <template v-if="isSubmitting">
           Creating...
-        </span>
-        <span v-else>
+        </template>
+        <template v-else>
           Create board
-        </span>
+        </template>
       </Button>
     </CardFooter>
   </Card>
@@ -130,6 +130,7 @@ import RadioGroupItem from '@/components/ui/radio-group/RadioGroupItem.vue';
 import Textarea from '@/components/ui/textarea/Textarea.vue';
 import { BOARD_TEMPLATES, DEFAULT_BOARD_TEMPLATE_ID } from '@/constants/board-templates';
 import { COLORS, DEFAULT_COLOR_ID } from '@/constants/colors';
+import { notifyError } from '@/lib/notifyError';
 import { cn } from '@/lib/utils';
 import { newBoardValidationSchema } from '@/schemas/boardValidationSchema';
 import { useBoardsStore } from '@/stores/boards';
@@ -151,8 +152,12 @@ const form = useForm({
     onChange: newBoardValidationSchema,
   },
   onSubmit: async ({ value }) => {
-    const boardId = addBoard(value);
-    router.push({ name: 'board', params: { boardId } })
+    try {
+      const boardId = addBoard(value);
+      router.push({ name: 'board', params: { boardId } })
+    } catch (error) {
+      notifyError(error, { actionVerb: 'add board' })
+    }
   }
 })
 

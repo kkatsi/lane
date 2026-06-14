@@ -1,7 +1,7 @@
 <template>
   <div class="mode-toggle">
     <Sun />
-    <Switch :model-value="isDark" @update:model-value="updateValue" />
+    <Switch :model-value="isDark" @update:model-value="toggleTheme" />
     <Moon />
   </div>
 </template>
@@ -10,14 +10,11 @@
 import { useColorMode, usePreferredDark } from '@vueuse/core'
 import Switch from './ui/switch/Switch.vue'
 import { Moon, Sun } from '@lucide/vue'
-import { computed } from 'vue'
-const mode = useColorMode()
-const prefersDark = usePreferredDark()
-const isDark = computed(() => mode.value === 'dark' || (mode.value === 'auto' && prefersDark.value))
+import { useDarkTheme } from '@/composables/useDarkTheme.ts'
 
-const updateValue = (checked: boolean) => {
-  mode.value = checked ? 'dark' : 'light'
-}
+const { isDark, toggleTheme } = useDarkTheme();
+
+
 </script>
 
 <style scoped>
