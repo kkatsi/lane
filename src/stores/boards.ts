@@ -119,6 +119,20 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
+  const addColumn = (boardId: Board["id"], title: Column["title"]) => {
+    const board = boards.value[boardId];
+    if (!board) return;
+    const newColumnId = crypto.randomUUID();
+    board.columns[newColumnId] = {
+      id: newColumnId,
+      title,
+      taskIds: [],
+    };
+    board.columnOrder.push(newColumnId);
+    touch(boardId);
+    persist(boardId);
+  };
+
   const removeColumn = (boardId: Board["id"], columnId: Column["id"]) => {
     const board = boards.value[boardId];
     const col = board?.columns[columnId];
@@ -204,6 +218,7 @@ export const useBoardsStore = defineStore("boards", () => {
     addBoard,
     editColumnTitle,
     moveAllColumnTasksToAnotherColumn,
+    addColumn,
     removeColumn,
     addTask,
     removeTask,

@@ -24,6 +24,9 @@ export const useCurrentBoard = () => {
   const moveAllColumnTasksToAnotherColumn = (fromColId: Column["id"], toColId: Column["id"]) => {
     boardsStore.moveAllColumnTasksToAnotherColumn(boardId.value, fromColId, toColId);
   };
+  const addColumn = (title: Column["title"]) => {
+    boardsStore.addColumn(boardId.value, title);
+  };
   const removeColumn = (columnId: Column["id"]) => {
     boardsStore.removeColumn(boardId.value, columnId);
   };
@@ -49,6 +52,7 @@ export const useCurrentBoard = () => {
     toggleStarred,
     editColumnTitle,
     moveAllColumnTasksToAnotherColumn,
+    addColumn,
     removeColumn,
     addTask,
     removeTask,

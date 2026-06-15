@@ -3,7 +3,7 @@
     <Search class="max-w-72" v-model="search" placeholder="Search..." :results-count="resultsCount" />
     <Filters />
     <div class="ml-auto flex items-center gap-2">
-      <Button variant="outline" @click="onColumnAdd">
+      <Button variant="outline" @click="props.onAddNewColumn">
         <Plus />
         Add column
       </Button>
@@ -25,6 +25,11 @@ import Search from './Search.vue'
 import Button from './ui/button/Button.vue'
 import { Plus, Share } from '@lucide/vue'
 
+interface Props {
+  onAddNewColumn: () => void;
+}
+const props = defineProps<Props>();
+
 const uiStore = useUIStore()
 const search = ref<string>('');
 
@@ -34,10 +39,6 @@ watchDebounced(search, () => {
 
 const filteredTaskIds = useFilteredTaskIds()
 const resultsCount = computed(() => uiStore.searchQuery ? Object.values(filteredTaskIds.value).length : null)
-
-const onColumnAdd = () => {
-  console.log('add column')
-}
 
 const onShare = () => {
 

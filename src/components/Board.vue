@@ -1,18 +1,34 @@
 <template>
-  <div class="flex-1 min-h-0 flex items-stretch gap-4 py-3 px-4 overflow-x-auto h-full">
+  <div ref="scrollableElement" class="flex-1 min-h-0 flex items-stretch gap-4 py-3 px-4 overflow-x-auto h-full">
     <Column v-for="column in orderedColumns" :key="column.id" :column="column" />
+    <AddColumnComposer v-if="isAddingNewColumn" @close="onAddNewColumnComposerClose" />
   </div>
 </template>
 
 <script setup lang="ts">
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { isDefined } from '@/lib/utils.ts'
-import { computed } from 'vue'
+import { computed, nextTick, useTemplateRef, watch, type ShallowRef } from 'vue'
 import Column from './Column.vue'
+import AddColumnComposer from './AddColumnComposer.vue';
+
+const isAddingNewColumn = defineModel<boolean>('isAddingNewColumn');
+
+const scrollableElement = useTemplateRef<HTMLDivElement>('scrollableElement')
+
+watch(() => isAddingNewColumn.value, async (v) => {
+  if (!v) return;
+  await nextTick();
+  scrollableElement.value?.scrollTo({ left: scrollableElement.value.scrollWidth, behavior: 'smooth' })
+})
 
 const { columnOrder, columns } = useCurrentBoard()
 
 const orderedColumns = computed(() =>
   columnOrder.value.map((id) => columns.value[id]).filter(isDefined),
 )
+
+const onAddNewColumnComposerClose = () => {
+  isAddingNewColumn.value = false;
+}
 </script>
