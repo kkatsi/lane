@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="py-3 px-4">
     <BoardsOverviewHeader />
     <BoardsGrid title="Starred" :boards="boards.starredBoardOverviews" />
     <BoardsGrid title="All Boards" :boards="boards.allBoardOverviews" :can-create-new-board="true" />

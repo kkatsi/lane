@@ -1,7 +1,7 @@
 <template>
   <div class="py-4" v-if="Object.values(boards).length > 0">
     <h5 class="text-muted-foreground uppercase font-semibold tracking-wider text-sm mb-2">{{ props.title }}</h5>
-    <div class="grid grid-cols-3 gap-4 items-stretch">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 items-stretch">
       <BoardOverviewCard v-for="board in props.boards" :key="board.id" v-bind="board" />
       <CreateNewBoardCard v-if="!!canCreateNewBoard" />
     </div>

@@ -1,28 +1,19 @@
 <template>
-  <div class="column">
-    <div class="header">
-      <div class="left-side">
-        <span class="title">{{ props.column.title }}</span>
-        <span class="items-count">{{ columnTasks.length }}</span>
+  <div class="min-w-70 max-w-70 flex flex-col h-full">
+    <div class="flex items-center justify-between shrink-0">
+      <div class="flex items-center gap-2">
+        <span>{{ props.column.title }}</span>
+        <span>{{ columnTasks.length }}</span>
       </div>
-      <div class="right-side">
-        <div class="actions">
-          <button class="add-button" @click="onAdd">+</button>
-        </div>
-      </div>
+      <button @click="onAdd">+</button>
     </div>
 
-    <VueDraggable
-      :data-column-id="props.column.id"
-      class="content"
-      :model-value="columnTasks"
-      ghostClass="ghost"
-      group="board"
-      @end="onDragEnd"
-    >
+    <VueDraggable :data-column-id="props.column.id"
+      class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-2 py-2"
+      :model-value="columnTasks" ghostClass="ghost" group="board" @end="onDragEnd">
       <Task v-for="task in columnTasks" :key="task.id" :task="task" />
     </VueDraggable>
-    <NewTask v-if="isAddingNewTask" :column-id="props.column.id" :onNewTaskAdded="onNewTaskAdded" />
+    <NewTask v-if="isAddingNewTask" class="shrink-0" :column-id="props.column.id" :onNewTaskAdded="onNewTaskAdded" />
   </div>
 </template>
 
@@ -70,25 +61,4 @@ const onDragEnd = (e: DraggableEvent<TaskType>) => {
 }
 </script>
 
-<style scoped>
-.header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.left-side {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-
-.content {
-  width: 100%;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-</style>
+<style scoped></style>

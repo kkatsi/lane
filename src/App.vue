@@ -12,7 +12,7 @@ const { isDark } = useDarkTheme();
   <header>
     <Navbar />
   </header>
-  <main class="p-4">
+  <main>
     <RouterView />
   </main>
   <Toaster position="top-center" :theme="isDark ? 'dark' : 'light'" rich-colors />

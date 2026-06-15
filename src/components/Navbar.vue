@@ -1,5 +1,5 @@
 <template>
-  <nav class="flex items-center w-full border-b border-muted p-4">
+  <nav class="flex items-center w-full border-b border-muted py-3 px-4">
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem v-for="(routeMatch, index) in matches" :key="routeMatch.label">

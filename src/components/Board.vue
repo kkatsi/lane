@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-4">
+  <div class="flex-1 min-h-0 flex items-stretch gap-4 py-3 px-4 overflow-x-auto h-full">
     <Column v-for="column in orderedColumns" :key="column.id" :column="column" />
   </div>
 </template>
