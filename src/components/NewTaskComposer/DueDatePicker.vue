@@ -1,12 +1,13 @@
 <template>
   <Popover v-model:open="isDueDatePickerOpen">
     <PopoverTrigger as-child>
-      <button>
+      <Button size="xs" variant="ghost">
+        <Calendar1 />
         <span v-if="dueDate">{{ triggerButtonDisplayDate }}</span>
         <span v-else>Due Date</span>
-      </button>
+      </Button>
     </PopoverTrigger>
-    <PopoverContent class="gap-3">
+    <PopoverContent class="gap-3" align="start">
       <InputGroup>
         <InputGroupInput @input="commitFromTextInput" @keydown.enter.prevent="onSetDateClick" v-model="inputValue"
           placeholder="Tomorrow or next week" />
@@ -35,8 +36,23 @@
         </ItemContent>
       </Item>
       <Separator />
-      <div class="flex justify-end">
-        <Button @click="onSetDateClick" size="sm" :disabled="!tempDate">Set Date</Button>
+      <div class="flex items-center gap-2">
+        <span class="text-xs text-muted-foreground flex items-center gap-1">
+          <Kbd>
+            <CornerDownLeft :size="10" />
+            Set
+          </Kbd>
+          Select
+        </span>
+        <span class="text-xs text-muted-foreground flex items-center gap-1">
+          <Kbd>
+            Esc
+          </Kbd>
+          Cancel
+        </span>
+        <div class="flex items-center gap-1 ml-auto">
+          <Button @click="onSetDateClick" size="sm" :disabled="!tempDate">Set Date</Button>
+        </div>
       </div>
     </PopoverContent>
   </Popover>
@@ -45,7 +61,7 @@
 <script setup lang="ts">
 import { calculateDaysFromToday } from '@/lib/dates.ts'
 import { getLocalTimeZone, type DateValue } from '@internationalized/date'
-import { CalendarArrowDown, Check } from '@lucide/vue'
+import { Calendar1, CalendarArrowDown, Check, CornerDownLeft } from '@lucide/vue'
 import { parseDate } from 'chrono-node'
 import { computed, ref, type Ref } from 'vue'
 import Calendar from '../ui/calendar/Calendar.vue'
@@ -61,8 +77,9 @@ import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
 import Separator from '../ui/separator/Separator.vue'
 import Button from '../ui/button/Button.vue'
+import Kbd from '../ui/kbd/Kbd.vue'
 
-const dueDate = defineModel<Date | null>();
+const dueDate = defineModel<Date | null>('dueDate');
 
 const isCalendarOpen = ref(false);
 const isDueDatePickerOpen = ref(false);

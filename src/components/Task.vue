@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div>
     <div class="header">
       <div class="labels">
         <span v-for="label in taskLabels" :key="label.id">
@@ -11,9 +11,6 @@
       </div>
     </div>
     <div class="content">
-      <div class="title">
-        {{ props.task.title }}
-      </div>
       <div class="description">
         {{ props.task.description }}
       </div>
@@ -51,9 +48,9 @@ const initials = computed(() => {
 const displayDate = computed(() =>
   props.task.dueDate
     ? new Date(props.task.dueDate).toLocaleDateString('en-US', {
-        month: 'long',
-        day: 'numeric',
-      })
+      month: 'long',
+      day: 'numeric',
+    })
     : undefined,
 )
 const taskLabels = computed(() => {
@@ -68,6 +65,7 @@ const taskLabels = computed(() => {
   flex-direction: column;
   gap: 8px;
 }
+
 .footer {
   width: 100%;
   display: flex;

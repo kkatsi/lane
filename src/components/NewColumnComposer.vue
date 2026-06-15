@@ -14,13 +14,13 @@
         <Kbd>
           Esc
         </Kbd>
-        Close
+        Cancel
       </span>
       <div class="flex items-center gap-1 ml-auto">
-        <Button size="sm" variant="ghost">
-          Close
+        <Button size="sm" variant="ghost" @click="props.onClose">
+          Cancel
         </Button>
-        <Button size="sm">
+        <Button size="sm" @click="onAdd">
           Add
         </Button>
       </div>

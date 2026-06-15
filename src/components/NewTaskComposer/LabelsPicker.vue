@@ -1,11 +1,12 @@
 <template>
   <Popover>
     <PopoverTrigger as-child>
-      <button>
-        Labels <span v-if="selectedLabelIds.length > 0">{{ selectedLabelIds.length }}</span>
-      </button>
+      <Button size="xs" variant="ghost">
+        <Tag />
+        Labels <Badge v-if="selectedLabelIds.length > 0" variant="outline">{{ selectedLabelIds.length }}</Badge>
+      </Button>
     </PopoverTrigger>
-    <PopoverContent class="p-0 gap-2">
+    <PopoverContent class="p-0 gap-2" align="start">
       <Command>
         <CommandInput placeholder="Search labels..." class="command-input" />
         <CommandList>
@@ -69,7 +70,7 @@ import {
 } from '@/components/ui/command'
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import type { Label } from '@/types.ts'
-import { Plus } from '@lucide/vue'
+import { Plus, Tag } from '@lucide/vue'
 import type { AcceptableValue, PopoverArrow, SelectItemSelectEvent } from 'reka-ui'
 import { ref } from 'vue'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
@@ -83,6 +84,7 @@ import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
 import { COLORS } from '@/constants/colors.ts'
 import Item from '../ui/item/Item.vue'
+import Button from '../ui/button/Button.vue'
 import Badge from '../ui/badge/Badge.vue'
 
 const selectedLabelIds = defineModel<Label['id'][]>({ default: () => [] })

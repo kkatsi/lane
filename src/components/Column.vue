@@ -3,11 +3,12 @@
     <ColumnHeader :column-id="props.column.id" :column-title="props.column.title" :tasks-length="columnTasks.length"
       @add-new-task-action-select="onAddNewTaskActionSelect" />
 
-    <VueDraggable :data-column-id="props.column.id" class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-2 py-2"
+    <VueDraggable :data-column-id="props.column.id" class="min-h-0 overflow-y-auto flex flex-col gap-2 py-2"
       :model-value="columnTasks" ghostClass="ghost" group="board" @end="onDragEnd">
       <Task v-for="task in columnTasks" :key="task.id" :task="task" />
     </VueDraggable>
-    <NewTask v-if="isAddingNewTask" class="shrink-0" :column-id="props.column.id" :onNewTaskAdded="onNewTaskAdded" />
+    <NewTaskComposer v-if="isAddingNewTask" class="shrink-0" :column-id="props.column.id"
+      v-model:is-adding-new-task="isAddingNewTask" />
   </div>
 </template>
 
@@ -19,7 +20,7 @@ import type { Column, Task as TaskType } from '@/types'
 import { computed, ref } from 'vue'
 import { VueDraggable, type DraggableEvent } from 'vue-draggable-plus'
 import ColumnHeader from './ColumnHeader.vue'
-import NewTask from './NewTask/NewTask.vue'
+import NewTaskComposer from './NewTaskComposer/NewTaskComposer.vue'
 import Task from './Task.vue'
 
 interface Props {
@@ -40,8 +41,6 @@ const columnTasks = computed(() => {
 })
 
 const onAddNewTaskActionSelect = () => isAddingNewTask.value = true;
-
-const onNewTaskAdded = () => (isAddingNewTask.value = false)
 
 const onDragEnd = (e: DraggableEvent<TaskType>) => {
   const taskId = e.data.id

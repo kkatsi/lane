@@ -17,7 +17,6 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "1": {
         id: "1",
-        title: "No title",
         description: "Lorem",
         assigneeId: "maria",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -25,7 +24,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "2": {
         id: "2",
-        title: "This is a title of the ticket 2",
         description: "Ipsum",
         assigneeId: "nikos",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -33,7 +31,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "3": {
         id: "3",
-        title: "This is a title of the ticket 3",
         description: "Ipsumidis",
         assigneeId: "maria",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -64,7 +61,6 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "10": {
         id: "10",
-        title: "Login page crashes on Safari",
         description: "Steps to reproduce attached",
         assigneeId: "elena",
         dueDate: "2026-06-20T12:00:00+00:00",
@@ -72,7 +68,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "11": {
         id: "11",
-        title: "Date picker off-by-one in DST",
         description: "Reported by two users",
         assigneeId: "yannis",
         dueDate: "2026-06-22T12:00:00+00:00",
@@ -103,7 +98,6 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "20": {
         id: "20",
-        title: "Audit spacing tokens",
         description: "Sweep all usages of legacy spacing variables",
         assigneeId: "sofia",
         dueDate: "2026-06-25T12:00:00+00:00",
@@ -111,7 +105,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "21": {
         id: "21",
-        title: "Refactor Button variants",
         description: "Collapse primary/secondary/ghost into a single API",
         assigneeId: "petros",
         dueDate: "2026-06-30T12:00:00+00:00",
@@ -143,7 +136,6 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "30": {
         id: "30",
-        title: "Launch teaser blog post",
         description: "Draft is in Notion",
         assigneeId: "anna",
         dueDate: "2026-07-05T12:00:00+00:00",
@@ -151,7 +143,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "31": {
         id: "31",
-        title: "Email campaign for v2",
         description: "Two-step drip, segment by plan",
         assigneeId: "dimitris",
         dueDate: "2026-07-10T12:00:00+00:00",
@@ -159,7 +150,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "32": {
         id: "32",
-        title: "Homepage banner update",
         description: "Swap hero image for the new product shot",
         assigneeId: "anna",
         dueDate: null,

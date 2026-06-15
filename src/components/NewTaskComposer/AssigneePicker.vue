@@ -1,12 +1,12 @@
 <template>
-  <Popover>
+  <Popover v-model:open="isAssigneePickerOpen">
     <PopoverTrigger as-child>
-      <button>
-        <span v-if="selectedAssigneeId">{{ assignees[selectedAssigneeId]?.name }}</span>
-        <span v-else>Unassigned</span>
-      </button>
+      <Button size="xs" variant="ghost">
+        <User />
+        {{ popupTriggerAssigneeName }}
+      </Button>
     </PopoverTrigger>
-    <PopoverContent class="p-0 gap-2">
+    <PopoverContent class="p-0 gap-2" align="start">
       <Command>
         <CommandInput placeholder="Search assignees..." class="command-input" />
         <CommandList>
@@ -16,7 +16,6 @@
               @select="onAssigneeSelect">
               <Initials :full-name="assignee.name" :color-id="assignee.colorId" />
               {{ assignee.name }}
-              <span v-if="selectedAssigneeId === assignee.id">✓</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
@@ -43,21 +42,34 @@ import {
 } from '@/components/ui/command'
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import type { Assignee } from '@/types.ts'
+import { User } from '@lucide/vue'
 import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
+import { computed, ref } from 'vue'
+import Initials from '../Initials.vue'
+import Button from '../ui/button/Button.vue'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
-import Initials from '../Initials.vue'
-import { UserX } from '@lucide/vue'
 
-const selectedAssigneeId = defineModel<Assignee['id'] | null>('')
+const isAssigneePickerOpen = ref<boolean>(false);
+
+const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId')
 
 const { assignees } = useCurrentBoard()
+
+const popupTriggerAssigneeName = computed(() => {
+  if (!selectedAssigneeId.value) return 'Unassigned';
+  const name = assignees.value[selectedAssigneeId.value]?.name
+  if (!name) return 'Unassigned';
+  const [firstName, lastName] = name.split(' ');
+  return `${firstName} ${lastName![0]}.`
+})
 
 const onAssigneeSelect = (event: SelectItemSelectEvent<AcceptableValue>) => {
   const assigneeId = event.detail.value as Assignee['id'] | null
   selectedAssigneeId.value = assigneeId
+  isAssigneePickerOpen.value = false;
 }
 </script>
 
