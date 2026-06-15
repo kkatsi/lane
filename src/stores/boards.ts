@@ -91,6 +91,45 @@ export const useBoardsStore = defineStore("boards", () => {
     return newBoard.id;
   };
 
+  const editColumnTitle = (
+    boardId: Board["id"],
+    columnId: Column["id"],
+    title: Column["title"],
+  ) => {
+    const board = boards.value[boardId];
+    const col = board?.columns[columnId];
+    if (!board || !col) return;
+    col.title = title;
+    touch(boardId);
+    persist(boardId);
+  };
+
+  const moveAllColumnTasksToAnotherColumn = (
+    boardId: Board["id"],
+    fromColId: Column["id"],
+    toColId: Column["id"],
+  ) => {
+    const board = boards.value[boardId];
+    const fromCol = board?.columns[fromColId];
+    const toCol = board?.columns[toColId];
+    if (!board || !fromCol || !toCol) return;
+    toCol.taskIds.push(...fromCol.taskIds);
+    fromCol.taskIds.length = 0;
+    touch(boardId);
+    persist(boardId);
+  };
+
+  const removeColumn = (boardId: Board["id"], columnId: Column["id"]) => {
+    const board = boards.value[boardId];
+    const col = board?.columns[columnId];
+    if (!board || !col) return;
+    col.taskIds.forEach((id) => delete board.tasks[id]);
+    board.columnOrder = board.columnOrder.filter((colId) => colId !== columnId);
+    delete board.columns[columnId];
+    touch(boardId);
+    persist(boardId);
+  };
+
   const addTask = (boardId: Board["id"], columnId: Column["id"], task: Task) => {
     const board = boards.value[boardId];
     const col = board?.columns[columnId];
@@ -163,6 +202,9 @@ export const useBoardsStore = defineStore("boards", () => {
     starredBoardOverviews,
     toggleStarred,
     addBoard,
+    editColumnTitle,
+    moveAllColumnTasksToAnotherColumn,
+    removeColumn,
     addTask,
     removeTask,
     updateTask,

@@ -19,6 +19,14 @@ export const useCurrentBoard = () => {
   const assignees = computed(() => board.value?.assignees ?? {});
 
   const toggleStarred = () => boardsStore.toggleStarred(boardId.value);
+  const editColumnTitle = (columnId: Column["id"], title: Column["title"]) =>
+    boardsStore.editColumnTitle(boardId.value, columnId, title);
+  const moveAllColumnTasksToAnotherColumn = (fromColId: Column["id"], toColId: Column["id"]) => {
+    boardsStore.moveAllColumnTasksToAnotherColumn(boardId.value, fromColId, toColId);
+  };
+  const removeColumn = (columnId: Column["id"]) => {
+    boardsStore.removeColumn(boardId.value, columnId);
+  };
   const addTask = (columnId: Column["id"], task: Task) =>
     boardsStore.addTask(boardId.value, columnId, task);
   const removeTask = (taskId: Task["id"]) => boardsStore.removeTask(boardId.value, taskId);
@@ -39,6 +47,9 @@ export const useCurrentBoard = () => {
     labels,
     assignees,
     toggleStarred,
+    editColumnTitle,
+    moveAllColumnTasksToAnotherColumn,
+    removeColumn,
     addTask,
     removeTask,
     updateTask,
