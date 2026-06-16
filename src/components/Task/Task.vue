@@ -15,7 +15,7 @@
     <CardDescription v-if="props.description" class="text-xs text-muted-foreground mt-1 line-clamp-3">
       {{ props.description }}
     </CardDescription>
-    <CardFooter class="bg-card border-t-0 p-0 py-2 text-muted-foreground">
+    <CardFooter v-if="!!displayDate || !!assignee" class="bg-card border-t-0 p-0 my-2 text-muted-foreground">
       <span v-if="!!displayDate" class="text-xs flex items-center gap-1">
         <Calendar1 :size="10" />
         {{ displayDate }}
