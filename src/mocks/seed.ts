@@ -17,6 +17,7 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "1": {
         id: "1",
+        title: "Investigate flaky checkout flow",
         description: "Lorem",
         assigneeId: "maria",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -24,6 +25,7 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "2": {
         id: "2",
+        title: "Crash on iOS 18 share sheet",
         description: "Ipsum",
         assigneeId: "nikos",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -31,6 +33,7 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "3": {
         id: "3",
+        title: "Search returns stale results after edit",
         description: "Ipsumidis",
         assigneeId: "maria",
         dueDate: "2026-05-24T17:28:25+00:00",
@@ -61,6 +64,7 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "10": {
         id: "10",
+        title: "Login button unresponsive on Safari",
         description: "Steps to reproduce attached",
         assigneeId: "elena",
         dueDate: "2026-06-20T12:00:00+00:00",
@@ -68,6 +72,7 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "11": {
         id: "11",
+        title: "Avatar uploads exceed 10MB cap",
         description: "Reported by two users",
         assigneeId: "yannis",
         dueDate: "2026-06-22T12:00:00+00:00",
@@ -98,22 +103,32 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "20": {
         id: "20",
+        title: "Migrate spacing scale to tokens",
         description: "Sweep all usages of legacy spacing variables",
         assigneeId: "sofia",
         dueDate: "2026-06-25T12:00:00+00:00",
-        labelIds: ["design"],
+        labelIds: ["design", "tokens", "tech-debt", "docs", "polish"],
       },
       "21": {
         id: "21",
+        title: "Unify Button variants",
         description: "Collapse primary/secondary/ghost into a single API",
         assigneeId: "petros",
         dueDate: "2026-06-30T12:00:00+00:00",
-        labelIds: ["design", "refactor"],
+        labelIds: ["design", "refactor", "components", "breaking", "a11y"],
       },
     },
     labels: {
-      design: { id: "design", name: "Design", colorId: "violet" },
+      design: { id: "design", name: "Design", colorId: "purple" },
       refactor: { id: "refactor", name: "Refactor", colorId: "blue" },
+      tokens: { id: "tokens", name: "Tokens", colorId: "pink" },
+      a11y: { id: "a11y", name: "Accessibility", colorId: "green" },
+      components: { id: "components", name: "Components", colorId: "orange" },
+      docs: { id: "docs", name: "Documentation", colorId: "yellow" },
+      breaking: { id: "breaking", name: "Breaking", colorId: "red" },
+      polish: { id: "polish", name: "Polish", colorId: "pink" },
+      "tech-debt": { id: "tech-debt", name: "Tech Debt", colorId: "gray" },
+      performance: { id: "performance", name: "Performance", colorId: "blue" },
     },
     assignees: {
       sofia: { id: "sofia", name: "Sofia Markou", colorId: "orange" },
@@ -136,6 +151,7 @@ const boardsSeed: Record<Board["id"], Board> = {
     tasks: {
       "30": {
         id: "30",
+        title: "Launch blog post for v2 features",
         description: "Draft is in Notion",
         assigneeId: "anna",
         dueDate: "2026-07-05T12:00:00+00:00",
@@ -143,6 +159,7 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "31": {
         id: "31",
+        title: "Onboarding email sequence",
         description: "Two-step drip, segment by plan",
         assigneeId: "dimitris",
         dueDate: "2026-07-10T12:00:00+00:00",
@@ -150,6 +167,7 @@ const boardsSeed: Record<Board["id"], Board> = {
       },
       "32": {
         id: "32",
+        title: "Refresh landing page hero",
         description: "Swap hero image for the new product shot",
         assigneeId: "anna",
         dueDate: null,

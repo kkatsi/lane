@@ -1,7 +1,9 @@
 <template>
-  <form ref="formElement" @submit="onSubmit" class="rounded-lg p-2 ring-1 ring-primary flex flex-col gap-2">
-    <Textarea ref="textareaRef" placeholder="What needs to be done?" v-model="taskDescription" class="resize-none"
-      name="description" id="description" rows="3" @keydown.enter.prevent="onEnter" @keyup.esc="props.onClose" />
+  <form ref="formElement" @submit="onSubmit" class="rounded-lg p-2 ring-1 ring-primary flex flex-col gap-2"
+    @keydown.enter.exact.prevent="onEnter" @keyup.esc="props.onClose">
+    <Input ref="titleRef" placeholder="Task title" v-model="taskTitle" name="title" id="title" />
+    <Textarea placeholder="Add a description (optional)" v-model="taskDescription" class="resize-none"
+      name="description" id="description" rows="3" />
     <div class="flex items-center justify-between">
       <LabelsPicker v-model:selected-label-ids="selectedLabelIds" />
       <AssigneePicker v-model:selected-assignee-id="selectedAssigneeId" />
@@ -33,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { newTaskSchema } from '@/schemas/taskValidationSchema.ts'
 import type { Assignee, Label, Task } from '@/types.ts'
 import { CornerDownLeft } from '@lucide/vue'
 import { onMounted, useTemplateRef } from 'vue'
 import Button from '../ui/button/Button.vue'
+import Input from '../ui/input/Input.vue'
 import Kbd from '../ui/kbd/Kbd.vue'
 import Textarea from '../ui/textarea/Textarea.vue'
 import AssigneePicker from './AssigneePicker.vue'
@@ -53,17 +55,14 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const textareaRef = useTemplateRef<{
-  textareaElement:
-  HTMLTextAreaElement
-  | null
-}>('textareaRef');
+const titleRef = useTemplateRef<{ inputElement: HTMLInputElement | null }>('titleRef');
 const formElement = useTemplateRef<HTMLFormElement>('formElement');
 
 onMounted(() => {
-  textareaRef.value?.textareaElement?.focus()
+  titleRef.value?.inputElement?.focus()
 })
 
+const taskTitle = defineModel<Task['title']>('taskTitle', { default: '' });
 const taskDescription = defineModel<Task['description']>('taskDescription', { default: '' });
 const selectedLabelIds = defineModel<Label['id'][]>('selectedLabelIds', { default: [] })
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId', { default: null })
@@ -77,6 +76,7 @@ const onSubmit = (e: SubmitEvent) => {
   e.preventDefault();
 
   const result = newTaskSchema.safeParse({
+    title: taskTitle.value,
     description: taskDescription.value,
     labelIds: selectedLabelIds.value,
     assigneeId: selectedAssigneeId.value,

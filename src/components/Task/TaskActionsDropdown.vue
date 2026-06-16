@@ -2,7 +2,7 @@
   <div :class="cn('ml-auto', props.class)">
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <Button variant="ghost" size="sm" class="p-1">
+        <Button variant="ghost" size="sm" class="p-1 h-auto">
           <Ellipsis />
         </Button>
       </DropdownMenuTrigger>

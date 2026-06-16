@@ -11,6 +11,7 @@ export const useFilteredTaskIds = () => {
     const normalizedQuery = query.trim().toLowerCase();
     if (!normalizedQuery) return true;
     return (
+      task.title.toLowerCase().includes(normalizedQuery) ||
       task.description.toLowerCase().includes(normalizedQuery) ||
       task.assigneeId?.toLowerCase().includes(normalizedQuery) === true
     );

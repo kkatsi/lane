@@ -40,7 +40,7 @@ const props = withDefaults(
 
 const color = COLORS.find(c => c.id === props.colorId);
 const sizeClasses = {
-  sm: 'w-6 h-6 text-xs',
+  sm: 'w-5.5 h-5.5 text-xs',
   base: 'w-7 h-7 text-sm'
 }
 
