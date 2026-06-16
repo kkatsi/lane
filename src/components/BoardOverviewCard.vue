@@ -19,7 +19,7 @@
               {{ props.tasksCount }} {{ props.tasksCount !== 1 ? 'tasks' : 'task' }}
             </div>
             <div class="ml-auto flex items-center">
-              <Initials class="-ml-1" v-for="assignee in props.firstTwoAssignees" :key="assignee.id" size="sm"
+              <Assignee class="-ml-1" v-for="assignee in props.firstTwoAssignees" :key="assignee.id" size="sm"
                 :full-name="assignee.name" :color-id="assignee.colorId" />
               <span v-if="props.restAssigneesCount > 0" class="text-muted-foreground text-sm ml-1">+{{
                 props.restAssigneesCount }}</span>
@@ -41,7 +41,6 @@ import { useBoardsStore } from '@/stores/boards.ts';
 import type { BoardOverview } from '@/types';
 import { LayoutList, Star } from '@lucide/vue';
 import { useTimeAgo } from '@vueuse/core';
-import Initials from './Initials.vue';
 import Card from './ui/card/Card.vue';
 import CardAction from './ui/card/CardAction.vue';
 import CardContent from './ui/card/CardContent.vue';
@@ -49,6 +48,7 @@ import CardDescription from './ui/card/CardDescription.vue';
 import CardFooter from './ui/card/CardFooter.vue';
 import CardHeader from './ui/card/CardHeader.vue';
 import CardTitle from './ui/card/CardTitle.vue';
+import Assignee from './Assignee.vue';
 
 interface Props extends BoardOverview {
 }

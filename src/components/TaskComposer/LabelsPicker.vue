@@ -3,16 +3,16 @@
     <PopoverTrigger as-child>
       <Button size="xs" variant="ghost">
         <Tag />
-        Labels <Badge v-if="selectedLabelIds.length > 0" variant="outline">{{ selectedLabelIds.length }}</Badge>
+        Labels <Badge v-if="selectedLabelIds.length > 0">{{ selectedLabelIds.length }}</Badge>
       </Button>
     </PopoverTrigger>
     <PopoverContent class="p-0 gap-2" align="start">
-      <Command>
+      <Command v-model="selectedLabelIds" multiple>
         <CommandInput placeholder="Search labels..." class="command-input" />
         <CommandList>
           <CommandEmpty>No labels found.</CommandEmpty>
           <CommandGroup class="max-h-52 overflow-auto">
-            <CommandItem v-for="label in labels" :value="label.id" :key="label.id" @select="onLabelSelect">
+            <CommandItem v-for="label in labels" :value="label.id" :key="label.id">
               <Checkbox :model-value="selectedLabelIds.includes(label.id)" tabindex="-1" id="name" />
               <Badge class="capitalize"
                 :style="{ color: COLORS.find(c => c.id === label.colorId)?.text, backgroundColor: COLORS.find(c => c.id === label.colorId)?.background }">
@@ -44,7 +44,6 @@
                 </Item>
               </PopoverContent>
             </Popover>
-            <!-- <input type="color" v-model="newLabelColor" class="w-6" /> -->
           </InputGroupAddon>
           <InputGroupInput v-model="newLabelName" placeholder="Create new label..."
             @keydown.enter.prevent="onAddNewLabel" />
@@ -69,25 +68,24 @@ import {
   CommandSeparator,
 } from '@/components/ui/command'
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
+import { COLORS } from '@/constants/colors.ts'
 import type { Label } from '@/types.ts'
 import { Plus, Tag } from '@lucide/vue'
-import type { AcceptableValue, PopoverArrow, SelectItemSelectEvent } from 'reka-ui'
 import { ref } from 'vue'
+import Badge from '../ui/badge/Badge.vue'
+import Button from '../ui/button/Button.vue'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import InputGroup from '../ui/input-group/InputGroup.vue'
 import InputGroupAddon from '../ui/input-group/InputGroupAddon.vue'
 import InputGroupButton from '../ui/input-group/InputGroupButton.vue'
 import InputGroupInput from '../ui/input-group/InputGroupInput.vue'
+import Item from '../ui/item/Item.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
-import { COLORS } from '@/constants/colors.ts'
-import Item from '../ui/item/Item.vue'
-import Button from '../ui/button/Button.vue'
-import Badge from '../ui/badge/Badge.vue'
 
-const selectedLabelIds = defineModel<Label['id'][]>({ default: () => [] })
+const selectedLabelIds = defineModel<Label['id'][]>('selectedLabelIds', { default: [] })
 
 const { labels, addLabel } = useCurrentBoard()
 
@@ -104,14 +102,6 @@ const onAddNewLabel = () => {
   })
   newLabelColor.value = COLORS.at(-1)?.id ?? ''
   newLabelName.value = ''
-}
-
-const onLabelSelect = (event: SelectItemSelectEvent<AcceptableValue>) => {
-  const labelId = event.detail.value as Label['id'] | undefined
-  if (!labelId) return
-  selectedLabelIds.value = selectedLabelIds.value.includes(labelId)
-    ? selectedLabelIds.value.filter((id) => id !== labelId)
-    : [...selectedLabelIds.value, labelId]
 }
 </script>
 

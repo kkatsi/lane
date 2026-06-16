@@ -7,21 +7,20 @@
       </Button>
     </PopoverTrigger>
     <PopoverContent class="p-0 gap-2" align="start">
-      <Command>
+      <Command v-model="selectedAssigneeId" @update:model-value="() => isAssigneePickerOpen = false">
         <CommandInput placeholder="Search assignees..." class="command-input" />
         <CommandList>
           <CommandEmpty>No assignees found.</CommandEmpty>
           <CommandGroup class="max-h-52 overflow-auto">
-            <CommandItem v-for="assignee in assignees" :value="assignee.id" :key="assignee.id"
-              @select="onAssigneeSelect">
-              <Initials :full-name="assignee.name" :color-id="assignee.colorId" />
+            <CommandItem v-for="assignee in assignees" :value="assignee.id" :key="assignee.id">
+              <Assignee :full-name="assignee.name" :color-id="assignee.colorId" />
               {{ assignee.name }}
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup>
-            <CommandItem :value="null" @select="onAssigneeSelect">
-              <Initials />
+            <CommandItem :value="null">
+              <Assignee />
               Unassigned
             </CommandItem>
           </CommandGroup>
@@ -41,20 +40,20 @@ import {
   CommandSeparator,
 } from '@/components/ui/command'
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
-import type { Assignee } from '@/types.ts'
+import type { Assignee as AssigneeType } from '@/types.ts'
 import { User } from '@lucide/vue'
 import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
 import { computed, ref } from 'vue'
-import Initials from '../Initials.vue'
 import Button from '../ui/button/Button.vue'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
+import Assignee from '../Assignee.vue'
 
 const isAssigneePickerOpen = ref<boolean>(false);
 
-const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId')
+const selectedAssigneeId = defineModel<AssigneeType['id'] | null>('selectedAssigneeId')
 
 const { assignees } = useCurrentBoard()
 
@@ -65,12 +64,6 @@ const popupTriggerAssigneeName = computed(() => {
   const [firstName, lastName] = name.split(' ');
   return `${firstName} ${lastName![0]}.`
 })
-
-const onAssigneeSelect = (event: SelectItemSelectEvent<AcceptableValue>) => {
-  const assigneeId = event.detail.value as Assignee['id'] | null
-  selectedAssigneeId.value = assigneeId
-  isAssigneePickerOpen.value = false;
-}
 </script>
 
 <style scoped></style>
