@@ -9,10 +9,10 @@
         {{ label.name }}
       </Badge>
     </div>
-    <CardTitle class="text-sm">
+    <CardTitle class="text-sm line-clamp-2">
       {{ props.title }}
     </CardTitle>
-    <CardDescription v-if="props.description" class="text-xs text-muted-foreground mt-1">
+    <CardDescription v-if="props.description" class="text-xs text-muted-foreground mt-1 line-clamp-3">
       {{ props.description }}
     </CardDescription>
     <CardFooter class="bg-card border-t-0 p-0 py-2 text-muted-foreground">
