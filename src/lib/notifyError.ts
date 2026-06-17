@@ -7,10 +7,8 @@ interface NotifyOptions {
   silent?: boolean; // E.g Don't surface it to the user, log it only on Sentry
 }
 
-const isNetworkError = (e: unknown): boolean =>
-  e instanceof TypeError && /fetch|network/i.test(e.message);
-const isStorageOutOfQuotaError = (e: unknown): boolean =>
-  e instanceof DOMException && e.name === "QuotaExceededError";
+const isNetworkError = (e: unknown): boolean => e instanceof TypeError && /fetch|network/i.test(e.message);
+const isStorageOutOfQuotaError = (e: unknown): boolean => e instanceof DOMException && e.name === "QuotaExceededError";
 
 export const notifyError = (error: unknown, options?: NotifyOptions) => {
   if (error instanceof ZodError) return;
@@ -22,8 +20,7 @@ export const notifyError = (error: unknown, options?: NotifyOptions) => {
   }
 
   if (isNetworkError(error) || !navigator.onLine) {
-    if (!options?.silent)
-      toast.error("Couldn't reach the server. Please check your internet connection.");
+    if (!options?.silent) toast.error("Couldn't reach the server. Please check your internet connection.");
     else console.error(error);
     return;
   }

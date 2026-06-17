@@ -22,9 +22,13 @@
           </DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
-              <DropdownMenuItem v-for="column in orderedColumns" :key="column.id"
-                :disabled="column.id === props.columnId" :text-value="column.title"
-                @select="() => onMoveTaskToColumnActionSelected(column.id)">
+              <DropdownMenuItem
+                v-for="column in orderedColumns"
+                :key="column.id"
+                :disabled="column.id === props.columnId"
+                :text-value="column.title"
+                @select="() => onMoveTaskToColumnActionSelected(column.id)"
+              >
                 {{ column.title }}
               </DropdownMenuItem>
             </DropdownMenuSubContent>
@@ -64,52 +68,50 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { useCurrentBoard } from '@/composables/useCurrentBoard.ts'
-import { cn, isDefined } from '@/lib/utils.ts'
-import type { Column } from '@/types.ts'
-import { computed, ref, type HTMLAttributes } from 'vue'
-import Button from '../ui/button/Button.vue'
-import DropdownMenu from '../ui/dropdown-menu/DropdownMenu.vue'
-import DropdownMenuContent from '../ui/dropdown-menu/DropdownMenuContent.vue'
-import DropdownMenuItem from '../ui/dropdown-menu/DropdownMenuItem.vue'
-import DropdownMenuSeparator from '../ui/dropdown-menu/DropdownMenuSeparator.vue'
-import DropdownMenuSub from '../ui/dropdown-menu/DropdownMenuSub.vue'
-import DropdownMenuSubContent from '../ui/dropdown-menu/DropdownMenuSubContent.vue'
-import DropdownMenuSubTrigger from '../ui/dropdown-menu/DropdownMenuSubTrigger.vue'
-import DropdownMenuTrigger from '../ui/dropdown-menu/DropdownMenuTrigger.vue'
-import { Edit2, Ellipsis, Maximize2, Move, Trash2 } from '@lucide/vue'
-import { DropdownMenuPortal } from 'reka-ui'
+} from "@/components/ui/alert-dialog";
+import { useCurrentBoard } from "@/composables/useCurrentBoard.ts";
+import { cn, isDefined } from "@/lib/utils.ts";
+import type { Column } from "@/types.ts";
+import { computed, ref, type HTMLAttributes } from "vue";
+import Button from "../ui/button/Button.vue";
+import DropdownMenu from "../ui/dropdown-menu/DropdownMenu.vue";
+import DropdownMenuContent from "../ui/dropdown-menu/DropdownMenuContent.vue";
+import DropdownMenuItem from "../ui/dropdown-menu/DropdownMenuItem.vue";
+import DropdownMenuSeparator from "../ui/dropdown-menu/DropdownMenuSeparator.vue";
+import DropdownMenuSub from "../ui/dropdown-menu/DropdownMenuSub.vue";
+import DropdownMenuSubContent from "../ui/dropdown-menu/DropdownMenuSubContent.vue";
+import DropdownMenuSubTrigger from "../ui/dropdown-menu/DropdownMenuSubTrigger.vue";
+import DropdownMenuTrigger from "../ui/dropdown-menu/DropdownMenuTrigger.vue";
+import { Edit2, Ellipsis, Maximize2, Move, Trash2 } from "@lucide/vue";
+import { DropdownMenuPortal } from "reka-ui";
 
 interface Props {
   taskId: string;
   columnId: string;
-  class?: HTMLAttributes['class']
+  class?: HTMLAttributes["class"];
   onTaskEdit?: () => void;
   onTaskOpen?: () => void;
 }
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const { columnOrder, columns, removeTask, moveTask } = useCurrentBoard()
+const { columnOrder, columns, removeTask, moveTask } = useCurrentBoard();
 
-const orderedColumns = computed(() =>
-  columnOrder.value.map((id) => columns.value[id]).filter(isDefined),
-)
+const orderedColumns = computed(() => columnOrder.value.map((id) => columns.value[id]).filter(isDefined));
 
 const isRemoveTaskAlertDialogOpen = ref<boolean>(false);
 
-const onMoveTaskToColumnActionSelected = (toColumnId: Column['id']) => {
+const onMoveTaskToColumnActionSelected = (toColumnId: Column["id"]) => {
   const toColumnTasksLength = columns.value[toColumnId]?.taskIds.length;
-  const toIndex = toColumnTasksLength ?? 0
-  moveTask(props.taskId, toColumnId, toIndex)
-}
+  const toIndex = toColumnTasksLength ?? 0;
+  moveTask(props.taskId, toColumnId, toIndex);
+};
 
 const onTaskRemoveActionSelect = () => {
   isRemoveTaskAlertDialogOpen.value = true;
-}
+};
 const onTaskRemoveConfirmation = () => {
-  removeTask(props.taskId)
-}
+  removeTask(props.taskId);
+};
 </script>
 
 <style scoped></style>

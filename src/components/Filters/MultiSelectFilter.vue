@@ -14,17 +14,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { FilterOption, Filter } from '@/types'
+import { computed } from "vue";
+import type { FilterOption, Filter } from "@/types";
 
 interface Props {
-  title: string
-  items: FilterOption[]
+  title: string;
+  items: FilterOption[];
 }
 
-const props = defineProps<Props>()
-const selected = defineModel<Filter['selected']>('selected')
-const selectedItemsCount = computed(() => selected.value?.length ?? 0)
+const props = defineProps<Props>();
+const selected = defineModel<Filter["selected"]>("selected");
+const selectedItemsCount = computed(() => selected.value?.length ?? 0);
 </script>
 
 <style scoped>

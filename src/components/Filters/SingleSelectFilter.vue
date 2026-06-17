@@ -13,17 +13,17 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import type { FilterOption, Filter } from '@/types'
+import { computed } from "vue";
+import type { FilterOption, Filter } from "@/types";
 
 interface Props {
-  title: string
-  items: FilterOption[]
+  title: string;
+  items: FilterOption[];
 }
 
-const props = defineProps<Props>()
-const selected = defineModel<Filter['selected']>('selected')
-const groupName = computed(() => props.title.replaceAll(' ', '').toLowerCase())
+const props = defineProps<Props>();
+const selected = defineModel<Filter["selected"]>("selected");
+const groupName = computed(() => props.title.replaceAll(" ", "").toLowerCase());
 </script>
 
 <style scoped>

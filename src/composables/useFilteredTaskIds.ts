@@ -24,8 +24,7 @@ export const useFilteredTaskIds = () => {
     const labelOk = labelSel.length === 0 || labelSel.some((id) => task.labelIds.includes(id));
 
     const assigneeSel = filters.assigneeId.selected;
-    const assigneeOk =
-      assigneeSel.length === 0 || assigneeSel.includes(task.assigneeId ?? "unassigned");
+    const assigneeOk = assigneeSel.length === 0 || assigneeSel.includes(task.assigneeId ?? "unassigned");
 
     return labelOk && assigneeOk;
   };

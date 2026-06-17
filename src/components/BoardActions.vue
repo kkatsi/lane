@@ -16,33 +16,35 @@
 </template>
 
 <script setup lang="ts">
-import { useFilteredTaskIds } from '@/composables/useFilteredTaskIds.ts'
-import { useUIStore } from '@/stores/ui'
-import { watchDebounced } from '@vueuse/core'
-import { computed, ref } from 'vue'
-import Filters from './Filters/Filters.vue'
-import Search from './Search.vue'
-import Button from './ui/button/Button.vue'
-import { Plus, Share } from '@lucide/vue'
+import { useFilteredTaskIds } from "@/composables/useFilteredTaskIds.ts";
+import { useUIStore } from "@/stores/ui";
+import { watchDebounced } from "@vueuse/core";
+import { computed, ref } from "vue";
+import Filters from "./Filters/Filters.vue";
+import Search from "./Search.vue";
+import Button from "./ui/button/Button.vue";
+import { Plus, Share } from "@lucide/vue";
 
 interface Props {
   onAddNewColumn: () => void;
 }
 const props = defineProps<Props>();
 
-const uiStore = useUIStore()
-const search = ref<string>('');
+const uiStore = useUIStore();
+const search = ref<string>("");
 
-watchDebounced(search, () => {
-  uiStore.searchQuery = search.value;
-}, { debounce: 300 })
+watchDebounced(
+  search,
+  () => {
+    uiStore.searchQuery = search.value;
+  },
+  { debounce: 300 },
+);
 
-const filteredTaskIds = useFilteredTaskIds()
-const resultsCount = computed(() => uiStore.searchQuery ? Object.values(filteredTaskIds.value).length : null)
+const filteredTaskIds = useFilteredTaskIds();
+const resultsCount = computed(() => (uiStore.searchQuery ? Object.values(filteredTaskIds.value).length : null));
 
-const onShare = () => {
-
-}
+const onShare = () => {};
 </script>
 
 <style scoped></style>

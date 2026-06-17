@@ -8,9 +8,9 @@
 </template>
 
 <script setup lang="ts">
-import BoardsGrid from '@/components/BoardsGrid.vue';
-import BoardsOverviewHeader from '@/components/BoardsOverviewHeader.vue';
-import { useFilteredBoards } from '@/composables/useFilteredBoards';
+import BoardsGrid from "@/components/BoardsGrid.vue";
+import BoardsOverviewHeader from "@/components/BoardsOverviewHeader.vue";
+import { useFilteredBoards } from "@/composables/useFilteredBoards";
 
 const boards = useFilteredBoards();
 </script>

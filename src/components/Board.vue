@@ -6,29 +6,30 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentBoard } from '@/composables/useCurrentBoard'
-import { isDefined } from '@/lib/utils.ts'
-import { computed, nextTick, useTemplateRef, watch, type ShallowRef } from 'vue'
-import Column from './Column.vue'
-import NewColumnComposer from './NewColumnComposer.vue';
+import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { isDefined } from "@/lib/utils.ts";
+import { computed, nextTick, useTemplateRef, watch, type ShallowRef } from "vue";
+import Column from "./Column.vue";
+import NewColumnComposer from "./NewColumnComposer.vue";
 
-const isAddingNewColumn = defineModel<boolean>('isAddingNewColumn');
+const isAddingNewColumn = defineModel<boolean>("isAddingNewColumn");
 
-const scrollableElement = useTemplateRef<HTMLDivElement>('scrollableElement')
+const scrollableElement = useTemplateRef<HTMLDivElement>("scrollableElement");
 
-watch(() => isAddingNewColumn.value, async (v) => {
-  if (!v) return;
-  await nextTick();
-  scrollableElement.value?.scrollTo({ left: scrollableElement.value.scrollWidth, behavior: 'smooth' })
-})
+watch(
+  () => isAddingNewColumn.value,
+  async (v) => {
+    if (!v) return;
+    await nextTick();
+    scrollableElement.value?.scrollTo({ left: scrollableElement.value.scrollWidth, behavior: "smooth" });
+  },
+);
 
-const { columnOrder, columns } = useCurrentBoard()
+const { columnOrder, columns } = useCurrentBoard();
 
-const orderedColumns = computed(() =>
-  columnOrder.value.map((id) => columns.value[id]).filter(isDefined),
-)
+const orderedColumns = computed(() => columnOrder.value.map((id) => columns.value[id]).filter(isDefined));
 
 const onAddNewColumnComposerClose = () => {
   isAddingNewColumn.value = false;
-}
+};
 </script>

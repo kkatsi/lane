@@ -14,9 +14,7 @@
               </template>
             </RouterLink>
           </BreadcrumbLink>
-          <BreadcrumbSeparator v-if="index !== matches.length - 1" class="mr-2">
-            /
-          </BreadcrumbSeparator>
+          <BreadcrumbSeparator v-if="index !== matches.length - 1" class="mr-2">/</BreadcrumbSeparator>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
@@ -27,20 +25,20 @@
 </template>
 
 <script setup lang="ts">
-import Logo from '@/assets/logo.svg?component';
-import { computed } from 'vue';
-import { RouterLink, useRoute, useRouter, type RouteRecordName, type RouterLinkProps } from 'vue-router';
-import ModeToggle from './ModeToggle.vue';
-import Breadcrumb from './ui/breadcrumb/Breadcrumb.vue';
-import BreadcrumbItem from './ui/breadcrumb/BreadcrumbItem.vue';
-import BreadcrumbLink from './ui/breadcrumb/BreadcrumbLink.vue';
-import BreadcrumbList from './ui/breadcrumb/BreadcrumbList.vue';
-import BreadcrumbSeparator from './ui/breadcrumb/BreadcrumbSeparator.vue';
-import { useCurrentBoard } from '@/composables/useCurrentBoard';
+import Logo from "@/assets/logo.svg?component";
+import { computed } from "vue";
+import { RouterLink, useRoute, useRouter, type RouteRecordName, type RouterLinkProps } from "vue-router";
+import ModeToggle from "./ModeToggle.vue";
+import Breadcrumb from "./ui/breadcrumb/Breadcrumb.vue";
+import BreadcrumbItem from "./ui/breadcrumb/BreadcrumbItem.vue";
+import BreadcrumbLink from "./ui/breadcrumb/BreadcrumbLink.vue";
+import BreadcrumbList from "./ui/breadcrumb/BreadcrumbList.vue";
+import BreadcrumbSeparator from "./ui/breadcrumb/BreadcrumbSeparator.vue";
+import { useCurrentBoard } from "@/composables/useCurrentBoard";
 
 interface BreadcrumbMatch {
   label: string;
-  to: RouterLinkProps['to'];
+  to: RouterLinkProps["to"];
 }
 
 const { name: boardName } = useCurrentBoard();
@@ -49,29 +47,29 @@ const router = useRouter();
 
 const buildCrumbLabel = (name: RouteRecordName | null) => {
   switch (name) {
-    case 'board':
+    case "board":
       return boardName.value;
-    case 'boards':
-      return 'Boards'
-    case 'new':
-      return 'Create new board'
-    case 'task':
-      return 'Edit task'
+    case "boards":
+      return "Boards";
+    case "new":
+      return "Create new board";
+    case "task":
+      return "Edit task";
     default:
-      return ''
+      return "";
   }
-}
+};
 const matches = computed(() => {
-  const segments = route.path.split('/').filter(Boolean)
-  const results: BreadcrumbMatch[] = [{ label: '', to: '/' }];
+  const segments = route.path.split("/").filter(Boolean);
+  const results: BreadcrumbMatch[] = [{ label: "", to: "/" }];
   for (const [index] of segments.entries()) {
-    const resolved = router.resolve('/' + segments.slice(0, index + 1).join('/'))
+    const resolved = router.resolve("/" + segments.slice(0, index + 1).join("/"));
     if (!resolved.name) continue;
     results.push({
       to: { name: resolved.name, params: resolved.params },
       label: buildCrumbLabel(resolved.name),
-    })
+    });
   }
-  return results
-})
+  return results;
+});
 </script>

@@ -1,9 +1,14 @@
 <template>
   <div class="flex items-center justify-between shrink-0 gap-2">
     <div class="flex items-center gap-2">
-      <input ref="columnTitleInputElement" v-if="isEditingColumnTitle" v-model="editedColumnTitle"
-        @keyup.enter="onEditColumnName" @focusout="onEditColumnName"
-        class="w-auto px-1 field-sizing-content max-w-[200px]" />
+      <input
+        ref="columnTitleInputElement"
+        v-if="isEditingColumnTitle"
+        v-model="editedColumnTitle"
+        @keyup.enter="onEditColumnName"
+        @focusout="onEditColumnName"
+        class="w-auto px-1 field-sizing-content max-w-[200px]"
+      />
       <span v-else @dblclick="onEditColumnNameActionSelect" class="truncate max-w-[200px] px-1">
         {{ props.columnTitle }}
       </span>
@@ -31,8 +36,13 @@
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem v-for="column in orderedColumns" :disabled="column.id === props.columnId"
-                  :key="column.id" :text-value="column.title" @select="() => onMoveAllTasksToColumn(column.id)">
+                <DropdownMenuItem
+                  v-for="column in orderedColumns"
+                  :disabled="column.id === props.columnId"
+                  :key="column.id"
+                  :text-value="column.title"
+                  @select="() => onMoveAllTasksToColumn(column.id)"
+                >
                   {{ column.title }}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
@@ -45,7 +55,6 @@
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
     </div>
   </div>
   <AlertDialog v-model:open="isRemoveColumnAlertDialogOpen">
@@ -66,21 +75,21 @@
 </template>
 
 <script setup lang="ts">
-import { useCurrentBoard } from '@/composables/useCurrentBoard'
-import { isDefined } from '@/lib/utils.ts'
-import type { Column } from '@/types'
-import { Edit2, Ellipsis, Move, Plus, Trash2 } from '@lucide/vue'
-import { computed, ref, useTemplateRef } from 'vue'
-import Badge from './ui/badge/Badge.vue'
-import Button from './ui/button/Button.vue'
-import DropdownMenu from './ui/dropdown-menu/DropdownMenu.vue'
-import DropdownMenuContent from './ui/dropdown-menu/DropdownMenuContent.vue'
-import DropdownMenuItem from './ui/dropdown-menu/DropdownMenuItem.vue'
-import DropdownMenuSeparator from './ui/dropdown-menu/DropdownMenuSeparator.vue'
-import DropdownMenuSub from './ui/dropdown-menu/DropdownMenuSub.vue'
-import DropdownMenuSubContent from './ui/dropdown-menu/DropdownMenuSubContent.vue'
-import DropdownMenuSubTrigger from './ui/dropdown-menu/DropdownMenuSubTrigger.vue'
-import DropdownMenuTrigger from './ui/dropdown-menu/DropdownMenuTrigger.vue'
+import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { isDefined } from "@/lib/utils.ts";
+import type { Column } from "@/types";
+import { Edit2, Ellipsis, Move, Plus, Trash2 } from "@lucide/vue";
+import { computed, ref, useTemplateRef } from "vue";
+import Badge from "./ui/badge/Badge.vue";
+import Button from "./ui/button/Button.vue";
+import DropdownMenu from "./ui/dropdown-menu/DropdownMenu.vue";
+import DropdownMenuContent from "./ui/dropdown-menu/DropdownMenuContent.vue";
+import DropdownMenuItem from "./ui/dropdown-menu/DropdownMenuItem.vue";
+import DropdownMenuSeparator from "./ui/dropdown-menu/DropdownMenuSeparator.vue";
+import DropdownMenuSub from "./ui/dropdown-menu/DropdownMenuSub.vue";
+import DropdownMenuSubContent from "./ui/dropdown-menu/DropdownMenuSubContent.vue";
+import DropdownMenuSubTrigger from "./ui/dropdown-menu/DropdownMenuSubTrigger.vue";
+import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -90,12 +99,12 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { DropdownMenuPortal } from 'reka-ui'
+} from "@/components/ui/alert-dialog";
+import { DropdownMenuPortal } from "reka-ui";
 
 interface Props {
-  columnTitle: Column['title']
-  columnId: Column['id']
+  columnTitle: Column["title"];
+  columnId: Column["id"];
   tasksLength: number;
   onAddNewTaskActionSelect: () => void;
 }
@@ -104,13 +113,11 @@ const props = defineProps<Props>();
 
 const { editColumnTitle, columns, columnOrder, moveAllColumnTasksToAnotherColumn, removeColumn } = useCurrentBoard();
 
-const orderedColumns = computed(() =>
-  columnOrder.value.map((id) => columns.value[id]).filter(isDefined),
-)
+const orderedColumns = computed(() => columnOrder.value.map((id) => columns.value[id]).filter(isDefined));
 
 const isRemoveColumnAlertDialogOpen = ref<boolean>(false);
 
-const columnTitleInputElement = useTemplateRef('columnTitleInputElement');
+const columnTitleInputElement = useTemplateRef("columnTitleInputElement");
 const isEditingColumnTitle = ref<boolean>(false);
 const editedColumnTitle = ref<string>(props.columnTitle);
 
@@ -119,23 +126,23 @@ const onEditColumnNameActionSelect = () => {
   setTimeout(() => {
     columnTitleInputElement.value?.focus();
   }, 0);
-}
+};
 
 const onEditColumnName = () => {
-  editColumnTitle(props.columnId, editedColumnTitle.value)
+  editColumnTitle(props.columnId, editedColumnTitle.value);
   isEditingColumnTitle.value = false;
-}
+};
 
-const onMoveAllTasksToColumn = (toColId: Column['id']) => {
-  moveAllColumnTasksToAnotherColumn(props.columnId, toColId)
-}
+const onMoveAllTasksToColumn = (toColId: Column["id"]) => {
+  moveAllColumnTasksToAnotherColumn(props.columnId, toColId);
+};
 
 const onColumnRemoveActionSelect = () => {
   isRemoveColumnAlertDialogOpen.value = true;
-}
+};
 const onColumnRemoveConfirmation = () => {
-  removeColumn(props.columnId)
-}
+  removeColumn(props.columnId);
+};
 </script>
 
 <style scoped></style>

@@ -9,13 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import type { BoardOverview as BoardOverviewType } from '@/types';
-import BoardOverviewCard from './BoardOverviewCard.vue';
-import CreateNewBoardCard from './CreateNewBoardCard.vue';
+import type { BoardOverview as BoardOverviewType } from "@/types";
+import BoardOverviewCard from "./BoardOverviewCard.vue";
+import CreateNewBoardCard from "./CreateNewBoardCard.vue";
 
 interface Props {
   title: string;
-  boards: Record<BoardOverviewType['id'], BoardOverviewType>;
+  boards: Record<BoardOverviewType["id"], BoardOverviewType>;
   canCreateNewBoard?: boolean | undefined;
 }
 const props = defineProps<Props>();

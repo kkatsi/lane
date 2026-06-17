@@ -1,8 +1,8 @@
 <template>
   <Popover v-model:open="isAssigneePickerOpen">
-    <slot />
+    <slot name="trigger" :display-name="displayName" />
     <PopoverContent class="p-0 gap-2" align="start">
-      <Command v-model="selectedAssigneeId" @update:model-value="() => isAssigneePickerOpen = false">
+      <Command v-model="selectedAssigneeId" @update:model-value="() => (isAssigneePickerOpen = false)">
         <CommandInput placeholder="Search assignees..." class="command-input" />
         <CommandList>
           <CommandEmpty>No assignees found.</CommandEmpty>
@@ -33,20 +33,28 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
-import { useCurrentBoard } from '@/composables/useCurrentBoard'
-import type { Assignee as AssigneeType } from '@/types.ts'
-import { ref } from 'vue'
-import Assignee from '../Assignee.vue'
-import CommandGroup from '../ui/command/CommandGroup.vue'
-import Popover from '../ui/popover/Popover.vue'
-import PopoverContent from '../ui/popover/PopoverContent.vue'
+} from "@/components/ui/command";
+import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import type { Assignee as AssigneeType } from "@/types.ts";
+import { computed, ref } from "vue";
+import Assignee from "../Assignee.vue";
+import CommandGroup from "../ui/command/CommandGroup.vue";
+import Popover from "../ui/popover/Popover.vue";
+import PopoverContent from "../ui/popover/PopoverContent.vue";
 
 const isAssigneePickerOpen = ref<boolean>(false);
 
-const selectedAssigneeId = defineModel<AssigneeType['id'] | null>('selectedAssigneeId')
+const selectedAssigneeId = defineModel<AssigneeType["id"] | null>("selectedAssigneeId");
 
-const { assignees } = useCurrentBoard()
+const { assignees } = useCurrentBoard();
+
+const displayName = computed(() => {
+  if (!selectedAssigneeId.value) return "Unassigned";
+  const name = assignees.value[selectedAssigneeId.value]?.name;
+  if (!name) return "Unassigned";
+  const [firstName, lastName] = name.split(" ");
+  return `${firstName} ${lastName![0]}.`;
+});
 </script>
 
 <style scoped></style>

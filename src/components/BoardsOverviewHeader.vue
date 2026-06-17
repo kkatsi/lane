@@ -14,24 +14,27 @@
 </template>
 
 <script setup lang="ts">
-import { watchDebounced } from '@vueuse/core';
-import { computed, ref } from 'vue';
-import Search from './Search.vue';
-import { useUIStore } from '@/stores/ui.ts';
-import { useFilteredBoards } from '@/composables/useFilteredBoards.ts';
-import Button from './ui/button/Button.vue';
-import { Plus } from '@lucide/vue';
+import { watchDebounced } from "@vueuse/core";
+import { computed, ref } from "vue";
+import Search from "./Search.vue";
+import { useUIStore } from "@/stores/ui.ts";
+import { useFilteredBoards } from "@/composables/useFilteredBoards.ts";
+import Button from "./ui/button/Button.vue";
+import { Plus } from "@lucide/vue";
 
 const uiStore = useUIStore();
-const search = ref<string>('');
+const search = ref<string>("");
 
-watchDebounced(search, () => {
-  uiStore.searchQuery = search.value;
-}, { debounce: 300 })
+watchDebounced(
+  search,
+  () => {
+    uiStore.searchQuery = search.value;
+  },
+  { debounce: 300 },
+);
 
 const filteredBoards = useFilteredBoards();
-const resultsCount = computed(() => uiStore.searchQuery ? filteredBoards.value.resultsCount : null)
-
+const resultsCount = computed(() => (uiStore.searchQuery ? filteredBoards.value.resultsCount : null));
 </script>
 
 <style scoped></style>

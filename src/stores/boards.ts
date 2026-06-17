@@ -1,7 +1,4 @@
-import {
-  buildKanbanColumnRelatedBoardProps,
-  buildSprintColumnRelatedBoardProps,
-} from "@/lib/builders";
+import { buildKanbanColumnRelatedBoardProps, buildSprintColumnRelatedBoardProps } from "@/lib/builders";
 import { boardsRepo } from "@/repositories/boards";
 import type { NewBoardValues } from "@/schemas/boardValidationSchema";
 import type { Board, BoardOverview, Column, Label, Task } from "@/types";
@@ -91,11 +88,7 @@ export const useBoardsStore = defineStore("boards", () => {
     return newBoard.id;
   };
 
-  const editColumnTitle = (
-    boardId: Board["id"],
-    columnId: Column["id"],
-    title: Column["title"],
-  ) => {
+  const editColumnTitle = (boardId: Board["id"], columnId: Column["id"], title: Column["title"]) => {
     const board = boards.value[boardId];
     const col = board?.columns[columnId];
     if (!board || !col) return;
@@ -104,11 +97,7 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
-  const moveAllColumnTasksToAnotherColumn = (
-    boardId: Board["id"],
-    fromColId: Column["id"],
-    toColId: Column["id"],
-  ) => {
+  const moveAllColumnTasksToAnotherColumn = (boardId: Board["id"], fromColId: Column["id"], toColId: Column["id"]) => {
     const board = boards.value[boardId];
     const fromCol = board?.columns[fromColId];
     const toCol = board?.columns[toColId];
@@ -169,11 +158,7 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
-  const updateTask = (
-    boardId: Board["id"],
-    taskId: Task["id"],
-    patch: Partial<Omit<Task, "id">>,
-  ) => {
+  const updateTask = (boardId: Board["id"], taskId: Task["id"], patch: Partial<Omit<Task, "id">>) => {
     const task = boards.value[boardId]?.tasks[taskId];
     if (!task) return;
     Object.assign(task, patch);
@@ -181,12 +166,7 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
-  const moveTask = (
-    boardId: Board["id"],
-    taskId: Task["id"],
-    toColumnId: Column["id"],
-    toIndex: number,
-  ) => {
+  const moveTask = (boardId: Board["id"], taskId: Task["id"], toColumnId: Column["id"], toIndex: number) => {
     const board = boards.value[boardId];
     const destination = board?.columns[toColumnId];
     if (!board || !destination) return;

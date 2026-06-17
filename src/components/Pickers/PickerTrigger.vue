@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { PopoverTriggerProps } from "reka-ui";
-import { PopoverTrigger } from "reka-ui";
+import PopoverTrigger from "../ui/popover/PopoverTrigger.vue";
 
 const props = defineProps<PopoverTriggerProps>();
 </script>
 
 <template>
-  <PopoverTrigger data-slot="popover-trigger" v-bind="props">
+  <PopoverTrigger v-bind="props">
     <slot />
   </PopoverTrigger>
 </template>
