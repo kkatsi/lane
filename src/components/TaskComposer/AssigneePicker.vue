@@ -1,11 +1,6 @@
 <template>
   <Popover v-model:open="isAssigneePickerOpen">
-    <PopoverTrigger as-child>
-      <Button size="xs" variant="ghost">
-        <User />
-        {{ popupTriggerAssigneeName }}
-      </Button>
-    </PopoverTrigger>
+    <slot />
     <PopoverContent class="p-0 gap-2" align="start">
       <Command v-model="selectedAssigneeId" @update:model-value="() => isAssigneePickerOpen = false">
         <CommandInput placeholder="Search assignees..." class="command-input" />
@@ -41,29 +36,17 @@ import {
 } from '@/components/ui/command'
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import type { Assignee as AssigneeType } from '@/types.ts'
-import { User } from '@lucide/vue'
-import type { AcceptableValue, SelectItemSelectEvent } from 'reka-ui'
-import { computed, ref } from 'vue'
-import Button from '../ui/button/Button.vue'
+import { ref } from 'vue'
+import Assignee from '../Assignee.vue'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
-import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
-import Assignee from '../Assignee.vue'
 
 const isAssigneePickerOpen = ref<boolean>(false);
 
 const selectedAssigneeId = defineModel<AssigneeType['id'] | null>('selectedAssigneeId')
 
 const { assignees } = useCurrentBoard()
-
-const popupTriggerAssigneeName = computed(() => {
-  if (!selectedAssigneeId.value) return 'Unassigned';
-  const name = assignees.value[selectedAssigneeId.value]?.name
-  if (!name) return 'Unassigned';
-  const [firstName, lastName] = name.split(' ');
-  return `${firstName} ${lastName![0]}.`
-})
 </script>
 
 <style scoped></style>

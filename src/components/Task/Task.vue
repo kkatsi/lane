@@ -1,8 +1,8 @@
 <template>
-  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block">
+  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block" @dblclick="onOpen">
     <TaskActionsDropdown
       class="float-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-has-data-[state=open]:opacity-100 transition-opacity"
-      :column-id="props.columnId" :task-id="props.id" @task-edit="() => isEditing = true" />
+      :column-id="props.columnId" :task-id="props.id" @task-edit="() => isEditing = true" @task-open="onOpen" />
     <div v-if="taskLabels.length > 0" class="flex gap-1 items-center flex-wrap mb-2">
       <Badge v-for="label in taskLabels" :key="label.id"
         :style="{ color: COLORS.find(c => c.id === label.colorId)?.text, backgroundColor: COLORS.find(c => c.id === label.colorId)?.background }">
@@ -45,11 +45,14 @@ import CardFooter from '../ui/card/CardFooter.vue'
 import CardTitle from '../ui/card/CardTitle.vue'
 import TaskActionsDropdown from './TaskActionsDropdown.vue'
 import CardDescription from '../ui/card/CardDescription.vue'
+import { useRouter } from 'vue-router'
 
 interface Props extends Task {
   columnId: string;
 }
+
 const props = defineProps<Props>()
+const router = useRouter()
 const isEditing = defineModel<boolean>('isEditing');
 const { labels, assignees, updateTask } = useCurrentBoard()
 
@@ -82,6 +85,10 @@ const onSubmit = (taskWithoutId: Omit<Task, 'id'>) => {
 }
 const onClose = () => {
   isEditing.value = false;
+}
+
+const onOpen = () => {
+  router.push({ name: 'task', params: { taskId: props.id } })
 }
 </script>
 

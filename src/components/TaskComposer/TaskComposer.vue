@@ -5,9 +5,31 @@
     <Textarea placeholder="Add a description (optional)" v-model="taskDescription" class="resize-none"
       name="description" id="description" rows="3" />
     <div class="flex items-center justify-between">
-      <LabelsPicker v-model:selected-label-ids="selectedLabelIds" />
-      <AssigneePicker v-model:selected-assignee-id="selectedAssigneeId" />
-      <DueDatePicker v-model:due-date="selectedDueDate" />
+      <LabelsPicker v-model:selected-label-ids="selectedLabelIds">
+        <PickerTrigger as-child>
+          <Button size="xs" variant="ghost">
+            <Tag />
+            Labels <Badge v-if="selectedLabelIds.length > 0">{{ selectedLabelIds.length }}</Badge>
+          </Button>
+        </PickerTrigger>
+      </LabelsPicker>
+      <AssigneePicker v-model:selected-assignee-id="selectedAssigneeId">
+        <PickerTrigger as-child>
+          <Button size="xs" variant="ghost">
+            <User />
+            {{ popupTriggerAssigneeName }}
+          </Button>
+        </PickerTrigger>
+      </AssigneePicker>
+      <DueDatePicker v-model:due-date="selectedDueDate">
+        <PickerTrigger as-child>
+          <Button size="xs" variant="ghost">
+            <Calendar1 />
+            <span v-if="selectedDueDate">{{ triggerButtonDisplayDate }}</span>
+            <span v-else>Due Date</span>
+          </Button>
+        </PickerTrigger>
+      </DueDatePicker>
     </div>
     <div class="flex items-center gap-2">
       <span class="text-xs text-muted-foreground flex items-center gap-1">
@@ -37,15 +59,18 @@
 <script setup lang="ts">
 import { newTaskSchema } from '@/schemas/taskValidationSchema.ts'
 import type { Assignee, Label, Task } from '@/types.ts'
-import { CornerDownLeft } from '@lucide/vue'
-import { onMounted, useTemplateRef } from 'vue'
+import { Calendar1, CornerDownLeft, Tag, User } from '@lucide/vue'
+import { computed, onMounted, useTemplateRef } from 'vue'
 import Button from '../ui/button/Button.vue'
 import Input from '../ui/input/Input.vue'
 import Kbd from '../ui/kbd/Kbd.vue'
 import Textarea from '../ui/textarea/Textarea.vue'
-import AssigneePicker from './AssigneePicker.vue'
 import DueDatePicker from './DueDatePicker.vue'
 import LabelsPicker from './LabelsPicker.vue'
+import { PopoverTrigger as PickerTrigger } from '../ui/popover/index.ts'
+import { useCurrentBoard } from '@/composables/useCurrentBoard.ts'
+import Badge from '../ui/badge/Badge.vue'
+import AssigneePicker from './AssigneePicker.vue'
 
 interface Props {
   columnId: string;
@@ -54,6 +79,8 @@ interface Props {
 }
 
 const props = defineProps<Props>()
+
+const { assignees } = useCurrentBoard();
 
 const titleRef = useTemplateRef<{ inputElement: HTMLInputElement | null }>('titleRef');
 const formElement = useTemplateRef<HTMLFormElement>('formElement');
@@ -67,6 +94,21 @@ const taskDescription = defineModel<Task['description']>('taskDescription', { de
 const selectedLabelIds = defineModel<Label['id'][]>('selectedLabelIds', { default: [] })
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId', { default: null })
 const selectedDueDate = defineModel<Date | null>('selectedDueDate', { default: null });
+
+const popupTriggerAssigneeName = computed(() => {
+  if (!selectedAssigneeId.value) return 'Unassigned';
+  const name = assignees.value[selectedAssigneeId.value]?.name
+  if (!name) return 'Unassigned';
+  const [firstName, lastName] = name.split(' ');
+  return `${firstName} ${lastName![0]}.`
+})
+
+const triggerButtonDisplayDate = computed(() =>
+  selectedDueDate.value?.toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: 'long',
+  }),
+)
 
 const onEnter = () => {
   formElement.value?.requestSubmit()

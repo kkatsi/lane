@@ -1,11 +1,6 @@
 <template>
   <Popover>
-    <PopoverTrigger as-child>
-      <Button size="xs" variant="ghost">
-        <Tag />
-        Labels <Badge v-if="selectedLabelIds.length > 0">{{ selectedLabelIds.length }}</Badge>
-      </Button>
-    </PopoverTrigger>
+    <slot />
     <PopoverContent class="p-0 gap-2" align="start">
       <Command v-model="selectedLabelIds" multiple>
         <CommandInput placeholder="Search labels..." class="command-input" />
@@ -70,10 +65,9 @@ import {
 import { useCurrentBoard } from '@/composables/useCurrentBoard'
 import { COLORS } from '@/constants/colors.ts'
 import type { Label } from '@/types.ts'
-import { Plus, Tag } from '@lucide/vue'
+import { Plus } from '@lucide/vue'
 import { ref } from 'vue'
 import Badge from '../ui/badge/Badge.vue'
-import Button from '../ui/button/Button.vue'
 import Checkbox from '../ui/checkbox/Checkbox.vue'
 import CommandGroup from '../ui/command/CommandGroup.vue'
 import InputGroup from '../ui/input-group/InputGroup.vue'

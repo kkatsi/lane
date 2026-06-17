@@ -23,6 +23,13 @@ const router = createRouter({
       path: "/boards/:boardId",
       name: "board",
       component: () => import("../views/Board.vue"),
+      children: [
+        {
+          path: "tasks/:taskId",
+          name: "task",
+          component: () => import("../views/Task.vue"),
+        },
+      ],
     },
   ],
 });

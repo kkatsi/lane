@@ -7,7 +7,7 @@
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent loop align="end">
-        <DropdownMenuItem text-value="open task">
+        <DropdownMenuItem text-value="open task" @select="onTaskOpen">
           <Maximize2 />
           Open card
         </DropdownMenuItem>
@@ -86,6 +86,7 @@ interface Props {
   columnId: string;
   class?: HTMLAttributes['class']
   onTaskEdit?: () => void;
+  onTaskOpen?: () => void;
 }
 const props = defineProps<Props>()
 

@@ -55,6 +55,8 @@ const buildCrumbLabel = (name: RouteRecordName | null) => {
       return 'Boards'
     case 'new':
       return 'Create new board'
+    case 'task':
+      return 'Edit task'
     default:
       return ''
   }

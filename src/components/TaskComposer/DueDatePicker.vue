@@ -1,12 +1,6 @@
 <template>
   <Popover v-model:open="isDueDatePickerOpen">
-    <PopoverTrigger as-child>
-      <Button size="xs" variant="ghost">
-        <Calendar1 />
-        <span v-if="dueDate">{{ triggerButtonDisplayDate }}</span>
-        <span v-else>Due Date</span>
-      </Button>
-    </PopoverTrigger>
+    <slot />
     <PopoverContent class="gap-3" align="start">
       <InputGroup>
         <InputGroupInput @input="commitFromTextInput" @keydown.enter.prevent="onSetDateClick" v-model="inputValue"
@@ -61,9 +55,10 @@
 <script setup lang="ts">
 import { calculateDaysFromToday } from '@/lib/dates.ts'
 import { getLocalTimeZone, type DateValue } from '@internationalized/date'
-import { Calendar1, CalendarArrowDown, Check, CornerDownLeft } from '@lucide/vue'
+import { CalendarArrowDown, Check, CornerDownLeft } from '@lucide/vue'
 import { parseDate } from 'chrono-node'
 import { computed, ref, type Ref } from 'vue'
+import Button from '../ui/button/Button.vue'
 import Calendar from '../ui/calendar/Calendar.vue'
 import InputGroup from '../ui/input-group/InputGroup.vue'
 import InputGroupAddon from '../ui/input-group/InputGroupAddon.vue'
@@ -72,12 +67,11 @@ import InputGroupInput from '../ui/input-group/InputGroupInput.vue'
 import Item from '../ui/item/Item.vue'
 import ItemContent from '../ui/item/ItemContent.vue'
 import ItemMedia from '../ui/item/ItemMedia.vue'
+import Kbd from '../ui/kbd/Kbd.vue'
 import Popover from '../ui/popover/Popover.vue'
 import PopoverContent from '../ui/popover/PopoverContent.vue'
 import PopoverTrigger from '../ui/popover/PopoverTrigger.vue'
 import Separator from '../ui/separator/Separator.vue'
-import Button from '../ui/button/Button.vue'
-import Kbd from '../ui/kbd/Kbd.vue'
 
 const dueDate = defineModel<Date | null>('dueDate');
 
@@ -87,13 +81,6 @@ const inputValue = ref('')
 const nativeLanguageDate = computed(() => parseDate(inputValue.value))
 const calendarDate = ref() as Ref<DateValue> | undefined;
 const tempDate = ref<Date | null>(null)
-
-const triggerButtonDisplayDate = computed(() =>
-  dueDate.value?.toLocaleDateString('en-US', {
-    day: '2-digit',
-    month: 'long',
-  }),
-)
 
 const detailedDisplayDate = computed(() =>
   tempDate.value?.toLocaleDateString('en-US', {

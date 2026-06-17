@@ -4,6 +4,7 @@
     <Separator />
     <Board v-model:is-adding-new-column="isAddingNewColumn" />
   </div>
+  <router-view />
 </template>
 
 <script setup lang="ts">
