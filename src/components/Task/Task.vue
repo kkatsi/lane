@@ -1,5 +1,5 @@
 <template>
-  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block" @dblclick="onOpen">
+  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block" @click="onOpen">
     <TaskActionsDropdown
       class="float-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-has-data-[state=open]:opacity-100 transition-opacity"
       :column-id="props.columnId"
