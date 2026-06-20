@@ -38,9 +38,8 @@
         <span class="text-xs text-muted-foreground flex items-center gap-1">
           <Kbd>
             <CornerDownLeft :size="10" />
-            Set
           </Kbd>
-          Select
+          Set
         </span>
         <span class="text-xs text-muted-foreground flex items-center gap-1">
           <Kbd>Esc</Kbd>
@@ -75,14 +74,14 @@ import PopoverContent from "../ui/popover/PopoverContent.vue";
 import PopoverTrigger from "../ui/popover/PopoverTrigger.vue";
 import Separator from "../ui/separator/Separator.vue";
 
-const dueDate = defineModel<Date | null>("dueDate");
+const dueDate = defineModel<string | null>("dueDate");
 
 const isCalendarOpen = ref(false);
 const isDueDatePickerOpen = ref(false);
 const inputValue = ref("");
 const nativeLanguageDate = computed(() => parseDate(inputValue.value));
 const calendarDate = ref() as Ref<DateValue> | undefined;
-const tempDate = ref<Date | null>(null);
+const tempDate = ref<Date | null>(dueDate.value ? new Date(dueDate.value) : null);
 
 const detailedDisplayDate = computed(() =>
   tempDate.value?.toLocaleDateString("en-US", {
@@ -93,10 +92,12 @@ const detailedDisplayDate = computed(() =>
 );
 
 const triggerDisplayDate = computed(() =>
-  dueDate.value?.toLocaleDateString("en-US", {
-    day: "2-digit",
-    month: "long",
-  }),
+  dueDate.value
+    ? new Date(dueDate.value).toLocaleDateString("en-US", {
+        day: "2-digit",
+        month: "long",
+      })
+    : undefined,
 );
 
 const daysFromToday = computed(() => (tempDate.value ? calculateDaysFromToday(tempDate.value) : 0));
@@ -120,7 +121,7 @@ const commitFromCalendar = (value?: DateValue) => {
   hideCalendarPopover();
 };
 const onSetDateClick = () => {
-  dueDate.value = tempDate.value;
+  dueDate.value = tempDate.value ? tempDate.value.toISOString() : null;
   hideDueDatePicker();
   resetTextInput();
 };

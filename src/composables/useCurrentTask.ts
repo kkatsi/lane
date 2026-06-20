@@ -1,4 +1,5 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { isDefined } from "@/lib/utils";
 import { useBoardsStore } from "@/stores/boards";
 import type { Task } from "@/types";
 import { computed } from "vue";
@@ -18,11 +19,10 @@ export const useCurrentTask = () => {
   const assigneeId = computed(() => task.value?.assigneeId ?? null);
   const dueDate = computed(() => task.value?.dueDate ?? null);
 
-  const taskLabels = computed(() => labelIds.value.map((id) => labels.value[id]).filter(Boolean));
+  const taskLabels = computed(() => labelIds.value.map((id) => labels.value[id]).filter(isDefined));
   const assignee = computed(() => (assigneeId.value ? assignees.value[assigneeId.value] : undefined));
 
-  const updateTask = (patch: Partial<Omit<Task, "id">>) =>
-    boardsStore.updateTask(boardId.value, taskId.value, patch);
+  const updateTask = (patch: Partial<Omit<Task, "id">>) => boardsStore.updateTask(boardId.value, taskId.value, patch);
   const removeTask = () => boardsStore.removeTask(boardId.value, taskId.value);
 
   return {

@@ -1,5 +1,5 @@
 <template>
-  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block" @click="onOpen">
+  <Card v-if="!isEditing" class="py-2 gap-2 group px-2.5 block cursor-pointer" @click="onOpen">
     <TaskActionsDropdown
       class="float-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-has-data-[state=open]:opacity-100 transition-opacity"
       :column-id="props.columnId"
@@ -34,7 +34,6 @@
         v-if="!!assignee"
         class="ml-auto"
         :full-name="assignee?.name"
-        size="sm"
         :color-id="assignee?.colorId"
         display-fullname
       />
@@ -83,7 +82,7 @@ const editTitle = ref(props.title);
 const editAssigneeId = ref(props.assigneeId);
 const editLabelIds = ref([...props.labelIds]);
 const editDescription = ref(props.description);
-const editDueDate = ref(props.dueDate ? new Date(props.dueDate) : null);
+const editDueDate = ref(props.dueDate ?? null);
 
 const assignee = computed(() => {
   if (!props.assigneeId) return undefined;

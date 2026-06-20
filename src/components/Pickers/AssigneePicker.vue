@@ -15,7 +15,7 @@
           <CommandSeparator />
           <CommandGroup>
             <CommandItem :value="null">
-              <Assignee />
+              <Assignee size="lg" />
               Unassigned
             </CommandItem>
           </CommandGroup>

@@ -4,7 +4,7 @@
     @click="() => (isTitleEditable = true)"
     class="min-w-0 max-w-[calc(100%-30px)] py-1 px-2 rounded-lg hover:bg-muted-foreground/25 hover:cursor-pointer"
   >
-    {{ task?.title }}
+    {{ title }}
   </span>
   <textarea
     v-else
@@ -25,13 +25,14 @@ const vFocus: Directive<HTMLElement> = {
   mounted: (el) => nextTick(() => el.focus()),
 };
 
-const { task } = useCurrentTask();
+const { title, updateTask } = useCurrentTask();
 const isTitleEditable = ref<boolean>(false);
 
-const titleRef = ref<string | undefined>(task.value?.title);
+const titleRef = ref<string | undefined>(title.value);
 
 const onChange = () => {
-  console.log(titleRef.value);
+  updateTask({ title: titleRef.value });
+  isTitleEditable.value = false;
 };
 </script>
 

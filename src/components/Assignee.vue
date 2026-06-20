@@ -1,21 +1,16 @@
 <template>
-  <div class="flex items-center gap-1">
+  <div :class="cn('flex items-center gap-1 text-muted-foreground', props.class)">
     <div
       v-if="!!initials"
-      :class="
-        cn(
-          sizeClasses[props.size],
-          'rounded-full uppercase flex justify-center items-center border border-muted-foreground',
-        )
-      "
+      class="w-5.5 h-5.5 text-xs rounded-full uppercase flex justify-center items-center border border-muted-foreground'"
       :style="{ backgroundColor: color?.background, color: color?.text }"
     >
       {{ initials }}
     </div>
-    <div v-else :class="cn(sizeClasses[props.size], 'rounded-full uppercase flex justify-center items-center')">
+    <div v-else class="w-5.5 h-5.5 text-xs rounded-full uppercase flex justify-center items-center">
       <UserX :size="20" />
     </div>
-    <span v-if="props.displayFullname" class="text-xs capitalize text-muted-foreground">
+    <span v-if="props.displayFullname" :class="cn(textSizeClasses[props.size], 'capitalize')">
       <template v-if="!!initials">
         {{ props.fullName }}
       </template>
@@ -28,23 +23,24 @@
 import { COLORS } from "@/constants/colors";
 import { cn } from "@/lib/utils";
 import { UserX } from "@lucide/vue";
-import { computed } from "vue";
+import { computed, type HTMLAttributes } from "vue";
 
 interface Props {
   fullName?: string;
-  size?: "base" | "sm";
+  size?: "base" | "lg";
   colorId?: string;
   displayFullname?: boolean;
+  class?: HTMLAttributes["class"];
 }
 const props = withDefaults(defineProps<Props>(), {
   size: "base",
   displayFullname: false,
 });
 
-const color = COLORS.find((c) => c.id === props.colorId);
-const sizeClasses = {
-  sm: "w-5.5 h-5.5 text-xs",
-  base: "w-7 h-7 text-sm",
+const color = computed(() => COLORS.find((c) => c.id === props.colorId));
+const textSizeClasses = {
+  base: "text-xs",
+  lg: "text-sm",
 };
 
 const initials = computed(() => {

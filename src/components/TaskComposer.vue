@@ -93,7 +93,7 @@ const taskTitle = defineModel<Task['title']>('taskTitle', { default: '' });
 const taskDescription = defineModel<Task['description']>('taskDescription', { default: '' });
 const selectedLabelIds = defineModel<Label['id'][]>('selectedLabelIds', { default: [] })
 const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId', { default: null })
-const selectedDueDate = defineModel<Date | null>('selectedDueDate', { default: null });
+const selectedDueDate = defineModel<Task['dueDate']>('selectedDueDate', { default: null });
 
 const onEnter = () => {
   formElement.value?.requestSubmit()
@@ -107,7 +107,7 @@ const onSubmit = (e: SubmitEvent) => {
     description: taskDescription.value,
     labelIds: selectedLabelIds.value,
     assigneeId: selectedAssigneeId.value,
-    dueDate: selectedDueDate.value?.toISOString() || null,
+    dueDate: selectedDueDate.value || null,
   })
 
   if (!result.success) {

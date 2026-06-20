@@ -1,5 +1,5 @@
 <template>
-  <div :class="cn('ml-auto', props.class)">
+  <div :class="cn('ml-auto', props.class)" @click.stop>
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Button variant="ghost" size="sm" class="p-1 h-auto">

@@ -26,7 +26,6 @@
                 class="-ml-1"
                 v-for="assignee in props.firstTwoAssignees"
                 :key="assignee.id"
-                size="sm"
                 :full-name="assignee.name"
                 :color-id="assignee.colorId"
               />
