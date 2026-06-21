@@ -4,13 +4,21 @@
       <span>COMMENTS</span>
       <Badge variant="outline">{{ commentsCount }}</Badge>
     </div>
+    <div>
+      <Comment v-for="comment in comments" :key="comment.id" v-bind="comment" />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { useCurrentTask } from "@/composables/useCurrentTask.ts";
 import Badge from "../ui/badge/Badge.vue";
+import { computed } from "vue";
+import Comment from "./Comment.vue";
 
-const commentsCount = 2;
+const { comments } = useCurrentTask();
+
+const commentsCount = computed(() => comments.value.length);
 </script>
 
 <style scoped></style>

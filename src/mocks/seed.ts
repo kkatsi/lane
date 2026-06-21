@@ -69,6 +69,26 @@ const boardsSeed: Record<Board["id"], Board> = {
         assigneeId: "elena",
         dueDate: "2026-06-20T12:00:00+00:00",
         labelIds: ["bug"],
+        comments: [
+          {
+            id: "c10-1",
+            assigneeId: "yannis",
+            text: "Reproduced on Safari 17.4 — the click handler never fires. Console shows no errors.",
+            updatedAt: "2026-06-15T10:12:00+00:00",
+          },
+          {
+            id: "c10-2",
+            assigneeId: "elena",
+            text: "Looks like a passive event listener swallowing the tap. Digging into the form wrapper now.",
+            updatedAt: "2026-06-15T13:48:00+00:00",
+          },
+          {
+            id: "c10-3",
+            assigneeId: "yannis",
+            text: "Confirmed. Works fine in Chrome and Firefox, so scoping the fix to the Safari path.",
+            updatedAt: "2026-06-16T08:30:00+00:00",
+          },
+        ],
       },
       "11": {
         id: "11",
@@ -77,6 +97,20 @@ const boardsSeed: Record<Board["id"], Board> = {
         assigneeId: "yannis",
         dueDate: "2026-06-22T12:00:00+00:00",
         labelIds: ["bug", "urgent"],
+        comments: [
+          {
+            id: "c11-1",
+            assigneeId: "elena",
+            text: "The client-side size check is missing entirely — uploads only fail server-side after the full transfer.",
+            updatedAt: "2026-06-17T09:05:00+00:00",
+          },
+          {
+            id: "c11-2",
+            assigneeId: "yannis",
+            text: "Adding a pre-upload validation with a clear error message. Will cap at 10MB to match the backend.",
+            updatedAt: "2026-06-17T15:22:00+00:00",
+          },
+        ],
       },
     },
     labels: {

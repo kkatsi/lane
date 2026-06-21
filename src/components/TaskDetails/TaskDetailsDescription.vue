@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4 flex flex-col gap-1">
+  <div class="py-4 pb-2 flex flex-col gap-1">
     <span class="font-light tracking-wider text-xs px-2">DESCRIPTION</span>
     <span
       v-if="!isDescriptionEditable"

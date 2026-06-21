@@ -18,6 +18,7 @@ export const useCurrentTask = () => {
   const labelIds = computed(() => task.value?.labelIds ?? []);
   const assigneeId = computed(() => task.value?.assigneeId ?? null);
   const dueDate = computed(() => task.value?.dueDate ?? null);
+  const comments = computed(() => task.value?.comments ?? []);
 
   const taskLabels = computed(() => labelIds.value.map((id) => labels.value[id]).filter(isDefined));
   const assignee = computed(() => (assigneeId.value ? assignees.value[assigneeId.value] : undefined));
@@ -33,6 +34,7 @@ export const useCurrentTask = () => {
     labelIds,
     assigneeId,
     dueDate,
+    comments,
     labels: taskLabels,
     assignee,
     updateTask,

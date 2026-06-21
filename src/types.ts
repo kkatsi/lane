@@ -5,6 +5,7 @@ export interface Task {
   labelIds: Label["id"][];
   assigneeId?: string | null;
   dueDate?: string | null;
+  comments?: Comment[];
 }
 
 export interface Column {
@@ -52,6 +53,13 @@ export interface BoardOverview extends Pick<
   tasksCount: number;
   restAssigneesCount: number;
   firstTwoAssignees: Assignee[];
+}
+
+export interface Comment {
+  id: string;
+  assigneeId: string;
+  text: string;
+  updatedAt: string; //timestamp UTC
 }
 
 export type FilterableKey = Exclude<keyof Task, "id" | "title" | "description">;
