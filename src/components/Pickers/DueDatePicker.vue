@@ -46,6 +46,7 @@
           Cancel
         </span>
         <div class="flex items-center gap-1 ml-auto">
+          <Button @click="onClear" size="sm" variant="ghost">Clear</Button>
           <Button @click="onSetDateClick" size="sm" :disabled="!tempDate">Set Date</Button>
         </div>
       </div>
@@ -119,6 +120,11 @@ const commitFromCalendar = (value?: DateValue) => {
   tempDate.value = value?.toDate(getLocalTimeZone());
   resetTextInput();
   hideCalendarPopover();
+};
+const onClear = () => {
+  dueDate.value = "";
+  hideDueDatePicker();
+  resetTextInput();
 };
 const onSetDateClick = () => {
   dueDate.value = tempDate.value ? tempDate.value.toISOString() : null;

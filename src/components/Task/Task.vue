@@ -14,11 +14,20 @@
     <CardDescription v-if="props.description" class="text-xs text-muted-foreground mt-1 line-clamp-3">
       {{ props.description }}
     </CardDescription>
-    <CardFooter v-if="!!displayDate || !!assignee" class="bg-card border-t-0 p-0 my-2 text-muted-foreground">
-      <span v-if="!!displayDate" class="text-xs flex items-center gap-1">
-        <Calendar1 :size="10" />
-        {{ displayDate }}
-      </span>
+    <CardFooter
+      v-if="!!displayDate || !!assignee || !!props.comments?.length"
+      class="bg-card border-t-0 p-0 my-2 text-muted-foreground"
+    >
+      <div class="flex gap-2 items-center">
+        <span v-if="!!displayDate" class="text-xs flex items-center gap-1">
+          <Calendar1 :size="10" />
+          {{ displayDate }}
+        </span>
+        <span v-if="props.comments?.length" class="text-xs flex items-center gap-1">
+          <MessageSquareText :size="10" />
+          {{ props.comments.length }}
+        </span>
+      </div>
       <Assignee
         v-if="!!assignee"
         class="ml-auto"
@@ -45,7 +54,7 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { isDefined } from "@/lib/utils";
 import type { Task } from "@/types";
-import { Calendar1 } from "@lucide/vue";
+import { Calendar1, MessageSquareText } from "@lucide/vue";
 import { computed, ref } from "vue";
 import Assignee from "../Assignee.vue";
 import LabelList from "../LabelList.vue";

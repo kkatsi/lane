@@ -7,10 +7,21 @@
     >
       {{ initials }}
     </div>
-    <div v-else class="w-5.5 h-5.5 text-xs rounded-full uppercase flex justify-center items-center">
+    <div
+      v-else
+      :class="
+        cn(
+          !initials && 'text-muted-foreground',
+          'w-5.5 h-5.5 text-xs rounded-full uppercase flex justify-center items-center',
+        )
+      "
+    >
       <UserX :size="20" />
     </div>
-    <span v-if="props.displayFullname" :class="cn(textSizeClasses[props.size], 'capitalize')">
+    <span
+      v-if="props.displayFullname"
+      :class="cn(textSizeClasses[props.size], 'capitalize', !initials && 'text-muted-foreground')"
+    >
       <template v-if="!!initials">
         {{ props.fullName }}
       </template>

@@ -2,16 +2,19 @@
   <div class="p-2 grid grid-cols-[20%_80%] items-center">
     <span class="font-light tracking-wider text-xs">DUE DATE</span>
     <div class="flex gap-2 items-center">
-      <div class="flex items-center gap-2">
+      <div v-if="!!displayDate" class="flex items-center gap-2">
         <Calendar1 :size="16" />
         <span :class="displayDate ? 'text-foreground' : 'text-muted-foreground'">
           {{ displayDate }}
         </span>
       </div>
+      <span v-else class="text-sm text-muted-foreground">No due date</span>
       <DueDatePicker v-model:due-date="selectedDueDate">
         <template v-slot:trigger>
           <PickerTrigger as-child>
-            <Button variant="ghost" size="sm" class="ml-auto">Change</Button>
+            <Button variant="ghost" size="sm" class="ml-auto">
+              {{ !displayDate ? "Set date" : "Change" }}
+            </Button>
           </PickerTrigger>
         </template>
       </DueDatePicker>
