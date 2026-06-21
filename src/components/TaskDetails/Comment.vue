@@ -23,6 +23,7 @@ import type { Comment } from "@/types.ts";
 import Assignee from "../Assignee.vue";
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useTimeAgo } from "@vueuse/core";
+import { computed } from "vue";
 
 interface Props extends Comment {}
 
@@ -30,7 +31,7 @@ const props = defineProps<Props>();
 
 const { assignees } = useCurrentBoard();
 
-const assignee = Object.values(assignees.value).find((a) => a.id === props.assigneeId);
+const assignee = computed(() => assignees.value[props.assigneeId]);
 
 const timeAgo = useTimeAgo(() => props.updatedAt);
 </script>

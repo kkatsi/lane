@@ -1,7 +1,7 @@
 <template>
   <Dialog default-open @update:open="onOpenUpdate">
     <DialogContent class="p-2 gap-2">
-      <DialogHeader class="min-w-0 gap-1">
+      <DialogHeader class="min-w-0 gap-1 fixed">
         <DialogTitle class="flex items-center">
           <TaskDetailsTitle />
         </DialogTitle>
