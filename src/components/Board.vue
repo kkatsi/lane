@@ -9,7 +9,7 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { isDefined } from "@/lib/utils.ts";
 import { computed, nextTick, useTemplateRef, watch, type ShallowRef } from "vue";
-import Column from "./Column.vue";
+import Column from "./Column/Column.vue";
 import NewColumnComposer from "./NewColumnComposer.vue";
 
 const isAddingNewColumn = defineModel<boolean>("isAddingNewColumn");

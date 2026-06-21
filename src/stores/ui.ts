@@ -34,5 +34,7 @@ export const useUIStore = defineStore("ui", () => {
     },
   });
 
-  return { searchQuery, filters };
+  const isDragging = ref<boolean>(false);
+
+  return { searchQuery, filters, isDragging };
 });

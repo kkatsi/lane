@@ -62,7 +62,7 @@ export interface Comment {
   updatedAt: string; //timestamp UTC
 }
 
-export type FilterableKey = Exclude<keyof Task, "id" | "title" | "description">;
+export type FilterableKey = Extract<keyof Task, "dueDate" | "assigneeId" | "labelIds">;
 
 export type FilterOption = { id: string; label: string };
 

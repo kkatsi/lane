@@ -80,16 +80,16 @@ import { isDefined } from "@/lib/utils.ts";
 import type { Column } from "@/types";
 import { Edit2, Ellipsis, Move, Plus, Trash2 } from "@lucide/vue";
 import { computed, ref, useTemplateRef } from "vue";
-import Badge from "./ui/badge/Badge.vue";
-import Button from "./ui/button/Button.vue";
-import DropdownMenu from "./ui/dropdown-menu/DropdownMenu.vue";
-import DropdownMenuContent from "./ui/dropdown-menu/DropdownMenuContent.vue";
-import DropdownMenuItem from "./ui/dropdown-menu/DropdownMenuItem.vue";
-import DropdownMenuSeparator from "./ui/dropdown-menu/DropdownMenuSeparator.vue";
-import DropdownMenuSub from "./ui/dropdown-menu/DropdownMenuSub.vue";
-import DropdownMenuSubContent from "./ui/dropdown-menu/DropdownMenuSubContent.vue";
-import DropdownMenuSubTrigger from "./ui/dropdown-menu/DropdownMenuSubTrigger.vue";
-import DropdownMenuTrigger from "./ui/dropdown-menu/DropdownMenuTrigger.vue";
+import Badge from "../ui/badge/Badge.vue";
+import Button from "../ui/button/Button.vue";
+import DropdownMenu from "../ui/dropdown-menu/DropdownMenu.vue";
+import DropdownMenuContent from "../ui/dropdown-menu/DropdownMenuContent.vue";
+import DropdownMenuItem from "../ui/dropdown-menu/DropdownMenuItem.vue";
+import DropdownMenuSeparator from "../ui/dropdown-menu/DropdownMenuSeparator.vue";
+import DropdownMenuSub from "../ui/dropdown-menu/DropdownMenuSub.vue";
+import DropdownMenuSubContent from "../ui/dropdown-menu/DropdownMenuSubContent.vue";
+import DropdownMenuSubTrigger from "../ui/dropdown-menu/DropdownMenuSubTrigger.vue";
+import DropdownMenuTrigger from "../ui/dropdown-menu/DropdownMenuTrigger.vue";
 import {
   AlertDialog,
   AlertDialogAction,
