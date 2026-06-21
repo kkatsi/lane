@@ -3,14 +3,14 @@
     <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem v-for="(routeMatch, index) in matches" :key="routeMatch.label">
-          <BreadcrumbLink as-child class="text-base flex items-center gap-2 mr-2">
+          <BreadcrumbLink as-child class="text-base flex items-center gap-2 mr-2 min-w-0">
             <RouterLink :to="routeMatch.to">
               <template v-if="index === 0">
                 <Logo class="h-8 w-8" />
                 <span class="text-lg font-semibold text-foreground">Lane</span>
               </template>
               <template v-else>
-                {{ routeMatch.label }}
+                <span class="block truncate max-w-[220px]">{{ routeMatch.label }}</span>
               </template>
             </RouterLink>
           </BreadcrumbLink>
@@ -35,6 +35,7 @@ import BreadcrumbLink from "./ui/breadcrumb/BreadcrumbLink.vue";
 import BreadcrumbList from "./ui/breadcrumb/BreadcrumbList.vue";
 import BreadcrumbSeparator from "./ui/breadcrumb/BreadcrumbSeparator.vue";
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { useCurrentTask } from "@/composables/useCurrentTask.ts";
 
 interface BreadcrumbMatch {
   label: string;
@@ -42,6 +43,7 @@ interface BreadcrumbMatch {
 }
 
 const { name: boardName } = useCurrentBoard();
+const { task } = useCurrentTask();
 const route = useRoute();
 const router = useRouter();
 
@@ -54,7 +56,7 @@ const buildCrumbLabel = (name: RouteRecordName | null) => {
     case "new":
       return "Create new board";
     case "task":
-      return "Edit task";
+      return task.value?.title ?? "Edit Task";
     default:
       return "";
   }

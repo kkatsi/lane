@@ -31,7 +31,7 @@ const props = defineProps<Props>();
 
 const { assignees } = useCurrentBoard();
 
-const assignee = computed(() => assignees.value[props.assigneeId]);
+const assignee = computed(() => (props.assigneeId ? assignees.value[props.assigneeId] : null));
 
 const timeAgo = useTimeAgo(() => props.updatedAt);
 </script>

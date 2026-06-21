@@ -7,18 +7,7 @@
       @task-edit="() => (isEditing = true)"
       @task-open="onOpen"
     />
-    <div v-if="taskLabels.length > 0" class="flex gap-1 items-center flex-wrap mb-2">
-      <Badge
-        v-for="label in taskLabels"
-        :key="label.id"
-        :style="{
-          color: COLORS.find((c) => c.id === label.colorId)?.text,
-          backgroundColor: COLORS.find((c) => c.id === label.colorId)?.background,
-        }"
-      >
-        {{ label.name }}
-      </Badge>
-    </div>
+    <LabelList v-if="taskLabels.length > 0" :labels="taskLabels" class="gap-1 mb-2" />
     <CardTitle class="text-sm line-clamp-2">
       {{ props.title }}
     </CardTitle>
@@ -54,14 +43,13 @@
 
 <script setup lang="ts">
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
-import { COLORS } from "@/constants/colors";
 import { isDefined } from "@/lib/utils";
 import type { Task } from "@/types";
 import { Calendar1 } from "@lucide/vue";
 import { computed, ref } from "vue";
 import Assignee from "../Assignee.vue";
+import LabelList from "../LabelList.vue";
 import TaskComposer from "../TaskComposer.vue";
-import Badge from "../ui/badge/Badge.vue";
 import Card from "../ui/card/Card.vue";
 import CardFooter from "../ui/card/CardFooter.vue";
 import CardTitle from "../ui/card/CardTitle.vue";

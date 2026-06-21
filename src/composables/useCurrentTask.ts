@@ -1,7 +1,7 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { isDefined } from "@/lib/utils";
 import { useBoardsStore } from "@/stores/boards";
-import type { Task } from "@/types";
+import type { Comment, Task } from "@/types";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
@@ -25,6 +25,9 @@ export const useCurrentTask = () => {
 
   const updateTask = (patch: Partial<Omit<Task, "id">>) => boardsStore.updateTask(boardId.value, taskId.value, patch);
   const removeTask = () => boardsStore.removeTask(boardId.value, taskId.value);
+  const addComment = (commentText: Comment["text"], assigneeId: Comment["assigneeId"]) => {
+    boardsStore.addComment(boardId.value, taskId.value, commentText, assigneeId);
+  };
 
   return {
     task,
@@ -39,5 +42,6 @@ export const useCurrentTask = () => {
     assignee,
     updateTask,
     removeTask,
+    addComment,
   };
 };

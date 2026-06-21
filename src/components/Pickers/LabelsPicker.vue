@@ -9,15 +9,7 @@
           <CommandGroup class="max-h-52 overflow-auto">
             <CommandItem v-for="label in labels" :value="label.id" :key="label.id">
               <Checkbox :model-value="selectedLabelIds.includes(label.id)" tabindex="-1" id="name" />
-              <Badge
-                class="capitalize"
-                :style="{
-                  color: COLORS.find((c) => c.id === label.colorId)?.text,
-                  backgroundColor: COLORS.find((c) => c.id === label.colorId)?.background,
-                }"
-              >
-                {{ label.name }}
-              </Badge>
+              <LabelBadge :label="label" />
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
@@ -89,7 +81,7 @@ import { COLORS } from "@/constants/colors.ts";
 import type { Label } from "@/types.ts";
 import { Plus } from "@lucide/vue";
 import { ref } from "vue";
-import Badge from "../ui/badge/Badge.vue";
+import LabelBadge from "../LabelBadge.vue";
 import Checkbox from "../ui/checkbox/Checkbox.vue";
 import CommandGroup from "../ui/command/CommandGroup.vue";
 import InputGroup from "../ui/input-group/InputGroup.vue";

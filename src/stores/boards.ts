@@ -1,7 +1,7 @@
 import { buildKanbanColumnRelatedBoardProps, buildSprintColumnRelatedBoardProps } from "@/lib/builders";
 import { boardsRepo } from "@/repositories/boards";
 import type { NewBoardValues } from "@/schemas/boardValidationSchema";
-import type { Board, BoardOverview, Column, Label, Task } from "@/types";
+import type { Board, BoardOverview, Column, Comment, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
@@ -182,6 +182,26 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
+  const addComment = (
+    boardId: Board["id"],
+    taskId: Task["id"],
+    commentText: Comment["text"],
+    assigneeId: Comment["assigneeId"],
+  ) => {
+    const task = boards.value[boardId]?.tasks[taskId];
+    if (!task) return;
+    const comment: Comment = {
+      id: crypto.randomUUID(),
+      updatedAt: new Date().toISOString(),
+      text: commentText,
+      assigneeId,
+    };
+    if (task.comments) task.comments.push(comment);
+    else task.comments = [comment];
+    touch(boardId);
+    persist(boardId);
+  };
+
   const addLabel = (boardId: Board["id"], label: Label) => {
     const board = boards.value[boardId];
     if (!board) return;
@@ -205,5 +225,6 @@ export const useBoardsStore = defineStore("boards", () => {
     updateTask,
     moveTask,
     addLabel,
+    addComment,
   };
 });

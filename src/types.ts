@@ -57,7 +57,7 @@ export interface BoardOverview extends Pick<
 
 export interface Comment {
   id: string;
-  assigneeId: string;
+  assigneeId: Assignee["id"] | null;
   text: string;
   updatedAt: string; //timestamp UTC
 }
