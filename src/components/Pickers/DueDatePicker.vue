@@ -122,7 +122,7 @@ const commitFromCalendar = (value?: DateValue) => {
   hideCalendarPopover();
 };
 const onClear = () => {
-  dueDate.value = "";
+  dueDate.value = null;
   hideDueDatePicker();
   resetTextInput();
 };
