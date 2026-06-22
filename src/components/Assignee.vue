@@ -21,16 +21,14 @@
     <span
       v-if="props.displayFullname"
       :class="cn(textSizeClasses[props.size], 'capitalize', !initials && 'text-muted-foreground')"
-    >
-      <template v-if="!!initials">
-        {{ props.fullName }}
-      </template>
-      <template v-else>Unassigned</template>
-    </span>
+      v-html="highlight"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { useHighlightedText } from "@/composables/useHighlightedText";
+import { useSearchQuery } from "@/composables/useSearchQuery";
 import { COLORS } from "@/constants/colors";
 import { cn } from "@/lib/utils";
 import { UserX } from "@lucide/vue";
@@ -47,6 +45,10 @@ const props = withDefaults(defineProps<Props>(), {
   size: "base",
   displayFullname: false,
 });
+
+const { injectSearchQuery } = useSearchQuery();
+const searchQuery = injectSearchQuery();
+const highlight = useHighlightedText(searchQuery, () => props.fullName ?? "Unassigned");
 
 const color = computed(() => COLORS.find((c) => c.id === props.colorId));
 const textSizeClasses = {

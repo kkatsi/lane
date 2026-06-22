@@ -1,5 +1,9 @@
 <template>
-  <Card v-if="!isEditing" class="task-card shrink-0 select-none py-2 gap-2 group px-2.5 block cursor-pointer" @click="onOpen">
+  <Card
+    v-if="!isEditing"
+    class="task-card shrink-0 select-none py-2 gap-2 group px-2.5 block cursor-pointer"
+    @click="onOpen"
+  >
     <TaskActionsDropdown
       class="float-end opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 group-has-data-[state=open]:opacity-100 transition-opacity"
       :column-id="props.columnId"
@@ -8,12 +12,12 @@
       @task-open="onOpen"
     />
     <LabelList v-if="taskLabels.length > 0" :labels="taskLabels" class="gap-1 mb-2" />
-    <CardTitle class="text-sm line-clamp-2">
-      {{ props.title }}
-    </CardTitle>
-    <CardDescription v-if="props.description" class="text-xs text-muted-foreground mt-1 line-clamp-3">
-      {{ props.description }}
-    </CardDescription>
+    <CardTitle class="text-sm line-clamp-2" v-html="highlightTitle" />
+    <CardDescription
+      v-if="props.description"
+      class="text-xs text-muted-foreground mt-1 line-clamp-3"
+      v-html="highlightDescription"
+    />
     <CardFooter
       v-if="!!displayDate || !!assignee || !!props.comments?.length"
       class="bg-card border-t-0 p-0 my-2 text-muted-foreground"
@@ -52,19 +56,21 @@
 
 <script setup lang="ts">
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { useHighlightedText } from "@/composables/useHighlightedText.ts";
+import { useSearchQuery } from "@/composables/useSearchQuery.ts";
 import { isDefined } from "@/lib/utils";
 import type { Task } from "@/types";
 import { Calendar1, MessageSquareText } from "@lucide/vue";
 import { computed, ref } from "vue";
+import { useRouter } from "vue-router";
 import Assignee from "../Assignee.vue";
 import LabelList from "../LabelList.vue";
 import TaskComposer from "../TaskComposer.vue";
 import Card from "../ui/card/Card.vue";
+import CardDescription from "../ui/card/CardDescription.vue";
 import CardFooter from "../ui/card/CardFooter.vue";
 import CardTitle from "../ui/card/CardTitle.vue";
 import TaskActionsDropdown from "./TaskActionsDropdown.vue";
-import CardDescription from "../ui/card/CardDescription.vue";
-import { useRouter } from "vue-router";
 
 interface Props extends Task {
   columnId: string;
@@ -74,6 +80,8 @@ const props = defineProps<Props>();
 const router = useRouter();
 const isEditing = defineModel<boolean>("isEditing");
 const { labels, assignees, updateTask } = useCurrentBoard();
+const { injectSearchQuery } = useSearchQuery();
+const searchQuery = injectSearchQuery();
 
 const editTitle = ref(props.title);
 const editAssigneeId = ref(props.assigneeId);
@@ -109,6 +117,9 @@ const onClose = () => {
 const onOpen = () => {
   router.push({ name: "task", params: { taskId: props.id } });
 };
+
+const highlightTitle = useHighlightedText(searchQuery, () => props.title);
+const highlightDescription = useHighlightedText(searchQuery, () => props.description);
 </script>
 
 <style scoped></style>

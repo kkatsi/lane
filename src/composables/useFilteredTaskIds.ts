@@ -1,10 +1,24 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useUIStore } from "@/stores/ui";
-import type { Column, Filter, FilterableKey, Task } from "@/types";
+import type { Board, Column, Filter, FilterableKey, Task } from "@/types";
 import { computed } from "vue";
 
+const assigneeMatches = (assignees: Board["assignees"], normalizedQuery: string, assigneeId?: Task["assigneeId"]) => {
+  if (!assigneeId) return false;
+  const assignee = assignees[assigneeId];
+  return (
+    assignee?.name.toLowerCase().includes(normalizedQuery) || assignee?.id.toLocaleLowerCase().includes(normalizedQuery)
+  );
+};
+
+const labelsMatches = (labels: Board["labels"], normalizedQuery: string, labelIds?: Task["labelIds"]) => {
+  if (!labelIds) return false;
+  const taskLabels = Object.values(labels).filter((l) => labelIds.includes(l.id));
+  return taskLabels.some((l) => l.name.toLowerCase().includes(normalizedQuery));
+};
+
 export const useFilteredTaskIds = () => {
-  const { columns, tasks } = useCurrentBoard();
+  const { columns, tasks, assignees, labels } = useCurrentBoard();
   const uiStore = useUIStore();
 
   const matchesQuery = (task: Task, query: string) => {
@@ -13,7 +27,8 @@ export const useFilteredTaskIds = () => {
     return (
       task.title.toLowerCase().includes(normalizedQuery) ||
       task.description.toLowerCase().includes(normalizedQuery) ||
-      task.assigneeId?.toLowerCase().includes(normalizedQuery) === true
+      assigneeMatches(assignees.value, normalizedQuery, task.assigneeId) ||
+      labelsMatches(labels.value, normalizedQuery, task.labelIds)
     );
   };
 
