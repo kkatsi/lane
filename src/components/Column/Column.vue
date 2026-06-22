@@ -1,5 +1,5 @@
 <template>
-  <div class="min-w-70 max-w-70 flex flex-col h-full">
+  <div class="min-w-70 max-w-70 flex flex-col min-h-0">
     <ColumnHeader
       :column-id="props.column.id"
       :column-title="props.column.title"
@@ -17,7 +17,7 @@
       draggable=".task-card"
       group="board"
       :delay="10"
-      filter=".empty-column-placeholder"
+      filter=".empty-column-placeholder.task-composer"
       @choose="onDragChoose"
       @start="onDragStart"
       @end="onDragEnd"
@@ -28,14 +28,14 @@
         class="empty-column-placeholder"
         @click="onAddNewTaskActionSelect"
       />
+      <TaskComposer
+        v-if="isAddingNewTask"
+        class="task-composer shrink-0"
+        :column-id="props.column.id"
+        @submit="onNewTaskSubmit"
+        @close="onAddNewTaskComposerClose"
+      />
     </VueDraggable>
-    <TaskComposer
-      v-if="isAddingNewTask"
-      class="shrink-0"
-      :column-id="props.column.id"
-      @submit="onNewTaskSubmit"
-      @close="onAddNewTaskComposerClose"
-    />
   </div>
 </template>
 

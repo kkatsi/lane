@@ -1,5 +1,5 @@
 <template>
-  <form ref="formElement" @submit="onSubmit" class="rounded-lg p-2 ring-1 ring-primary flex flex-col gap-2"
+  <form v-focus ref="formElement" @submit="onSubmit" class="rounded-lg p-2 ring-1 ring-primary flex flex-col gap-2"
     @keydown.enter.exact.prevent="onEnter" @keyup.esc="props.onClose">
     <Input ref="titleRef" placeholder="Task title" v-model="taskTitle" name="title" id="title" />
     <Textarea placeholder="Add a description (optional)" v-model="taskDescription" class="resize-none"
@@ -63,7 +63,7 @@
 import { newTaskSchema } from '@/schemas/taskValidationSchema.ts'
 import type { Assignee, Label, Task } from '@/types.ts'
 import { Calendar1, CornerDownLeft, Tag, User } from '@lucide/vue'
-import { onMounted, useTemplateRef } from 'vue'
+import { nextTick, onMounted, useTemplateRef, type Directive } from 'vue'
 import Button from './ui/button/Button.vue'
 import Input from './ui/input/Input.vue'
 import Kbd from './ui/kbd/Kbd.vue'
@@ -73,6 +73,10 @@ import LabelsPicker from './Pickers/LabelsPicker.vue'
 import PickerTrigger from './Pickers/PickerTrigger.vue'
 import Badge from './ui/badge/Badge.vue'
 import AssigneePicker from './Pickers/AssigneePicker.vue'
+
+const vFocus: Directive<HTMLElement> = {
+  mounted: (el) => nextTick(() => el.scrollTo({top: el.scrollHeight, behavior: 'smooth'})),
+};
 
 interface Props {
   columnId: string;
