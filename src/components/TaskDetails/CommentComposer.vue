@@ -1,6 +1,5 @@
 <template>
   <div class="flex gap-2 items-center w-full">
-    <!-- logged in assignee -->
     <Assignee :color-id="loggedInAssignee?.colorId" :full-name="loggedInAssignee?.name" class="text-foreground" />
     <Textarea
       @keydown.enter.exact.prevent="onSend"

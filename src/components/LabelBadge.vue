@@ -1,17 +1,16 @@
 <template>
-  <Badge class="capitalize" :style="{ color: color?.text, backgroundColor: color?.background }" v-html="hightlight" />
+  <Badge class="inline" :style="{ color: color?.text, backgroundColor: color?.background }" v-html="hightlight" />
 </template>
 
 <script setup lang="ts">
 import { useHighlightedText } from "@/composables/useHighlightedText.ts";
-import { useSearchQuery } from "@/composables/useSearchQuery.ts";
 import { COLORS } from "@/constants/colors";
 import type { Label } from "@/types";
 import { computed } from "vue";
 import Badge from "./ui/badge/Badge.vue";
+import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 
-const { injectSearchQuery } = useSearchQuery();
-const searchQuery = injectSearchQuery();
+const searchQuery = useSearchQueryRef();
 
 const props = defineProps<{ label: Label }>();
 

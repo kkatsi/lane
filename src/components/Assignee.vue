@@ -20,7 +20,7 @@
     </div>
     <span
       v-if="props.displayFullname"
-      :class="cn(textSizeClasses[props.size], 'capitalize', !initials && 'text-muted-foreground')"
+      :class="cn(textSizeClasses[props.size], !initials && 'text-muted-foreground')"
       v-html="highlight"
     />
   </div>
@@ -28,7 +28,7 @@
 
 <script setup lang="ts">
 import { useHighlightedText } from "@/composables/useHighlightedText";
-import { useSearchQuery } from "@/composables/useSearchQuery";
+import { useSearchQueryRef } from "@/composables/useSearchQueryRef";
 import { COLORS } from "@/constants/colors";
 import { cn } from "@/lib/utils";
 import { UserX } from "@lucide/vue";
@@ -46,8 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
   displayFullname: false,
 });
 
-const { injectSearchQuery } = useSearchQuery();
-const searchQuery = injectSearchQuery();
+const searchQuery = useSearchQueryRef();
 const highlight = useHighlightedText(searchQuery, () => props.fullName ?? "Unassigned");
 
 const color = computed(() => COLORS.find((c) => c.id === props.colorId));

@@ -40,7 +40,7 @@ export interface Board {
   starred: boolean;
   updatedAt: string; // timestamp UTC
   columns: Record<Column["id"], Column>;
-  columnOrder: Column["id"][]; // ordered list of column ids
+  columnOrder: Column["id"][];
   tasks: Record<Task["id"], Task>;
   labels: Record<Label["id"], Label>;
   assignees: Record<Assignee["id"], Assignee>;
@@ -59,7 +59,7 @@ export interface Comment {
   id: string;
   assigneeId: Assignee["id"] | null;
   text: string;
-  updatedAt: string; //timestamp UTC
+  updatedAt: string; // timestamp UTC
 }
 
 export type FilterableKey = Extract<keyof Task, "dueDate" | "assigneeId" | "labelIds">;

@@ -1,16 +1,15 @@
 import { useBoardsStore } from "@/stores/boards";
-import { useUIStore } from "@/stores/ui";
 import type { BoardOverview } from "@/types";
 import { computed } from "vue";
+import { useSearchQueryRef } from "./useSearchQueryRef";
 
 export const useFilteredBoards = () => {
   const boardsStore = useBoardsStore();
-  const uiStore = useUIStore();
-
+  const searchQuery = useSearchQueryRef();
   const filteredBoards = computed(() => {
     const allBoardOverviews: Record<BoardOverview["id"], BoardOverview> = {};
     const starredBoardOverviews: Record<BoardOverview["id"], BoardOverview> = {};
-    const query = uiStore.searchQuery.toLowerCase();
+    const query = searchQuery.value.toLowerCase();
 
     for (const overview of Object.values(boardsStore.boardOverviews)) {
       const match = overview.name.toLowerCase().includes(query);

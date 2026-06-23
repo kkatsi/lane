@@ -12,7 +12,9 @@
       <span v-else @dblclick="onEditColumnNameActionSelect" class="truncate max-w-[200px] px-1">
         {{ props.columnTitle }}
       </span>
-      <Badge variant="secondary" class="text-muted-foreground">{{ props.tasksLength }}</Badge>
+      <Badge variant="secondary" class="text-muted-foreground">
+        {{ searchQuery ? `${props.tasksLength} of ${props.totalTasksLength}` : props.tasksLength }}
+      </Badge>
     </div>
     <div class="ml-auto flex items-center gap-1">
       <Button variant="ghost" size="sm" class="p-1" @click="props.onAddNewTaskActionSelect">
@@ -101,15 +103,19 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { DropdownMenuPortal } from "reka-ui";
+import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 
 interface Props {
   columnTitle: Column["title"];
   columnId: Column["id"];
   tasksLength: number;
+  totalTasksLength: number;
   onAddNewTaskActionSelect: () => void;
 }
 
 const props = defineProps<Props>();
+
+const searchQuery = useSearchQueryRef();
 
 const { editColumnTitle, columns, columnOrder, moveAllColumnTasksToAnotherColumn, removeColumn } = useCurrentBoard();
 

@@ -34,8 +34,8 @@ export const useCurrentBoard = () => {
   const removeTask = (taskId: Task["id"]) => boardsStore.removeTask(boardId.value, taskId);
   const updateTask = (taskId: Task["id"], patch: Partial<Omit<Task, "id">>) =>
     boardsStore.updateTask(boardId.value, taskId, patch);
-  const moveTask = (taskId: Task["id"], toColumnId: Column["id"], toIndex: number) =>
-    boardsStore.moveTask(boardId.value, taskId, toColumnId, toIndex);
+  const moveTask = (taskId: Task["id"], toColumnId: Column["id"], beforeTaskId: Task["id"] | null) =>
+    boardsStore.moveTask(boardId.value, taskId, toColumnId, beforeTaskId);
   const addLabel = (label: Label) => boardsStore.addLabel(boardId.value, label);
 
   return {

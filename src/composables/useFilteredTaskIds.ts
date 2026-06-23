@@ -2,6 +2,7 @@ import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useUIStore } from "@/stores/ui";
 import type { Board, Column, Filter, FilterableKey, Task } from "@/types";
 import { computed } from "vue";
+import { useSearchQueryRef } from "./useSearchQueryRef";
 
 const assigneeMatches = (assignees: Board["assignees"], normalizedQuery: string, assigneeId?: Task["assigneeId"]) => {
   if (!assigneeId) return false;
@@ -20,6 +21,7 @@ const labelsMatches = (labels: Board["labels"], normalizedQuery: string, labelId
 export const useFilteredTaskIds = () => {
   const { columns, tasks, assignees, labels } = useCurrentBoard();
   const uiStore = useUIStore();
+  const searchQuery = useSearchQueryRef();
 
   const matchesQuery = (task: Task, query: string) => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -50,7 +52,7 @@ export const useFilteredTaskIds = () => {
       result[col.id] = col.taskIds.filter((id) => {
         const task = tasks.value[id];
         if (!task) return false;
-        return matchesQuery(task, uiStore.searchQuery) && matchesFilters(task, uiStore.filters);
+        return matchesQuery(task, searchQuery.value) && matchesFilters(task, uiStore.filters);
       });
     }
     return result;

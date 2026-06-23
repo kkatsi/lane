@@ -101,9 +101,8 @@ const orderedColumns = computed(() => columnOrder.value.map((id) => columns.valu
 const isRemoveTaskAlertDialogOpen = ref<boolean>(false);
 
 const onMoveTaskToColumnActionSelected = (toColumnId: Column["id"]) => {
-  const toColumnTasksLength = columns.value[toColumnId]?.taskIds.length;
-  const toIndex = toColumnTasksLength ?? 0;
-  moveTask(props.taskId, toColumnId, toIndex);
+  // Append to the end of the destination column.
+  moveTask(props.taskId, toColumnId, null);
 };
 
 const onTaskRemoveActionSelect = () => {

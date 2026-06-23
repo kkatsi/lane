@@ -11,15 +11,25 @@
       >
         {{ resultsCount }} {{ resultsCount === 1 ? "result" : "results" }}
       </span>
+      <InputGroupButton
+        v-if="!!searchValue"
+        aria-label="Clear"
+        title="Clear"
+        size="icon-xs"
+        @click="() => (searchValue = '')"
+      >
+        <X />
+      </InputGroupButton>
     </InputGroupAddon>
   </InputGroup>
 </template>
 
 <script setup lang="ts">
-import { Search } from "@lucide/vue";
+import { Search, X } from "@lucide/vue";
 import InputGroup from "./ui/input-group/InputGroup.vue";
 import InputGroupAddon from "./ui/input-group/InputGroupAddon.vue";
 import InputGroupInput from "./ui/input-group/InputGroupInput.vue";
+import InputGroupButton from "./ui/input-group/InputGroupButton.vue";
 
 interface Props {
   resultsCount: number | null;

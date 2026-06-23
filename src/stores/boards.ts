@@ -166,7 +166,13 @@ export const useBoardsStore = defineStore("boards", () => {
     persist(boardId);
   };
 
-  const moveTask = (boardId: Board["id"], taskId: Task["id"], toColumnId: Column["id"], toIndex: number) => {
+  // Insert before `beforeTaskId` (null = append); id-based so it survives filtering.
+  const moveTask = (
+    boardId: Board["id"],
+    taskId: Task["id"],
+    toColumnId: Column["id"],
+    beforeTaskId: Task["id"] | null,
+  ) => {
     const board = boards.value[boardId];
     const destination = board?.columns[toColumnId];
     if (!board || !destination) return;
@@ -177,7 +183,9 @@ export const useBoardsStore = defineStore("boards", () => {
         break;
       }
     }
-    destination.taskIds.splice(toIndex, 0, taskId);
+    const insertAt = beforeTaskId ? destination.taskIds.indexOf(beforeTaskId) : -1;
+    if (insertAt === -1) destination.taskIds.push(taskId);
+    else destination.taskIds.splice(insertAt, 0, taskId);
     touch(boardId);
     persist(boardId);
   };

@@ -17,7 +17,7 @@
 
 <script setup lang="ts">
 import { useFilteredTaskIds } from "@/composables/useFilteredTaskIds.ts";
-import { useUIStore } from "@/stores/ui";
+import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 import { Plus, Share } from "@lucide/vue";
 import { watchDebounced } from "@vueuse/core";
 import { computed, ref } from "vue";
@@ -30,20 +30,22 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const uiStore = useUIStore();
-const search = ref<string>("");
+const searchQuery = useSearchQueryRef();
+
+const search = ref<string>(searchQuery.value);
+searchQuery.value = search.value;
 
 watchDebounced(
   search,
   () => {
-    uiStore.searchQuery = search.value;
+    searchQuery.value = search.value;
   },
   { debounce: 300 },
 );
 
 const filteredTaskIds = useFilteredTaskIds();
 const resultsCount = computed(() =>
-  uiStore.searchQuery ? Object.values(filteredTaskIds.value).reduce((acc, col) => (acc += col.length), 0) : null,
+  searchQuery.value ? Object.values(filteredTaskIds.value).reduce((acc, col) => (acc += col.length), 0) : null,
 );
 
 const onShare = () => {};

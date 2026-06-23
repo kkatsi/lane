@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useUIStore = defineStore("ui", () => {
-  const searchQuery = ref("");
   const filters = ref<Record<Filter["id"], Filter>>({
     labelIds: {
       id: "labelIds",
@@ -36,5 +35,5 @@ export const useUIStore = defineStore("ui", () => {
 
   const isDragging = ref<boolean>(false);
 
-  return { searchQuery, filters, isDragging };
+  return { filters, isDragging };
 });

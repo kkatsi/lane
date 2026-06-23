@@ -3,7 +3,8 @@
     <ColumnHeader
       :column-id="props.column.id"
       :column-title="props.column.title"
-      :tasks-length="columnTasks.length"
+      :tasks-length="filteredColumnTasks.length"
+      :total-tasks-length="totalColumnTasks.length"
       @add-new-task-action-select="onAddNewTaskActionSelect"
     />
     <VueDraggable
@@ -11,23 +12,23 @@
       :class="
         cn(isDragging && 'hover:bg-muted/40 rounded-lg', 'flex-1 min-h-0 overflow-y-auto flex flex-col gap-2 py-2 px-1')
       "
-      v-model="columnTasks"
+      :model-value="filteredColumnTasks"
       :animation="150"
       :force-fallback="true"
       draggable=".task-card"
       group="board"
       :delay="10"
-      filter=".empty-column-placeholder.task-composer"
+      filter=".column-placeholder.task-composer"
       @choose="onDragChoose"
       @start="onDragStart"
       @end="onDragEnd"
     >
-      <Task v-for="task in columnTasks" :key="task.id" v-bind="task" :column-id="props.column.id" />
-      <EmptyColumnPlaceholder
-        v-if="!isAddingNewTask && !columnTasks.length && !isDragging"
-        class="empty-column-placeholder"
-        @click="onAddNewTaskActionSelect"
-      />
+      <Task v-for="task in filteredColumnTasks" :key="task.id" v-bind="task" :column-id="props.column.id" />
+      <template v-if="!isAddingNewTask && !filteredColumnTasks.length && !isDragging">
+        <EmptyColumnPlaceholder v-if="!searchQuery" class="column-placeholder" @click="onAddNewTaskActionSelect" />
+        <NoMatchingTasksPlaceholder v-else class="column-placeholder" />
+      </template>
+      <HiddenByFiltersPlaceholder v-if="!!searchQuery" :hidden-count="hiddenCount" class="column-placeholder" />
       <TaskComposer
         v-if="isAddingNewTask"
         class="task-composer shrink-0"
@@ -52,6 +53,9 @@ import Task from "../Task/Task.vue";
 import TaskComposer from "../TaskComposer.vue";
 import ColumnHeader from "./ColumnHeader.vue";
 import EmptyColumnPlaceholder from "./EmptyColumnPlaceholder.vue";
+import NoMatchingTasksPlaceholder from "./NoMatchingTasksPlaceholder.vue";
+import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
+import HiddenByFiltersPlaceholder from "./HiddenByFiltersPlaceholder.vue";
 
 interface Props {
   column: Column;
@@ -59,30 +63,34 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const { tasks, moveTask, addTask } = useCurrentBoard();
+const { tasks, moveTask, addTask, columns } = useCurrentBoard();
 const filteredTaskIds = useFilteredTaskIds();
 const uiStore = useUIStore();
 const { isDragging } = storeToRefs(uiStore);
+const searchQuery = useSearchQueryRef();
 
 const isAddingNewTask = ref<boolean>(false);
 
-const columnTasks = computed(() => {
+const filteredColumnTasks = computed(() => {
   const columnTaskIds = filteredTaskIds.value[props.column.id];
   if (!columnTaskIds) return [];
   return columnTaskIds.map((id) => tasks.value[id]).filter(isDefined);
 });
+const totalColumnTasks = computed(() => {
+  const columnTaskIds = columns.value[props.column.id]?.taskIds;
+  if (!columnTaskIds) return [];
+  return columnTaskIds.map((id) => tasks.value[id]).filter(isDefined);
+});
+
+const hiddenCount = computed(() => totalColumnTasks.value.length - filteredColumnTasks.value.length);
 
 const onAddNewTaskActionSelect = () => (isAddingNewTask.value = true);
 
-// Geometry of the card at pick-up, captured before SortableJS turns the source
-// element into the thin-line ghost (which would otherwise collapse it to ~0).
+// Card geometry at pick-up, captured before the ghost collapses it to a thin line.
 let chosenHeight = 0;
-// The static placeholder node holding the card's original slot during the drag.
 let originPlaceholderEl: HTMLElement | null = null;
 
-// @choose fires on mousedown, before the `sortable-ghost` (thin line) class is
-// applied. Capture the real geometry and feed it to the cursor clone via CSS
-// vars (the clone is a cloneNode of this element, so it inherits them).
+// Feed real card geometry to the cursor clone via CSS vars before ghost collapses it.
 const onDragChoose = (e: DraggableEvent<TaskType>) => {
   const el = e.item;
   if (!el) return;
@@ -94,9 +102,7 @@ const onDragChoose = (e: DraggableEvent<TaskType>) => {
   el.style.setProperty("--drag-left", `${left}px`);
 };
 
-// On drag start, drop a static placeholder into the source element's original
-// slot so the list keeps the gap. It lacks `.task-card`, so the
-// `draggable=".task-card"` selector excludes it from drop-index calculations.
+// Reserve the source slot with a non-`.task-card` placeholder so the gap stays during drag.
 const onDragStart = (e: DraggableEvent<TaskType>) => {
   const el = e.item;
   if (!el?.parentNode) return;
@@ -120,7 +126,11 @@ const onDragEnd = (e: DraggableEvent<TaskType>) => {
 
   if (!taskId || !isDefined(toIndex) || !toColumnId) return;
 
-  moveTask(taskId, toColumnId, toIndex);
+  // Translate filtered drop index to the neighbor id it sits before (null = append).
+  const destOrder = (filteredTaskIds.value[toColumnId] ?? []).filter((id) => id !== taskId);
+  const beforeTaskId = destOrder[toIndex] ?? null;
+
+  moveTask(taskId, toColumnId, beforeTaskId);
 };
 
 const onAddNewTaskComposerClose = () => {
@@ -137,9 +147,7 @@ const onNewTaskSubmit = (newTaskWithoutId: Omit<TaskType, "id">) => {
 </script>
 
 <style>
-/* The ghost is the source <Task>, which SortableJS moves to the prospective
-   drop position. Collapse it into a thin primary line = the insertion
-   indicator between cards. */
+/* Collapse the moved card into a thin line = insertion indicator between cards. */
 .sortable-ghost {
   height: 3px !important;
   min-height: 0 !important;
@@ -169,9 +177,7 @@ const onNewTaskSubmit = (newTaskWithoutId: Omit<TaskType, "id">) => {
   display: none !important;
 }
 
-/* Static placeholder reserving the dragged card's original slot for the whole
-   drag (inserted in @start, removed in @end). Height is set inline to match
-   the card; excluded from Sortable via the draggable=".task-card" selector. */
+/* Placeholder reserving the dragged card's original slot during the drag. */
 .drag-origin-placeholder {
   flex: 0 0 auto;
   border-radius: 0.75rem;
@@ -179,10 +185,7 @@ const onNewTaskSubmit = (newTaskWithoutId: Omit<TaskType, "id">) => {
   background-color: color-mix(in oklab, var(--color-primary) 5%, transparent);
 }
 
-/* The cursor clone created by force-fallback. Because the ghost is now a thin
-   line, SortableJS would size/position the clone from that collapsed box, so we
-   restore the real geometry captured in @choose. The rotate survives because
-   SortableJS appends its pointer translation to this transform matrix. */
+/* Cursor clone (force-fallback): restore real geometry since the ghost is collapsed. */
 .sortable-fallback {
   width: var(--drag-width) !important;
   height: var(--drag-height) !important;
