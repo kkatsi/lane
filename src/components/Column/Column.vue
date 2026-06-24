@@ -5,6 +5,7 @@
       :column-title="props.column.title"
       :tasks-length="filteredColumnTasks.length"
       :total-tasks-length="totalColumnTasks.length"
+      :has-active-filters="hasActiveFilters"
       @add-new-task-action-select="onAddNewTaskActionSelect"
     />
     <VueDraggable

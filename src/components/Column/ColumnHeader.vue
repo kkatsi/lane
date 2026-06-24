@@ -13,7 +13,7 @@
         {{ props.columnTitle }}
       </span>
       <Badge variant="secondary" class="text-muted-foreground">
-        {{ searchQuery ? `${props.tasksLength} of ${props.totalTasksLength}` : props.tasksLength }}
+        {{ hasActiveFilters ? `${props.tasksLength} of ${props.totalTasksLength}` : props.tasksLength }}
       </Badge>
     </div>
     <div class="ml-auto flex items-center gap-1">
@@ -110,12 +110,11 @@ interface Props {
   columnId: Column["id"];
   tasksLength: number;
   totalTasksLength: number;
+  hasActiveFilters: boolean;
   onAddNewTaskActionSelect: () => void;
 }
 
 const props = defineProps<Props>();
-
-const { searchQuery } = useBoardFilters();
 
 const { editColumnTitle, columns, columnOrder, moveAllColumnTasksToAnotherColumn, removeColumn } = useCurrentBoard();
 
