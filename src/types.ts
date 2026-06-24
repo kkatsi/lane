@@ -62,18 +62,6 @@ export interface Comment {
   updatedAt: string; // timestamp UTC
 }
 
-export type FilterableKey = Extract<keyof Task, "dueDate" | "assigneeId" | "labelIds">;
-
-export type FilterOption = { id: string; label: string };
-
-export interface Filter<T extends FilterableKey = FilterableKey> {
-  id: T;
-  title: string;
-  selection: "single" | "multiple";
-  options: FilterOption[];
-  selected: FilterOption["id"][];
-}
-
 export interface BoardTemplate {
   id: string;
   name: string;
