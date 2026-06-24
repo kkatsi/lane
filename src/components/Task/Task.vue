@@ -55,6 +55,7 @@
 </template>
 
 <script setup lang="ts">
+import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useHighlightedText } from "@/composables/useHighlightedText.ts";
 import { UNASSIGNED_ID } from "@/constants/assignees";
@@ -71,7 +72,6 @@ import CardDescription from "../ui/card/CardDescription.vue";
 import CardFooter from "../ui/card/CardFooter.vue";
 import CardTitle from "../ui/card/CardTitle.vue";
 import TaskActionsDropdown from "./TaskActionsDropdown.vue";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 
 interface Props extends Task {
   columnId: string;
@@ -81,7 +81,7 @@ const props = defineProps<Props>();
 const router = useRouter();
 const isEditing = defineModel<boolean>("isEditing");
 const { labels, assignees, updateTask } = useCurrentBoard();
-const searchQuery = useSearchQueryRef();
+const { searchQuery } = useBoardFilters();
 
 const editTitle = ref(props.title);
 const editAssigneeId = ref(props.assigneeId);

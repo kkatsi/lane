@@ -103,7 +103,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { DropdownMenuPortal } from "reka-ui";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
+import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 
 interface Props {
   columnTitle: Column["title"];
@@ -115,7 +115,7 @@ interface Props {
 
 const props = defineProps<Props>();
 
-const searchQuery = useSearchQueryRef();
+const { searchQuery } = useBoardFilters();
 
 const { editColumnTitle, columns, columnOrder, moveAllColumnTasksToAnotherColumn, removeColumn } = useCurrentBoard();
 

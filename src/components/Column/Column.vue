@@ -25,10 +25,10 @@
     >
       <Task v-for="task in filteredColumnTasks" :key="task.id" v-bind="task" :column-id="props.column.id" />
       <template v-if="!isAddingNewTask && !filteredColumnTasks.length && !isDragging">
-        <EmptyColumnPlaceholder v-if="!searchQuery" class="column-placeholder" @click="onAddNewTaskActionSelect" />
+        <EmptyColumnPlaceholder v-if="!hasActiveFilters" class="column-placeholder" @click="onAddNewTaskActionSelect" />
         <NoMatchingTasksPlaceholder v-else class="column-placeholder" />
       </template>
-      <HiddenByFiltersPlaceholder v-if="!!searchQuery" :hidden-count="hiddenCount" class="column-placeholder" />
+      <HiddenByFiltersPlaceholder v-if="hasActiveFilters" :hidden-count="hiddenCount" class="column-placeholder" />
       <TaskComposer
         v-if="isAddingNewTask"
         class="task-composer shrink-0"
@@ -41,8 +41,10 @@
 </template>
 
 <script setup lang="ts">
+import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useFilteredTaskIds } from "@/composables/useFilteredTaskIds.ts";
+import { DATE_FILTER_OPTIONS } from "@/constants/date-filter-options.ts";
 import { cn, isDefined } from "@/lib/utils.ts";
 import { useUIStore } from "@/stores/ui.ts";
 import type { Column, Task as TaskType } from "@/types";
@@ -53,9 +55,8 @@ import Task from "../Task/Task.vue";
 import TaskComposer from "../TaskComposer.vue";
 import ColumnHeader from "./ColumnHeader.vue";
 import EmptyColumnPlaceholder from "./EmptyColumnPlaceholder.vue";
-import NoMatchingTasksPlaceholder from "./NoMatchingTasksPlaceholder.vue";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 import HiddenByFiltersPlaceholder from "./HiddenByFiltersPlaceholder.vue";
+import NoMatchingTasksPlaceholder from "./NoMatchingTasksPlaceholder.vue";
 
 interface Props {
   column: Column;
@@ -67,7 +68,15 @@ const { tasks, moveTask, addTask, columns } = useCurrentBoard();
 const filteredTaskIds = useFilteredTaskIds();
 const uiStore = useUIStore();
 const { isDragging } = storeToRefs(uiStore);
-const searchQuery = useSearchQueryRef();
+const { searchQuery, assigneeIds, dueDate, labelIds } = useBoardFilters();
+
+const hasActiveFilters = computed(
+  () =>
+    !!assigneeIds.value.length ||
+    !!labelIds.value.length ||
+    dueDate.value !== DATE_FILTER_OPTIONS.ANYTIME.id ||
+    !!searchQuery.value,
+);
 
 const isAddingNewTask = ref<boolean>(false);
 

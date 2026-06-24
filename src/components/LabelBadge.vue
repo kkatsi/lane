@@ -3,14 +3,14 @@
 </template>
 
 <script setup lang="ts">
+import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 import { useHighlightedText } from "@/composables/useHighlightedText.ts";
 import { COLORS } from "@/constants/colors";
 import type { Label } from "@/types";
 import { computed } from "vue";
 import Badge from "./ui/badge/Badge.vue";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 
-const searchQuery = useSearchQueryRef();
+const { searchQuery } = useBoardFilters();
 
 const props = defineProps<{ label: Label }>();
 

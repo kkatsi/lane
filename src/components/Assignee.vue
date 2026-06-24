@@ -27,8 +27,8 @@
 </template>
 
 <script setup lang="ts">
+import { useBoardFilters } from "@/composables/useBoardFilters";
 import { useHighlightedText } from "@/composables/useHighlightedText";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef";
 import { COLORS } from "@/constants/colors";
 import { cn } from "@/lib/utils";
 import { UserX } from "@lucide/vue";
@@ -46,7 +46,7 @@ const props = withDefaults(defineProps<Props>(), {
   displayFullname: false,
 });
 
-const searchQuery = useSearchQueryRef();
+const { searchQuery } = useBoardFilters();
 const highlight = useHighlightedText(searchQuery, () => props.fullName ?? "Unassigned");
 
 const color = computed(() => COLORS.find((c) => c.id === props.colorId));
