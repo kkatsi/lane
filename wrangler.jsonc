@@ -1,0 +1,9 @@
+{
+  "name": "lane",
+  "compatibility_date": "2025-09-01",
+  "assets": {
+    "directory": "./dist",
+    // Serve index.html for unmatched routes so client-side deep links work.
+    "not_found_handling": "single-page-application"
+  }
+}
