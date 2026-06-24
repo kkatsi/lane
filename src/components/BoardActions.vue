@@ -1,7 +1,10 @@
 <template>
-  <div class="flex gap-2 items-center w-full py-3 px-4">
-    <Search class="max-w-72" v-model="search" placeholder="Search..." :results-count="resultsCount" />
-    <Filters />
+  <div class="flex gap-2 items-start w-full py-3 px-4">
+    <Search class="max-w-72 min-w-56" v-model="search" placeholder="Search..." :results-count="resultsCount" />
+    <div class="flex flex-wrap items-center gap-2 flex-1">
+      <Filters />
+      <ActiveFilters />
+    </div>
     <div class="ml-auto flex items-center gap-2">
       <Button variant="outline" @click="props.onAddNewColumn">
         <Plus />
@@ -24,6 +27,7 @@ import { computed, ref } from "vue";
 import Filters from "./Filters/Filters.vue";
 import Search from "./Search.vue";
 import Button from "./ui/button/Button.vue";
+import ActiveFilters from "./ActiveFilters/ActiveFilters.vue";
 
 interface Props {
   onAddNewColumn: () => void;

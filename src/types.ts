@@ -3,7 +3,7 @@ export interface Task {
   title: string;
   description: string;
   labelIds: Label["id"][];
-  assigneeId?: string | null;
+  assigneeId: Assignee["id"];
   dueDate?: string | null;
   comments?: Comment[];
 }
@@ -29,7 +29,7 @@ export interface Color {
 export interface Assignee {
   id: string;
   name: string;
-  colorId: Color["id"];
+  colorId?: Color["id"];
 }
 
 export interface Board {

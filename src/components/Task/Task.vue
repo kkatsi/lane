@@ -57,6 +57,7 @@
 <script setup lang="ts">
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { useHighlightedText } from "@/composables/useHighlightedText.ts";
+import { UNASSIGNED_ID } from "@/constants/assignees";
 import { isDefined } from "@/lib/utils";
 import type { Task } from "@/types";
 import { Calendar1, MessageSquareText } from "@lucide/vue";
@@ -89,9 +90,8 @@ const editDescription = ref(props.description);
 const editDueDate = ref(props.dueDate ?? null);
 
 const assignee = computed(() => {
-  if (!props.assigneeId) return undefined;
-  const assignee = assignees.value[props.assigneeId];
-  return assignee;
+  if (!props.assigneeId || props.assigneeId === UNASSIGNED_ID) return undefined;
+  return assignees.value[props.assigneeId];
 });
 const displayDate = computed(() =>
   props.dueDate

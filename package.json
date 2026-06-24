@@ -15,15 +15,16 @@
     "format": "oxfmt src/"
   },
   "dependencies": {
-    "@lucide/vue": "^1.18.0",
+    "@lucide/vue": "^1.21.0",
     "@tailwindcss/vite": "^4.3.0",
     "@tanstack/vue-form": "^1.33.0",
     "@vueuse/core": "^14.3.0",
     "chrono-node": "^2.9.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
     "pinia": "^3.0.4",
-    "reka-ui": "^2.9.10",
+    "reka-ui": "^2.10.0",
     "shadcn-vue": "^2.7.3",
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",

@@ -1,8 +1,33 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
-import { useUIStore } from "@/stores/ui";
-import type { Board, Column, Filter, FilterableKey, Task } from "@/types";
+import type { Board, Column, Task } from "@/types";
+import { addWeeks, endOfWeek, isAfter, isPast } from "date-fns";
 import { computed } from "vue";
-import { useSearchQueryRef } from "./useSearchQueryRef";
+import { useBoardFilters } from "./useBoardFilters";
+import { DATE_FILTER_OPTIONS } from "@/constants/date-filter-options";
+
+const dueDateMatches = (
+  due: Task["dueDate"],
+  matchTo: (typeof DATE_FILTER_OPTIONS)[keyof typeof DATE_FILTER_OPTIONS]["id"],
+) => {
+  if (!due) return true;
+  const dueDate = new Date(due);
+  switch (matchTo) {
+    case DATE_FILTER_OPTIONS.ANYTIME.id:
+      return true;
+    case DATE_FILTER_OPTIONS.OVERDUE.id:
+      return isPast(dueDate);
+    case DATE_FILTER_OPTIONS.THIS_WEEK.id: {
+      const weekEnd = endOfWeek(new Date());
+      return !isPast(dueDate) && isAfter(weekEnd, dueDate);
+    }
+    case DATE_FILTER_OPTIONS.NEXT_WEEK.id: {
+      const end = addWeeks(endOfWeek(new Date()), 1);
+      return !isPast(dueDate) && isAfter(end, dueDate);
+    }
+    default:
+      return true;
+  }
+};
 
 const assigneeMatches = (assignees: Board["assignees"], normalizedQuery: string, assigneeId?: Task["assigneeId"]) => {
   if (!assigneeId) return false;
@@ -20,8 +45,7 @@ const labelsMatches = (labels: Board["labels"], normalizedQuery: string, labelId
 
 export const useFilteredTaskIds = () => {
   const { columns, tasks, assignees, labels } = useCurrentBoard();
-  const uiStore = useUIStore();
-  const searchQuery = useSearchQueryRef();
+  const boardFilters = useBoardFilters();
 
   const matchesQuery = (task: Task, query: string) => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -34,16 +58,20 @@ export const useFilteredTaskIds = () => {
     );
   };
 
-  const matchesFilters = (task: Task, filters?: Record<FilterableKey, Filter>) => {
+  const matchesFilters = (task: Task, filters?: ReturnType<typeof useBoardFilters>) => {
     if (!filters) return true;
 
-    const labelSel = filters.labelIds.selected;
-    const labelOk = labelSel.length === 0 || labelSel.some((id) => task.labelIds.includes(id));
+    const labelSel = filters.labelIds.value;
+    const labelOk =
+      labelSel === undefined || labelSel?.length === 0 || labelSel?.some((id) => task.labelIds.includes(id));
 
-    const assigneeSel = filters.assigneeId.selected;
-    const assigneeOk = assigneeSel.length === 0 || assigneeSel.includes(task.assigneeId ?? "unassigned");
+    const assigneeSel = filters.assigneeIds.value;
+    const assigneeOk = assigneeSel === undefined || assigneeSel.length === 0 || assigneeSel.includes(task.assigneeId);
 
-    return labelOk && assigneeOk;
+    const dueDateSel = filters.dueDate.value;
+    const dueDateOk = dueDateMatches(task.dueDate, dueDateSel);
+
+    return labelOk && assigneeOk && dueDateOk;
   };
 
   const filteredTaskIds = computed(() => {
@@ -52,7 +80,7 @@ export const useFilteredTaskIds = () => {
       result[col.id] = col.taskIds.filter((id) => {
         const task = tasks.value[id];
         if (!task) return false;
-        return matchesQuery(task, searchQuery.value) && matchesFilters(task, uiStore.filters);
+        return matchesQuery(task, boardFilters.searchQuery.value) && matchesFilters(task, boardFilters);
       });
     }
     return result;

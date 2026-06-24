@@ -73,6 +73,7 @@ import LabelsPicker from './Pickers/LabelsPicker.vue'
 import PickerTrigger from './Pickers/PickerTrigger.vue'
 import Badge from './ui/badge/Badge.vue'
 import AssigneePicker from './Pickers/AssigneePicker.vue'
+import { UNASSIGNED_ID } from '@/constants/assignees'
 
 const vFocus: Directive<HTMLElement> = {
   mounted: (el) => nextTick(() => el.scrollTo({top: el.scrollHeight, behavior: 'smooth'})),
@@ -96,7 +97,7 @@ onMounted(() => {
 const taskTitle = defineModel<Task['title']>('taskTitle', { default: '' });
 const taskDescription = defineModel<Task['description']>('taskDescription', { default: '' });
 const selectedLabelIds = defineModel<Label['id'][]>('selectedLabelIds', { default: [] })
-const selectedAssigneeId = defineModel<Assignee['id'] | null>('selectedAssigneeId', { default: null })
+const selectedAssigneeId = defineModel<Assignee['id']>('selectedAssigneeId', { default: UNASSIGNED_ID })
 const selectedDueDate = defineModel<Task['dueDate']>('selectedDueDate', { default: null });
 
 const onEnter = () => {

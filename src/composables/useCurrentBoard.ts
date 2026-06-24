@@ -2,6 +2,7 @@ import { useBoardsStore } from "@/stores/boards";
 import type { Column, Label, Task } from "@/types";
 import { computed } from "vue";
 import { useRoute } from "vue-router";
+import { UNASSIGNED } from "@/constants/assignees";
 
 export const useCurrentBoard = () => {
   const boardsStore = useBoardsStore();
@@ -16,7 +17,7 @@ export const useCurrentBoard = () => {
   const columnOrder = computed(() => board.value?.columnOrder ?? []);
   const tasks = computed(() => board.value?.tasks ?? {});
   const labels = computed(() => board.value?.labels ?? {});
-  const assignees = computed(() => board.value?.assignees ?? {});
+  const assignees = computed(() => ({ ...(board.value?.assignees ?? {}), [UNASSIGNED.id]: UNASSIGNED }));
 
   const toggleStarred = () => boardsStore.toggleStarred(boardId.value);
   const editColumnTitle = (columnId: Column["id"], title: Column["title"]) =>

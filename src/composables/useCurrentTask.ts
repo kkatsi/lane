@@ -1,4 +1,5 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
+import { UNASSIGNED_ID } from "@/constants/assignees";
 import { isDefined } from "@/lib/utils";
 import { useBoardsStore } from "@/stores/boards";
 import type { Comment, Task } from "@/types";
@@ -16,12 +17,12 @@ export const useCurrentTask = () => {
   const title = computed(() => task.value?.title ?? "");
   const description = computed(() => task.value?.description ?? "");
   const labelIds = computed(() => task.value?.labelIds ?? []);
-  const assigneeId = computed(() => task.value?.assigneeId ?? null);
+  const assigneeId = computed(() => task.value?.assigneeId ?? UNASSIGNED_ID);
   const dueDate = computed(() => task.value?.dueDate ?? null);
   const comments = computed(() => task.value?.comments ?? []);
 
   const taskLabels = computed(() => labelIds.value.map((id) => labels.value[id]).filter(isDefined));
-  const assignee = computed(() => (assigneeId.value ? assignees.value[assigneeId.value] : undefined));
+  const assignee = computed(() => assignees.value[assigneeId.value]);
 
   const updateTask = (patch: Partial<Omit<Task, "id">>) => boardsStore.updateTask(boardId.value, taskId.value, patch);
   const removeTask = () => boardsStore.removeTask(boardId.value, taskId.value);

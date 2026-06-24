@@ -56,7 +56,7 @@ const textSizeClasses = {
 };
 
 const initials = computed(() => {
-  if (!props.fullName) return null;
+  if (!props.fullName || !props.colorId) return null;
   const [first, last] = props.fullName.split(" ");
   return `${first?.[0]?.toUpperCase() ?? ""}${last?.[0]?.toUpperCase() ?? ""}`;
 });

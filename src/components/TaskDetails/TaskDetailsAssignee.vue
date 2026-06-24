@@ -31,7 +31,7 @@ import Button from "../ui/button/Button.vue";
 
 const { assignee, assigneeId, updateTask } = useCurrentTask();
 
-const selectedAssigneeId = ref<AssigneeType["id"] | null>(assigneeId.value);
+const selectedAssigneeId = ref<AssigneeType["id"]>(assigneeId.value);
 
 watch(selectedAssigneeId, (id) => {
   updateTask({ assigneeId: id });
