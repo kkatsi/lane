@@ -1,12 +1,20 @@
 import { buildKanbanColumnRelatedBoardProps, buildSprintColumnRelatedBoardProps } from "@/lib/builders";
 import { boardsRepo } from "@/repositories/boards";
+import { useAssigneesStore } from "@/stores/assignees";
+import { UNASSIGNED_ID } from "@/constants/assignees";
+import { isDefined } from "@/lib/utils";
 import type { NewBoardValues } from "@/schemas/boardValidationSchema";
-import type { Board, BoardOverview, Column, Comment, Label, Task } from "@/types";
+import type { Assignee, Board, BoardOverview, Column, Comment, Label, Task } from "@/types";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
-const toOverview = (board: Board): BoardOverview => {
-  const assignees = Object.values(board.assignees);
+// Board "participants" are the people actually assigned to its tasks, resolved against the global pool.
+const toOverview = (board: Board, globalAssignees: Record<Assignee["id"], Assignee>): BoardOverview => {
+  const participantIds = new Set<Assignee["id"]>();
+  for (const task of Object.values(board.tasks)) {
+    if (task.assigneeId && task.assigneeId !== UNASSIGNED_ID) participantIds.add(task.assigneeId);
+  }
+  const participants = [...participantIds].map((id) => globalAssignees[id]).filter(isDefined);
   return {
     id: board.id,
     name: board.name,
@@ -15,17 +23,18 @@ const toOverview = (board: Board): BoardOverview => {
     starred: board.starred,
     updatedAt: board.updatedAt,
     tasksCount: Object.keys(board.tasks).length,
-    firstTwoAssignees: assignees.slice(0, 2),
-    restAssigneesCount: Math.max(0, assignees.length - 2),
+    firstTwoAssignees: participants.slice(0, 2),
+    restAssigneesCount: Math.max(0, participants.length - 2),
   };
 };
 
 export const useBoardsStore = defineStore("boards", () => {
   const boards = ref<Record<Board["id"], Board>>(boardsRepo.list());
+  const assigneesStore = useAssigneesStore();
 
   const boardOverviews = computed<Record<Board["id"], BoardOverview>>(() => {
     const out: Record<Board["id"], BoardOverview> = {};
-    for (const board of Object.values(boards.value)) out[board.id] = toOverview(board);
+    for (const board of Object.values(boards.value)) out[board.id] = toOverview(board, assigneesStore.assignees);
     return out;
   });
 
@@ -76,7 +85,6 @@ export const useBoardsStore = defineStore("boards", () => {
       name: boardValues.name,
       tasks: {},
       starred: false,
-      assignees: {},
       labels: {},
       updatedAt: new Date().toISOString(),
       ...columnRelatedProps,

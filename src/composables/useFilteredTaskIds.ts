@@ -1,5 +1,5 @@
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
-import type { Board, Column, Task } from "@/types";
+import type { Assignee, Board, Column, Task } from "@/types";
 import { addWeeks, endOfWeek, isAfter, isPast } from "date-fns";
 import { computed } from "vue";
 import { useBoardFilters } from "./useBoardFilters";
@@ -29,7 +29,11 @@ const dueDateMatches = (
   }
 };
 
-const assigneeMatches = (assignees: Board["assignees"], normalizedQuery: string, assigneeId?: Task["assigneeId"]) => {
+const assigneeMatches = (
+  assignees: Record<Assignee["id"], Assignee>,
+  normalizedQuery: string,
+  assigneeId?: Task["assigneeId"],
+) => {
   if (!assigneeId) return false;
   const assignee = assignees[assigneeId];
   return (

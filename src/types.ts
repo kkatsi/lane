@@ -43,7 +43,6 @@ export interface Board {
   columnOrder: Column["id"][];
   tasks: Record<Task["id"], Task>;
   labels: Record<Label["id"], Label>;
-  assignees: Record<Assignee["id"], Assignee>;
 }
 
 export interface BoardOverview extends Pick<

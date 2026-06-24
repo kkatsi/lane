@@ -1,5 +1,15 @@
-import type { Board } from "@/types";
+import type { Assignee, Board } from "@/types";
 import { BOARDS_KEY } from "@/repositories/boards";
+import { ASSIGNEES_KEY } from "@/repositories/assignees";
+
+const assigneesSeed: Record<Assignee["id"], Assignee> = {
+  elena: { id: "elena", name: "Elena Vassiliou", colorId: "violet" },
+  yannis: { id: "yannis", name: "Yannis Antoniou", colorId: "blue" },
+  kostas: { id: "kostas", name: "Kostas Dimitriou", colorId: "green" },
+  dimitra: { id: "dimitra", name: "Dimitra Nikolaou", colorId: "pink" },
+  stavros: { id: "stavros", name: "Stavros Panagiotou", colorId: "orange" },
+  lena: { id: "lena", name: "Lena Karagianni", colorId: "purple" },
+};
 
 const boardsSeed: Record<Board["id"], Board> = {
   board1: {
@@ -19,7 +29,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "1",
         title: "Investigate flaky checkout flow",
         description: "Lorem",
-        assigneeId: "maria",
+        assigneeId: "elena",
         dueDate: "2026-05-24T17:28:25+00:00",
         labelIds: ["bug"],
       },
@@ -27,7 +37,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "2",
         title: "Crash on iOS 18 share sheet",
         description: "Ipsum",
-        assigneeId: "nikos",
+        assigneeId: "yannis",
         dueDate: "2026-05-24T17:28:25+00:00",
         labelIds: ["urgent"],
       },
@@ -35,7 +45,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "3",
         title: "Search returns stale results after edit",
         description: "Ipsumidis",
-        assigneeId: "maria",
+        assigneeId: "elena",
         dueDate: "2026-05-24T17:28:25+00:00",
         labelIds: ["bug", "urgent"],
       },
@@ -43,10 +53,6 @@ const boardsSeed: Record<Board["id"], Board> = {
     labels: {
       bug: { id: "bug", name: "Bug", colorId: "red" },
       urgent: { id: "urgent", name: "urgent", colorId: "orange" },
-    },
-    assignees: {
-      maria: { id: "maria", name: "Maria Papadopoulou", colorId: "red" },
-      nikos: { id: "nikos", name: "Nikos Georgiou", colorId: "green" },
     },
   },
   board2: {
@@ -580,14 +586,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       ui: { id: "ui", name: "UI", colorId: "pink" },
       backend: { id: "backend", name: "Backend", colorId: "blue" },
     },
-    assignees: {
-      elena: { id: "elena", name: "Elena Vassiliou", colorId: "violet" },
-      yannis: { id: "yannis", name: "Yannis Antoniou", colorId: "blue" },
-      kostas: { id: "kostas", name: "Kostas Dimitriou", colorId: "green" },
-      dimitra: { id: "dimitra", name: "Dimitra Nikolaou", colorId: "pink" },
-      stavros: { id: "stavros", name: "Stavros Panagiotou", colorId: "orange" },
-      lena: { id: "lena", name: "Lena Karagianni", colorId: "purple" },
-    },
   },
   board3: {
     id: "board3",
@@ -606,7 +604,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "20",
         title: "Migrate spacing scale to tokens",
         description: "Sweep all usages of legacy spacing variables",
-        assigneeId: "sofia",
+        assigneeId: "kostas",
         dueDate: "2026-06-25T12:00:00+00:00",
         labelIds: ["design", "tokens", "tech-debt", "docs", "polish"],
       },
@@ -614,7 +612,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "21",
         title: "Unify Button variants",
         description: "Collapse primary/secondary/ghost into a single API",
-        assigneeId: "petros",
+        assigneeId: "dimitra",
         dueDate: "2026-06-30T12:00:00+00:00",
         labelIds: ["design", "refactor", "components", "breaking", "a11y"],
       },
@@ -630,10 +628,6 @@ const boardsSeed: Record<Board["id"], Board> = {
       polish: { id: "polish", name: "Polish", colorId: "pink" },
       "tech-debt": { id: "tech-debt", name: "Tech Debt", colorId: "gray" },
       performance: { id: "performance", name: "Performance", colorId: "blue" },
-    },
-    assignees: {
-      sofia: { id: "sofia", name: "Sofia Markou", colorId: "orange" },
-      petros: { id: "petros", name: "Petros Stefanidis", colorId: "blue" },
     },
   },
   board4: {
@@ -654,7 +648,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "30",
         title: "Launch blog post for v2 features",
         description: "Draft is in Notion",
-        assigneeId: "anna",
+        assigneeId: "stavros",
         dueDate: "2026-07-05T12:00:00+00:00",
         labelIds: ["content"],
       },
@@ -662,7 +656,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "31",
         title: "Onboarding email sequence",
         description: "Two-step drip, segment by plan",
-        assigneeId: "dimitris",
+        assigneeId: "lena",
         dueDate: "2026-07-10T12:00:00+00:00",
         labelIds: ["campaign"],
       },
@@ -670,7 +664,7 @@ const boardsSeed: Record<Board["id"], Board> = {
         id: "32",
         title: "Refresh landing page hero",
         description: "Swap hero image for the new product shot",
-        assigneeId: "anna",
+        assigneeId: "stavros",
         dueDate: null,
         labelIds: ["content", "urgent"],
       },
@@ -680,15 +674,14 @@ const boardsSeed: Record<Board["id"], Board> = {
       campaign: { id: "campaign", name: "Campaign", colorId: "violet" },
       urgent: { id: "urgent", name: "Urgent", colorId: "orange" },
     },
-    assignees: {
-      anna: { id: "anna", name: "Anna Christou", colorId: "green" },
-      dimitris: { id: "dimitris", name: "Dimitris Pappas", colorId: "red" },
-    },
   },
 };
 
 export const seedLocalStorage = () => {
   if (!localStorage.getItem(BOARDS_KEY)) {
     localStorage.setItem(BOARDS_KEY, JSON.stringify(boardsSeed));
+  }
+  if (!localStorage.getItem(ASSIGNEES_KEY)) {
+    localStorage.setItem(ASSIGNEES_KEY, JSON.stringify(assigneesSeed));
   }
 };
