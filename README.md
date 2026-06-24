@@ -1,48 +1,76 @@
-# lane
+# Lane
 
-This template should help get you started developing with Vue 3 in Vite.
+A Kanban board app — boards, columns, draggable task cards, filtering and search. Built with Vue 3 to get hands-on with the ecosystem coming from a React background.
 
-## Recommended IDE Setup
+State lives in the browser (localStorage), so there's no backend to run. The store sits behind a repository layer, so swapping localStorage for a real API is a single-file change.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Demo
 
-## Recommended Browser Setup
+Live: _(add link)_
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Features
 
-## Type Support for `.vue` Imports in TS
+- Multiple boards with a starred section and an overview grid
+- Board templates (Kanban, Sprint, or blank) when creating a board
+- Columns: add, rename, delete, and bulk-move all tasks to another column
+- Task cards: create, edit inline, delete, with labels, an assignee, a due date, and comments
+- Drag and drop tasks within and across columns, with a custom drop indicator
+- Due dates via a calendar or natural language ("next friday"), parsed with chrono-node
+- Filter by label, assignee, and due-date range, plus full-text search across title, description, assignee, and labels
+- Filters and search live in the URL, so the view is shareable and survives a refresh
+- Light and dark themes
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Stack
 
-## Customize configuration
+- Vue 3 (`<script setup>`) + TypeScript
+- Vite
+- Pinia for state, with a localStorage-backed repository layer
+- Vue Router
+- Tailwind CSS v4 + shadcn-vue (reka-ui) for components
+- TanStack Form + Zod for form state and validation
+- vue-draggable-plus for drag and drop
+- VueUse, date-fns, chrono-node
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## A few decisions worth calling out
 
-## Project Setup
+- **Normalized state.** Boards keep tasks and columns as id-keyed records with a separate order array, rather than nested arrays. Moves, edits, and filtering stay cheap and don't fight reactivity.
+- **Repository seam.** The Pinia store never touches `localStorage` directly — it goes through `repositories/boards.ts`. The persistence layer is isolated and swappable.
+- **URL as the source of truth for filters.** A typed `useQueryRef` composable reads and writes query params, so filter and search state is shareable and refresh-safe instead of trapped in a store.
+- **Composables over components.** Domain logic (current board, current task, filtered task ids) lives in composables, keeping components focused on rendering.
+
+## Running locally
+
+Requires Node `^20.19.0` or `>=22.12.0`.
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Other scripts:
 
 ```sh
-npm run build
+npm run build        # type-check and build for production
+npm run type-check   # vue-tsc
+npm run lint         # oxlint + eslint
+npm run format       # oxfmt
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+The app seeds a couple of example boards on first load.
 
-```sh
-npm run lint
+## Project structure
+
 ```
+src/
+  components/      # UI components (ui/ holds shadcn-vue primitives)
+  composables/     # board/task state, filters, URL query refs
+  stores/          # Pinia stores
+  repositories/    # localStorage persistence
+  schemas/         # Zod validation
+  views/           # routed pages
+  lib/ constants/  # helpers and static data
+```
+
+## Notes
+
+This is a portfolio project, not a product. There's no backend, and no test suite yet.
