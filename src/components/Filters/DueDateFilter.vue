@@ -1,9 +1,9 @@
 <template>
   <div>
     <span class="text-xs font-light tracking-wider text-muted-foreground">DUE DATE</span>
-    <RadioGroup v-model="dueDate" class="mt-2">
+    <RadioGroup v-model="dueDate" class="mt-3">
       <div v-for="item in DATE_FILTER_OPTIONS" class="flex items-center space-x-2">
-        <Label :for="item.id" class="text-muted-foreground text-xs cursor-pointer">
+        <Label :for="item.id" class="text-muted-foreground cursor-pointer">
           <RadioGroupItem :id="item.id" :key="item.id" :value="item.id" />
           {{ item.name }}
         </Label>

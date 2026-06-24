@@ -34,7 +34,7 @@ watchDebounced(
 );
 
 const filteredBoards = useFilteredBoards();
-const resultsCount = computed(() => (searchQuery ? filteredBoards.value.resultsCount : null));
+const resultsCount = computed(() => (searchQuery.value ? filteredBoards.value.resultsCount : null));
 </script>
 
 <style scoped></style>

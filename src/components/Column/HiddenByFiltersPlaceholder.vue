@@ -2,7 +2,7 @@
   <div
     class="select-none p-4 cursor-pointer w-full border-2 border-dashed rounded-xl flex flex-col items-center justify-center gap-1 text-xs text-muted-foreground"
   >
-    <span>{{ props.hiddenCount }} cards hidden by filters</span>
+    <span>{{ props.hiddenCount }} {{ props.hiddenCount === 1 ? "card" : "cards" }} hidden by filters</span>
   </div>
 </template>
 

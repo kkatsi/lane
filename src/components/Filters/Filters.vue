@@ -1,20 +1,30 @@
 <template>
   <Popover v-model:open="isFiltersOpen">
     <PopoverTrigger as-child>
-      <Button variant="outline">
+      <Button
+        variant="outline"
+        :class="
+          cn(
+            hasActiveFilters &&
+              'text-primary! bg-primary/15! border-primary! hover:bg-primary/7! aria-expanded:bg-primary/7!',
+          )
+        "
+      >
         <Filter />
-        Filter
+        Filters
+        <ChevronDown />
+        <Badge v-if="!!filtersCount">{{ filtersCount }}</Badge>
       </Button>
     </PopoverTrigger>
-    <PopoverContent class="pt-3 pb-0 px-0 gap-0" align="start" :side-offset="16">
-      <div class="px-3 flex justify-between items-center sticky">
+    <PopoverContent class="pt-2 pb-0 px-0 gap-0" align="start" :side-offset="14">
+      <div class="px-3 flex justify-between items-center">
         <span class="font-medium">Filters</span>
         <Button variant="ghost" class="p-0 min-h-auto h-auto text-muted-foreground" @click="onReset" size="sm">
           Reset
         </Button>
       </div>
       <Separator class="mt-2" />
-      <ScrollArea class="max-h-90 pt-2">
+      <ScrollArea class="pt-2 *:data-reka-scroll-area-viewport:max-h-90">
         <LabelsFilter class="px-3" v-model="selectedLabelIdsRef" />
         <Separator class="my-2" />
         <AssigneesFilter class="px-3" v-model="selectedAssigneeIdsRef" />
@@ -32,7 +42,7 @@
 </template>
 
 <script setup lang="ts">
-import { Filter } from "@lucide/vue";
+import { ChevronDown, Filter } from "@lucide/vue";
 import Button from "../ui/button/Button.vue";
 import Popover from "../ui/popover/Popover.vue";
 import PopoverContent from "../ui/popover/PopoverContent.vue";
@@ -45,8 +55,9 @@ import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 import ScrollArea from "../ui/scroll-area/ScrollArea.vue";
 import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { areArraysEqual } from "@/lib/utils.ts";
+import { areArraysEqual, cn } from "@/lib/utils.ts";
 import { DATE_FILTER_OPTIONS } from "@/constants/date-filter-options.ts";
+import Badge from "../ui/badge/Badge.vue";
 
 const router = useRouter();
 const route = useRoute();
@@ -56,6 +67,14 @@ const { assigneeIds, dueDate, labelIds } = useBoardFilters();
 const selectedLabelIdsRef = ref<string[] | undefined>(labelIds.value);
 const selectedAssigneeIdsRef = ref<string[] | undefined>(assigneeIds.value);
 const selectedDueDateRef = ref<string | undefined>(dueDate.value);
+
+const hasActiveFilters = computed(
+  () => !!assigneeIds.value.length || !!labelIds.value.length || dueDate.value !== DATE_FILTER_OPTIONS.ANYTIME.id,
+);
+
+const filtersCount = computed(
+  () => assigneeIds.value.length + labelIds.value.length + (dueDate.value !== DATE_FILTER_OPTIONS.ANYTIME.id ? 1 : 0),
+);
 
 const isFiltersOpen = ref<boolean>(false);
 

@@ -18,7 +18,9 @@ export const useBoardFilters = () => {
   });
 
   const resetFilters = () => {
-    router.replace({ query: { ...route.query, assignee: undefined, label: undefined, dueDate: undefined } });
+    router.replace({
+      query: { ...route.query, assignee: undefined, label: undefined, dueDate: undefined, q: undefined },
+    });
   };
 
   return { searchQuery, assigneeIds, labelIds, dueDate, resetFilters };

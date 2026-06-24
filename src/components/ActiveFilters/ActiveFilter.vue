@@ -1,7 +1,7 @@
 <template>
   <Badge variant="outline" class="h-8 px-3 text-sm cursor-pointer" @click="() => onClear(props.id)">
     <slot />
-    <X class="text-muted-foreground" />
+    <X />
   </Badge>
 </template>
 

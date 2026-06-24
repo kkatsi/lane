@@ -12,7 +12,7 @@
         class="hover:bg-muted hover:text-foreground relative flex items-center gap-2 rounded-lg px-2 py-1 text-sm outline-hidden select-none cursor-pointer"
       >
         <Checkbox :id="assignee.id" :value="assignee.id" />
-        <Assignee :color-id="assignee.colorId" :full-name="assignee.name" display-fullname />
+        <Assignee :color-id="assignee.colorId" :full-name="assignee.name" display-fullname size="lg" />
       </Label>
     </CheckboxGroupRoot>
   </fieldset>

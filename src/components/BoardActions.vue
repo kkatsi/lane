@@ -6,14 +6,17 @@
       <ActiveFilters />
     </div>
     <div class="ml-auto flex items-center gap-2">
+      <Button v-if="hasActiveFilters" variant="ghost" class="text-muted-foreground" @click="props.onClearAll">
+        Clear all
+      </Button>
       <Button variant="outline" @click="props.onAddNewColumn">
         <Plus />
         Add column
       </Button>
-      <Button variant="outline" @click="onShare">
+      <!-- <Button variant="outline" @click="onShare">
         <Share />
         Share
-      </Button>
+      </Button> -->
     </div>
   </div>
 </template>
@@ -23,21 +26,34 @@ import { useFilteredTaskIds } from "@/composables/useFilteredTaskIds.ts";
 import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
 import { Plus, Share } from "@lucide/vue";
 import { watchDebounced } from "@vueuse/core";
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import Filters from "./Filters/Filters.vue";
 import Search from "./Search.vue";
 import Button from "./ui/button/Button.vue";
 import ActiveFilters from "./ActiveFilters/ActiveFilters.vue";
+import { useBoardFilters } from "@/composables/useBoardFilters.ts";
+import { DATE_FILTER_OPTIONS } from "@/constants/date-filter-options.ts";
 
 interface Props {
   onAddNewColumn: () => void;
+  onClearAll: () => void;
 }
 const props = defineProps<Props>();
 
-const searchQuery = useSearchQueryRef();
+const { assigneeIds, dueDate, labelIds, searchQuery } = useBoardFilters();
+const hasActiveFilters = computed(
+  () =>
+    !!assigneeIds.value.length ||
+    !!labelIds.value.length ||
+    dueDate.value !== DATE_FILTER_OPTIONS.ANYTIME.id ||
+    !!searchQuery.value,
+);
 
 const search = ref<string>(searchQuery.value);
-searchQuery.value = search.value;
+
+watch(searchQuery, (v) => {
+  search.value = v;
+});
 
 watchDebounced(
   search,
