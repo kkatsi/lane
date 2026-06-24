@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { useColorMode, usePreferredDark } from "@vueuse/core";
 import Switch from "./ui/switch/Switch.vue";
 import { Moon, Sun } from "@lucide/vue";
 import { useDarkTheme } from "@/composables/useDarkTheme.ts";

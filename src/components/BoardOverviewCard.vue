@@ -43,7 +43,6 @@
 
 <script setup lang="ts">
 import { COLORS } from "@/constants/colors";
-import { getRandomInt } from "@/lib/utils";
 import { useBoardsStore } from "@/stores/boards.ts";
 import type { BoardOverview } from "@/types";
 import { LayoutList, Star } from "@lucide/vue";

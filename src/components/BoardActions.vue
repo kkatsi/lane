@@ -23,8 +23,7 @@
 
 <script setup lang="ts">
 import { useFilteredTaskIds } from "@/composables/useFilteredTaskIds.ts";
-import { useSearchQueryRef } from "@/composables/useSearchQueryRef.ts";
-import { Plus, Share } from "@lucide/vue";
+import { Plus } from "@lucide/vue";
 import { watchDebounced } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 import Filters from "./Filters/Filters.vue";
@@ -67,8 +66,6 @@ const filteredTaskIds = useFilteredTaskIds();
 const resultsCount = computed(() =>
   searchQuery.value ? Object.values(filteredTaskIds.value).reduce((acc, col) => (acc += col.length), 0) : null,
 );
-
-const onShare = () => {};
 </script>
 
 <style scoped></style>
