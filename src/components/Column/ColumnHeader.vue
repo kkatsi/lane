@@ -36,19 +36,17 @@
               <Move />
               Move all tasks to
             </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem
-                  v-for="column in orderedColumns"
-                  :disabled="column.id === props.columnId"
-                  :key="column.id"
-                  :text-value="column.title"
-                  @select="() => onMoveAllTasksToColumn(column.id)"
-                >
-                  {{ column.title }}
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuPortal>
+            <DropdownMenuSubContent>
+              <DropdownMenuItem
+                v-for="column in orderedColumns"
+                :disabled="column.id === props.columnId"
+                :key="column.id"
+                :text-value="column.title"
+                @select="() => onMoveAllTasksToColumn(column.id)"
+              >
+                {{ column.title }}
+              </DropdownMenuItem>
+            </DropdownMenuSubContent>
           </DropdownMenuSub>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" text-value="delete column" @select="onColumnRemoveActionSelect">
@@ -77,6 +75,16 @@
 </template>
 
 <script setup lang="ts">
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { useCurrentBoard } from "@/composables/useCurrentBoard";
 import { isDefined } from "@/lib/utils.ts";
 import type { Column } from "@/types";
@@ -92,18 +100,6 @@ import DropdownMenuSub from "../ui/dropdown-menu/DropdownMenuSub.vue";
 import DropdownMenuSubContent from "../ui/dropdown-menu/DropdownMenuSubContent.vue";
 import DropdownMenuSubTrigger from "../ui/dropdown-menu/DropdownMenuSubTrigger.vue";
 import DropdownMenuTrigger from "../ui/dropdown-menu/DropdownMenuTrigger.vue";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { DropdownMenuPortal } from "reka-ui";
-import { useBoardFilters } from "@/composables/useBoardFilters.ts";
 
 interface Props {
   columnTitle: Column["title"];

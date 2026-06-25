@@ -20,19 +20,17 @@
             <Move />
             Move to
           </DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuItem
-                v-for="column in orderedColumns"
-                :key="column.id"
-                :disabled="column.id === props.columnId"
-                :text-value="column.title"
-                @select="() => onMoveTaskToColumnActionSelected(column.id)"
-              >
-                {{ column.title }}
-              </DropdownMenuItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
+          <DropdownMenuSubContent>
+            <DropdownMenuItem
+              v-for="column in orderedColumns"
+              :key="column.id"
+              :disabled="column.id === props.columnId"
+              :text-value="column.title"
+              @select="() => onMoveTaskToColumnActionSelected(column.id)"
+            >
+              {{ column.title }}
+            </DropdownMenuItem>
+          </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive" text-value="delete column" @select="onTaskRemoveActionSelect">
@@ -83,7 +81,6 @@ import DropdownMenuSubContent from "../ui/dropdown-menu/DropdownMenuSubContent.v
 import DropdownMenuSubTrigger from "../ui/dropdown-menu/DropdownMenuSubTrigger.vue";
 import DropdownMenuTrigger from "../ui/dropdown-menu/DropdownMenuTrigger.vue";
 import { Edit2, Ellipsis, Maximize2, Move, Trash2 } from "@lucide/vue";
-import { DropdownMenuPortal } from "reka-ui";
 
 interface Props {
   taskId: string;
