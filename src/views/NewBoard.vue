@@ -13,7 +13,7 @@
       <CardTitle>Create new board</CardTitle>
     </CardHeader>
     <CardContent>
-      <form id="new-board-form" @submit="onSubmit">
+      <form id="new-board-form" @submit="onSubmit" @keydown.enter.exact.prevent="onSubmit">
         <FieldGroup>
           <form.Field name="name">
             <template v-slot="{ field, state }">
@@ -197,7 +197,7 @@ const form = useForm({
 const selectedColorId = form.useStore((s) => s.values.colorId);
 const isSubmitting = form.useStore((s) => s.isSubmitting);
 
-const onSubmit = (e: SubmitEvent) => {
+const onSubmit = (e: Event) => {
   e.preventDefault();
   e.stopPropagation();
   form.handleSubmit();
