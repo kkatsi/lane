@@ -6,7 +6,7 @@ State lives in the browser (localStorage), so there's no backend to run. The sto
 
 ## Demo
 
-Live: https://lane-akv.pages.dev
+Live: [https://lane-akv.pages.dev](https://lane.kkatsi.workers.dev)
 
 ## Features
 
