@@ -1,0 +1,9 @@
+{
+  "name": "lane",
+  "account_id": "4dd95e9eb95ca6235c3c6f5622736338",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
+  }
+}
